@@ -1,0 +1,12 @@
+pytesseract>=0.3.10
+opencv-python>=4.8.0
+Pillow>=10.0.0
+Jinja2>=3.1.2
+reportlab>=4.0.0
+exifread>=3.0.0
+python-stdnum>=1.18
+pytest>=7.4.0
+pytest-cov>=4.1.0
+PyYAML>=6.0.1
+pymupdf>=1.22.0
+

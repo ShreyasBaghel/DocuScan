@@ -1,0 +1,161 @@
+{
+    "image_path": "D:\\OCR\\docuscan_india\\tests\\fixtures\\sample_docs\\mock_aadhaar.jpg",
+    "ocr_raw_text": "GOVERNMENT OF INDIA\nMERA AADHAAR, MERI PEHCHAN\nKARTIK KAPOOR\nDOB: 15/08/1990\nMALE\n3668 7483 0214\n",
+    "ocr_confidence": 0.92,
+    "ocr_word_map": [
+        {
+            "text": "3668",
+            "left": 10,
+            "top": 50,
+            "width": 10,
+            "height": 5,
+            "conf": 0.95
+        },
+        {
+            "text": "7483",
+            "left": 25,
+            "top": 50,
+            "width": 10,
+            "height": 5,
+            "conf": 0.95
+        },
+        {
+            "text": "0214",
+            "left": 40,
+            "top": 50,
+            "width": 10,
+            "height": 5,
+            "conf": 0.95
+        },
+        {
+            "text": "KARTIK",
+            "left": 10,
+            "top": 20,
+            "width": 15,
+            "height": 5,
+            "conf": 0.9
+        },
+        {
+            "text": "KAPOOR",
+            "left": 30,
+            "top": 20,
+            "width": 15,
+            "height": 5,
+            "conf": 0.9
+        },
+        {
+            "text": "MALE",
+            "left": 10,
+            "top": 40,
+            "width": 10,
+            "height": 5,
+            "conf": 0.95
+        },
+        {
+            "text": "DOB:",
+            "left": 10,
+            "top": 30,
+            "width": 10,
+            "height": 5,
+            "conf": 0.9
+        },
+        {
+            "text": "15/08/1990",
+            "left": 25,
+            "top": 30,
+            "width": 20,
+            "height": 5,
+            "conf": 0.9
+        }
+    ],
+    "document_type": "AADHAAR",
+    "classification_confidence": 0.95,
+    "extracted_fields": {
+        "aadhaar_number": {
+            "value": "366874830214",
+            "raw_text": "3668 7483 0214",
+            "confidence": 0.95,
+            "bounding_box": {
+                "x": 10,
+                "y": 50,
+                "w": 40,
+                "h": 5
+            }
+        },
+        "dob": {
+            "value": "1990-08-15",
+            "raw_text": "DOB: 15/08/1990",
+            "confidence": 0.9,
+            "bounding_box": {
+                "x": 25,
+                "y": 30,
+                "w": 20,
+                "h": 5
+            }
+        },
+        "gender": {
+            "value": "MALE",
+            "raw_text": "MALE",
+            "confidence": 0.95,
+            "bounding_box": {
+                "x": 10,
+                "y": 40,
+                "w": 10,
+                "h": 5
+            }
+        },
+        "name": {
+            "value": "KARTIK KAPOOR",
+            "raw_text": "KARTIK KAPOOR",
+            "confidence": 0.85,
+            "bounding_box": {
+                "x": 10,
+                "y": 20,
+                "w": 35,
+                "h": 5
+            }
+        }
+    },
+    "validation_results": [
+        {
+            "status": "PASS",
+            "field_name": "aadhaar_number_format",
+            "expected": "12 digits",
+            "actual": "366874830214"
+        },
+        {
+            "status": "PASS",
+            "field_name": "dob",
+            "expected": "YYYY-MM-DD",
+            "actual": "1990-08-15"
+        },
+        {
+            "status": "PASS",
+            "field_name": "gender_format",
+            "expected": "MALE/FEMALE/OTHER",
+            "actual": "MALE"
+        },
+        {
+            "status": "PASS",
+            "field_name": "name",
+            "expected": "Uppercase Alphabetic",
+            "actual": "KARTIK KAPOOR"
+        },
+        {
+            "status": "PASS",
+            "field_name": "dob_range",
+            "expected": "DOB is in the past",
+            "actual": "DOB is valid, age: 35"
+        },
+        {
+            "status": "PASS",
+            "field_name": "aadhaar_checksum_verhoeff",
+            "expected": "Verhoeff check digit matches",
+            "actual": "Aadhaar Number: 366874830214 (Valid: True)"
+        }
+    ],
+    "fraud_signals": [],
+    "fraud_risk_score": 0,
+    "report_path": "",
+    "pipeline_metadata": {}
+}

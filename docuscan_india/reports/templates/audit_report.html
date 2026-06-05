@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>DocuScan India - Audit Report</title>
+    <style>
+        body { font-family: 'Segoe UI', Arial, sans-serif; margin: 40px; background-color: #f8f9fa; color: #212529; }
+        .container { max-width: 900px; margin: 0 auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .header { border-bottom: 2px solid #0056b3; padding-bottom: 20px; margin-bottom: 30px; display: flex; justify-content: space-between; align-items: center; }
+        .header h1 { margin: 0; color: #0056b3; }
+        .status-badge { padding: 8px 16px; border-radius: 20px; font-weight: bold; color: white; display: inline-block; }
+        .status-pass { background-color: #28a745; }
+        .status-warn { background-color: #ffc107; color: #212529; }
+        .status-fail { background-color: #dc3545; }
+        table { width: 100%; border-collapse: collapse; margin-bottom: 30px; }
+        th, td { padding: 12px; border: 1px solid #dee2e6; text-align: left; }
+        th { background-color: #f1f3f5; }
+        .section-title { font-size: 20px; color: #343a40; margin-bottom: 15px; border-left: 4px solid #0056b3; padding-left: 10px; }
+        .risk-score { font-size: 32px; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div>
+                <h1>DocuScan India</h1>
+                <p>Intelligent OCR & Verification System</p>
+            </div>
+            <div>
+                <span class="status-badge status-{{ verdict.lower() }}">{{ verdict }}</span>
+            </div>
+        </div>
+
+        <div class="section-title">Document Summary</div>
+        <table>
+            <tr>
+                <th>Document Type</th>
+                <td>{{ document_type }}</td>
+                <th>Fraud Risk Score</th>
+                <td class="risk-score" style="color: {% if risk_score < 25 %}#28a745{% elif risk_score < 50 %}#ffc107{% else %}#dc3545{% endif %}">{{ risk_score }}/100</td>
+            </tr>
+            <tr>
+                <th>Source File</th>
+                <td>{{ image_path }}</td>
+                <th>Timestamp</th>
+                <td>{{ timestamp }}</td>
+            </tr>
+        </table>
+
+        <div class="section-title">Extracted Fields</div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Field Name</th>
+                    <th>Extracted Value</th>
+                    <th>Confidence</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for k, v in fields.items() %}
+                <tr>
+                    <td><strong>{{ k | replace('_', ' ') | title }}</strong></td>
+                    <td>{{ v.value }}</td>
+                    <td>{{ (v.confidence * 100) | round(1) }}%</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="section-title">Validation Checks</div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Check Name</th>
+                    <th>Status</th>
+                    <th>Details</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for r in validations %}
+                <tr>
+                    <td>{{ r.field_name | replace('_', ' ') | title }}</td>
+                    <td style="color: {% if r.status == 'PASS' %}#28a745{% elif r.status == 'WARN' %}#ffc107{% else %}#dc3545{% endif %}; font-weight: bold;">
+                        {{ r.status }}
+                    </td>
+                    <td>Expected: {{ r.expected }} | Actual: {{ r.actual }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        {% if fraud_signals %}
+        <div class="section-title">Fraud Signals Flagged</div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Detector</th>
+                    <th>Signal</th>
+                    <th>Risk Impact</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for s in fraud_signals %}
+                <tr>
+                    <td>{{ s.source }}</td>
+                    <td><strong>{{ s.name }}</strong><br><small>{{ s.description }}</small></td>
+                    <td style="color: #dc3545; font-weight: bold;">+{{ s.score }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% endif %}
+    </div>
+</body>
+</html>

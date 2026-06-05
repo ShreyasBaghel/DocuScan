@@ -1,0 +1,43 @@
+# DocuScan India configuration
+
+tesseract:
+  # On Windows, path to tesseract executable if not in PATH.
+  # We will also search standard locations automatically in the code if this is blank.
+  cmd_path: "C:\\Program Files\\Tesseract-OCR\\tesseract.exe"
+  default_lang: "eng+hin"
+
+preprocessing:
+  deskew: true
+  denoise: true
+  clahe: true
+  binarise: true
+
+classification:
+  confidence_threshold: 0.70
+  weights:
+    keyword: 0.40
+    regex: 0.40
+    layout: 0.20
+
+# OCR Page Segmentation Modes per document type
+ocr_psm:
+  AADHAAR: 3
+  PAN: 3
+  PASSPORT: 3
+  DRIVING_LICENCE: 3
+  UNKNOWN: 3
+
+# Fraud detection weights
+fraud_weights:
+  exif_editing_software: 30
+  exif_timestamp_anomaly: 15
+  failed_checksum: 40
+  format_inconsistency: 25
+  validation_failure: 20
+
+# Risk score tier boundaries
+risk_score_tiers:
+  low: [0, 20]
+  moderate: [21, 50]
+  high: [51, 75]
+  critical: [76, 100]

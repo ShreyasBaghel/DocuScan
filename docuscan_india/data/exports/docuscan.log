@@ -1,0 +1,80 @@
+2026-06-04 10:29:22 [INFO] pipeline: Pipeline loaded configuration: D:\OCR\docuscan_india\config.yaml
+2026-06-04 10:29:22 [INFO] ocr_engine: Tesseract path set from config: C:\Program Files\Tesseract-OCR\tesseract.exe
+2026-06-04 10:29:22 [INFO] audit_logger: Audit database initialized successfully at: D:\OCR\docuscan_india\data\db\audit.db
+2026-06-04 10:29:22 [INFO] pipeline: --- Pipeline starting classification for D:\OCR\docuscan_india\tests\fixtures\sample_docs\mock_aadhaar.jpg ---
+2026-06-04 10:29:22 [INFO] pipeline: Stage 1 (Preprocessing) completed successfully.
+2026-06-04 10:29:22 [INFO] pipeline: Stage 2 (OCR) completed. Confidence: 0.92
+2026-06-04 10:29:22 [INFO] classifier_ensemble: Classifier individual results: Keyword=AADHAAR(0.22), Regex=AADHAAR(0.95), Layout=UNKNOWN(0.00)
+2026-06-04 10:29:22 [INFO] classifier_ensemble: Ensemble raw decision: AADHAAR with aggregated score 0.47 (Threshold: 0.70)
+2026-06-04 10:29:22 [WARNING] classifier_ensemble: Ensemble score 0.47 is below threshold 0.70. Classifying as UNKNOWN.
+2026-06-04 10:29:22 [INFO] pipeline: Stage 3 (Classification) completed. Type: UNKNOWN, Conf: 0.47
+2026-06-04 10:29:22 [INFO] classifier_ensemble: Classifier individual results: Keyword=PAN(0.29), Regex=PAN(0.95), Layout=UNKNOWN(0.00)
+2026-06-04 10:29:22 [INFO] classifier_ensemble: Ensemble raw decision: PAN with aggregated score 0.49 (Threshold: 0.70)
+2026-06-04 10:29:22 [WARNING] classifier_ensemble: Ensemble score 0.49 is below threshold 0.70. Classifying as UNKNOWN.
+2026-06-04 10:29:47 [INFO] pipeline: Pipeline loaded configuration: D:\OCR\docuscan_india\config.yaml
+2026-06-04 10:29:47 [INFO] ocr_engine: Tesseract path set from config: C:\Program Files\Tesseract-OCR\tesseract.exe
+2026-06-04 10:29:47 [INFO] audit_logger: Audit database initialized successfully at: D:\OCR\docuscan_india\data\db\audit.db
+2026-06-04 10:29:47 [INFO] pipeline: --- Pipeline starting classification for D:\OCR\docuscan_india\tests\fixtures\sample_docs\mock_aadhaar.jpg ---
+2026-06-04 10:29:47 [INFO] pipeline: Stage 1 (Preprocessing) completed successfully.
+2026-06-04 10:29:47 [INFO] pipeline: Stage 2 (OCR) completed. Confidence: 0.92
+2026-06-04 10:29:47 [INFO] classifier_ensemble: Classifier individual results: Keyword=AADHAAR(0.22), Regex=AADHAAR(0.95), Layout=UNKNOWN(0.00)
+2026-06-04 10:29:47 [INFO] classifier_ensemble: Ensemble bypassed: High confidence regex match for AADHAAR (0.95)
+2026-06-04 10:29:47 [INFO] pipeline: Stage 3 (Classification) completed. Type: AADHAAR, Conf: 0.95
+2026-06-04 10:29:47 [INFO] pipeline: --- Pipeline continuing verification for AADHAAR ---
+2026-06-04 10:29:47 [INFO] pipeline: Stage 4 (Extraction) completed. Fields: ['aadhaar_number', 'dob', 'gender', 'name']
+2026-06-04 10:29:47 [ERROR] pipeline: Stage 5 failed: name 'ValidationResult' is not defined
+2026-06-04 10:29:47 [INFO] classifier_ensemble: Classifier individual results: Keyword=PAN(0.29), Regex=PAN(0.95), Layout=UNKNOWN(0.00)
+2026-06-04 10:29:47 [INFO] classifier_ensemble: Ensemble bypassed: High confidence regex match for PAN (0.95)
+2026-06-04 10:29:47 [INFO] classifier_ensemble: Classifier individual results: Keyword=UNKNOWN(0.00), Regex=UNKNOWN(0.00), Layout=UNKNOWN(0.00)
+2026-06-04 10:29:47 [INFO] classifier_ensemble: Ensemble raw decision: UNKNOWN with aggregated score 0.00 (Threshold: 0.70)
+2026-06-04 10:29:47 [WARNING] classifier_ensemble: Ensemble score 0.00 is below threshold 0.70. Classifying as UNKNOWN.
+2026-06-04 10:32:40 [INFO] pipeline: Pipeline loaded configuration: D:\OCR\docuscan_india\config.yaml
+2026-06-04 10:32:40 [INFO] ocr_engine: Tesseract path set from config: C:\Program Files\Tesseract-OCR\tesseract.exe
+2026-06-04 10:32:40 [INFO] audit_logger: Audit database initialized successfully at: D:\OCR\docuscan_india\data\db\audit.db
+2026-06-04 10:32:40 [INFO] pipeline: --- Pipeline starting classification for D:\OCR\docuscan_india\tests\fixtures\sample_docs\mock_aadhaar.jpg ---
+2026-06-04 10:32:40 [INFO] pipeline: Stage 1 (Preprocessing) completed successfully.
+2026-06-04 10:32:40 [INFO] pipeline: Stage 2 (OCR) completed. Confidence: 0.92
+2026-06-04 10:32:40 [INFO] classifier_ensemble: Classifier individual results: Keyword=AADHAAR(0.22), Regex=AADHAAR(0.95), Layout=UNKNOWN(0.00)
+2026-06-04 10:32:40 [INFO] classifier_ensemble: Ensemble bypassed: High confidence regex match for AADHAAR (0.95)
+2026-06-04 10:32:40 [INFO] pipeline: Stage 3 (Classification) completed. Type: AADHAAR, Conf: 0.95
+2026-06-04 10:32:40 [INFO] pipeline: --- Pipeline continuing verification for AADHAAR ---
+2026-06-04 10:32:40 [INFO] pipeline: Stage 4 (Extraction) completed. Fields: ['aadhaar_number', 'dob', 'gender', 'name']
+2026-06-04 10:32:40 [INFO] pipeline: Stage 5 (Validation) completed. Total check rules: 6
+2026-06-04 10:32:40 [INFO] metadata_analyser: No EXIF metadata found in: D:\OCR\docuscan_india\tests\fixtures\sample_docs\mock_aadhaar.jpg
+2026-06-04 10:32:40 [INFO] risk_score_engine: Calculated fraud risk score: 40/100
+2026-06-04 10:32:40 [INFO] pipeline: Stage 6 (Fraud Detection) completed. Risk Score: 40
+2026-06-04 10:32:40 [INFO] export_manager: Saved JSON export: D:\OCR\docuscan_india\data\exports\mock_aadhaar_audit.json
+2026-06-04 10:32:40 [INFO] report_generator: HTML report generated at: D:\OCR\docuscan_india\data\exports\mock_aadhaar_audit.html
+2026-06-04 10:32:40 [INFO] report_generator: PDF report generated at: D:\OCR\docuscan_india\data\exports\mock_aadhaar_audit.pdf
+2026-06-04 10:32:40 [INFO] audit_logger: Audit log saved successfully. Hash: d00be442b4... Verdict: FAIL
+2026-06-04 10:32:40 [INFO] pipeline: Stage 7 (Reporting) completed. Exports generated.
+2026-06-04 10:32:40 [INFO] classifier_ensemble: Classifier individual results: Keyword=PAN(0.29), Regex=PAN(0.95), Layout=UNKNOWN(0.00)
+2026-06-04 10:32:40 [INFO] classifier_ensemble: Ensemble bypassed: High confidence regex match for PAN (0.95)
+2026-06-04 10:32:40 [INFO] classifier_ensemble: Classifier individual results: Keyword=UNKNOWN(0.00), Regex=UNKNOWN(0.00), Layout=UNKNOWN(0.00)
+2026-06-04 10:32:40 [INFO] classifier_ensemble: Ensemble raw decision: UNKNOWN with aggregated score 0.00 (Threshold: 0.70)
+2026-06-04 10:32:40 [WARNING] classifier_ensemble: Ensemble score 0.00 is below threshold 0.70. Classifying as UNKNOWN.
+2026-06-04 10:33:08 [INFO] pipeline: Pipeline loaded configuration: D:\OCR\docuscan_india\config.yaml
+2026-06-04 10:33:08 [INFO] ocr_engine: Tesseract path set from config: C:\Program Files\Tesseract-OCR\tesseract.exe
+2026-06-04 10:33:08 [INFO] audit_logger: Audit database initialized successfully at: D:\OCR\docuscan_india\data\db\audit.db
+2026-06-04 10:33:08 [INFO] pipeline: --- Pipeline starting classification for D:\OCR\docuscan_india\tests\fixtures\sample_docs\mock_aadhaar.jpg ---
+2026-06-04 10:33:08 [INFO] pipeline: Stage 1 (Preprocessing) completed successfully.
+2026-06-04 10:33:08 [INFO] pipeline: Stage 2 (OCR) completed. Confidence: 0.92
+2026-06-04 10:33:08 [INFO] classifier_ensemble: Classifier individual results: Keyword=AADHAAR(0.22), Regex=AADHAAR(0.95), Layout=UNKNOWN(0.00)
+2026-06-04 10:33:08 [INFO] classifier_ensemble: Ensemble bypassed: High confidence regex match for AADHAAR (0.95)
+2026-06-04 10:33:08 [INFO] pipeline: Stage 3 (Classification) completed. Type: AADHAAR, Conf: 0.95
+2026-06-04 10:33:08 [INFO] pipeline: --- Pipeline continuing verification for AADHAAR ---
+2026-06-04 10:33:08 [INFO] pipeline: Stage 4 (Extraction) completed. Fields: ['aadhaar_number', 'dob', 'gender', 'name']
+2026-06-04 10:33:08 [INFO] pipeline: Stage 5 (Validation) completed. Total check rules: 6
+2026-06-04 10:33:08 [INFO] metadata_analyser: No EXIF metadata found in: D:\OCR\docuscan_india\tests\fixtures\sample_docs\mock_aadhaar.jpg
+2026-06-04 10:33:08 [INFO] risk_score_engine: Calculated fraud risk score: 0/100
+2026-06-04 10:33:08 [INFO] pipeline: Stage 6 (Fraud Detection) completed. Risk Score: 0
+2026-06-04 10:33:08 [INFO] export_manager: Saved JSON export: D:\OCR\docuscan_india\data\exports\mock_aadhaar_audit.json
+2026-06-04 10:33:08 [INFO] report_generator: HTML report generated at: D:\OCR\docuscan_india\data\exports\mock_aadhaar_audit.html
+2026-06-04 10:33:08 [INFO] report_generator: PDF report generated at: D:\OCR\docuscan_india\data\exports\mock_aadhaar_audit.pdf
+2026-06-04 10:33:08 [INFO] audit_logger: Audit log saved successfully. Hash: d00be442b4... Verdict: PASS
+2026-06-04 10:33:08 [INFO] pipeline: Stage 7 (Reporting) completed. Exports generated.
+2026-06-04 10:33:08 [INFO] classifier_ensemble: Classifier individual results: Keyword=PAN(0.29), Regex=PAN(0.95), Layout=UNKNOWN(0.00)
+2026-06-04 10:33:08 [INFO] classifier_ensemble: Ensemble bypassed: High confidence regex match for PAN (0.95)
+2026-06-04 10:33:08 [INFO] classifier_ensemble: Classifier individual results: Keyword=UNKNOWN(0.00), Regex=UNKNOWN(0.00), Layout=UNKNOWN(0.00)
+2026-06-04 10:33:08 [INFO] classifier_ensemble: Ensemble raw decision: UNKNOWN with aggregated score 0.00 (Threshold: 0.70)
+2026-06-04 10:33:08 [WARNING] classifier_ensemble: Ensemble score 0.00 is below threshold 0.70. Classifying as UNKNOWN.
