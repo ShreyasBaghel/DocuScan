@@ -1,0 +1,369 @@
+{
+    "image_path": "C:/Users/shrey/Downloads/DTU ID.jpeg",
+    "ocr_raw_text": "\u201c\u00a2\n\nuur, Main Bawana Road, |}\n\n(Govt. of NCT of Delhi) :\n\u2018Delhi;.110042 \u00a9 .\n\nrN\n=\na=\nto\noO\nQD\nSs\ns\nue\naT\nuw\naa)\n\u201coO\nD\na.\n>\nhe\nOo\n\u201cag,\nw\nuy,\n\n~~ BATech(MC)\n\n",
+    "ocr_confidence": 0.4912820512820513,
+    "ocr_word_map": [
+        {
+            "text": "\u201c\u00a2",
+            "left": 1025,
+            "top": 344,
+            "width": 20,
+            "height": 17,
+            "conf": 0.0
+        },
+        {
+            "text": "uur,",
+            "left": 664,
+            "top": 357,
+            "width": 16,
+            "height": 4,
+            "conf": 0.49
+        },
+        {
+            "text": "Main",
+            "left": 734,
+            "top": 358,
+            "width": 63,
+            "height": 41,
+            "conf": 0.92
+        },
+        {
+            "text": "Bawana",
+            "left": 821,
+            "top": 360,
+            "width": 115,
+            "height": 40,
+            "conf": 0.92
+        },
+        {
+            "text": "Road,",
+            "left": 952,
+            "top": 353,
+            "width": 104,
+            "height": 53,
+            "conf": 0.53
+        },
+        {
+            "text": "|}",
+            "left": 1090,
+            "top": 347,
+            "width": 40,
+            "height": 61,
+            "conf": 0.53
+        },
+        {
+            "text": "(Govt.",
+            "left": 517,
+            "top": 317,
+            "width": 157,
+            "height": 41,
+            "conf": 0.0
+        },
+        {
+            "text": "of",
+            "left": 648,
+            "top": 304,
+            "width": 30,
+            "height": 58,
+            "conf": 0.92
+        },
+        {
+            "text": "NCT",
+            "left": 684,
+            "top": 320,
+            "width": 61,
+            "height": 31,
+            "conf": 0.91
+        },
+        {
+            "text": "of",
+            "left": 754,
+            "top": 320,
+            "width": 30,
+            "height": 35,
+            "conf": 0.96
+        },
+        {
+            "text": "Delhi)",
+            "left": 789,
+            "top": 316,
+            "width": 102,
+            "height": 39,
+            "conf": 0.67
+        },
+        {
+            "text": ":",
+            "left": 885,
+            "top": 304,
+            "width": 10,
+            "height": 58,
+            "conf": 0.35
+        },
+        {
+            "text": "\u2018Delhi;.110042",
+            "left": 590,
+            "top": 396,
+            "width": 237,
+            "height": 52,
+            "conf": 0.12
+        },
+        {
+            "text": "\u00a9",
+            "left": 854,
+            "top": 398,
+            "width": 26,
+            "height": 50,
+            "conf": 0.5
+        },
+        {
+            "text": ".",
+            "left": 905,
+            "top": 425,
+            "width": 6,
+            "height": 6,
+            "conf": 0.72
+        },
+        {
+            "text": "rN",
+            "left": 1073,
+            "top": 280,
+            "width": 14,
+            "height": 46,
+            "conf": 0.55
+        },
+        {
+            "text": "=",
+            "left": 979,
+            "top": 284,
+            "width": 23,
+            "height": 31,
+            "conf": 0.71
+        },
+        {
+            "text": "a=",
+            "left": 937,
+            "top": 276,
+            "width": 21,
+            "height": 33,
+            "conf": 0.52
+        },
+        {
+            "text": "to",
+            "left": 927,
+            "top": 289,
+            "width": 10,
+            "height": 20,
+            "conf": 0.49
+        },
+        {
+            "text": "oO",
+            "left": 910,
+            "top": 289,
+            "width": 15,
+            "height": 19,
+            "conf": 0.41
+        },
+        {
+            "text": "QD",
+            "left": 892,
+            "top": 289,
+            "width": 15,
+            "height": 20,
+            "conf": 0.36
+        },
+        {
+            "text": "Ss",
+            "left": 869,
+            "top": 281,
+            "width": 21,
+            "height": 28,
+            "conf": 0.54
+        },
+        {
+            "text": "s",
+            "left": 851,
+            "top": 264,
+            "width": 15,
+            "height": 50,
+            "conf": 0.0
+        },
+        {
+            "text": "ue",
+            "left": 834,
+            "top": 264,
+            "width": 14,
+            "height": 45,
+            "conf": 0.69
+        },
+        {
+            "text": "aT",
+            "left": 814,
+            "top": 272,
+            "width": 19,
+            "height": 36,
+            "conf": 0.32
+        },
+        {
+            "text": "uw",
+            "left": 796,
+            "top": 282,
+            "width": 12,
+            "height": 31,
+            "conf": 0.46
+        },
+        {
+            "text": "aa)",
+            "left": 712,
+            "top": 261,
+            "width": 26,
+            "height": 47,
+            "conf": 0.45
+        },
+        {
+            "text": "\u201coO",
+            "left": 667,
+            "top": 264,
+            "width": 19,
+            "height": 43,
+            "conf": 0.42
+        },
+        {
+            "text": "D",
+            "left": 609,
+            "top": 287,
+            "width": 15,
+            "height": 19,
+            "conf": 0.61
+        },
+        {
+            "text": "a.",
+            "left": 584,
+            "top": 254,
+            "width": 23,
+            "height": 61,
+            "conf": 0.53
+        },
+        {
+            "text": ">",
+            "left": 557,
+            "top": 280,
+            "width": 20,
+            "height": 32,
+            "conf": 0.9
+        },
+        {
+            "text": "he",
+            "left": 545,
+            "top": 286,
+            "width": 10,
+            "height": 20,
+            "conf": 0.31
+        },
+        {
+            "text": "Oo",
+            "left": 529,
+            "top": 286,
+            "width": 14,
+            "height": 19,
+            "conf": 0.23
+        },
+        {
+            "text": "\u201cag,",
+            "left": 473,
+            "top": 253,
+            "width": 18,
+            "height": 58,
+            "conf": 0.41
+        },
+        {
+            "text": "w",
+            "left": 456,
+            "top": 279,
+            "width": 17,
+            "height": 25,
+            "conf": 0.24
+        },
+        {
+            "text": "uy,",
+            "left": 446,
+            "top": 278,
+            "width": 9,
+            "height": 32,
+            "conf": 0.24
+        },
+        {
+            "text": "~~",
+            "left": 429,
+            "top": 1097,
+            "width": 8,
+            "height": 5,
+            "conf": 0.28
+        },
+        {
+            "text": "BATech(MC)",
+            "left": 454,
+            "top": 1096,
+            "width": 314,
+            "height": 63,
+            "conf": 0.0
+        }
+    ],
+    "document_type": "AADHAAR",
+    "classification_confidence": 0.0,
+    "extracted_fields": {
+        "aadhaar_number": {
+            "value": "NOT_FOUND",
+            "raw_text": "",
+            "confidence": 0.0,
+            "bounding_box": null
+        },
+        "dob": {
+            "value": "NOT_FOUND",
+            "raw_text": "",
+            "confidence": 0.0,
+            "bounding_box": null
+        },
+        "gender": {
+            "value": "NOT_FOUND",
+            "raw_text": "",
+            "confidence": 0.0,
+            "bounding_box": null
+        },
+        "name": {
+            "value": "NOT_FOUND",
+            "raw_text": "",
+            "confidence": 0.0,
+            "bounding_box": null
+        }
+    },
+    "validation_results": [
+        {
+            "status": "FAIL",
+            "field_name": "aadhaar_number_format",
+            "expected": "12 digits",
+            "actual": "Missing field"
+        },
+        {
+            "status": "FAIL",
+            "field_name": "dob",
+            "expected": "YYYY-MM-DD",
+            "actual": "Missing field"
+        },
+        {
+            "status": "FAIL",
+            "field_name": "gender_format",
+            "expected": "MALE/FEMALE/OTHER",
+            "actual": "Missing field"
+        },
+        {
+            "status": "FAIL",
+            "field_name": "name",
+            "expected": "Uppercase Alphabetic",
+            "actual": "Missing field"
+        }
+    ],
+    "fraud_signals": [],
+    "fraud_risk_score": 85,
+    "report_path": "",
+    "pipeline_metadata": {}
+}

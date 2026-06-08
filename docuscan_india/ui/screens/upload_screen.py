@@ -37,7 +37,7 @@ class UploadScreen(tk.Frame):
         self.title_lbl.pack(anchor="w")
 
         # Interactive drop area / click button
-        self.upload_box = tk.Frame(left_col, bg="#1e1e24", bd=2, relief="dashed", highlightthickness=0, height=220)
+        self.upload_box = tk.Frame(left_col, bg="#1e1e24", bd=2, relief="solid", highlightthickness=0, height=220)
         self.upload_box.pack(fill="x", pady=20)
         self.upload_box.pack_propagate(False)
 
@@ -85,8 +85,8 @@ class UploadScreen(tk.Frame):
         self.process_btn.pack(side="left")
 
         # Right Column
-        right_col = tk.Frame(content_frame, bg="#282830", padx=25, pady=25, highlightbackground="#3f3f46", highlightthickness=1)
-        right_col.pack(side="right", fill="both", width=340)
+        right_col = tk.Frame(content_frame, bg="#282830", padx=25, pady=25, highlightbackground="#3f3f46", highlightthickness=1, width=340)
+        right_col.pack(side="right", fill="both")
 
         hints_title = tk.Label(right_col, text="SCANNING BEST PRACTICES", fg="#00bcd4", bg="#282830", font=("Segoe UI Bold", 11))
         hints_title.pack(anchor="w", pady=(0, 15))

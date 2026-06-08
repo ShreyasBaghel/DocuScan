@@ -1,5 +1,5 @@
 {
-    "image_path": "D:\\OCR\\docuscan_india\\tests\\fixtures\\sample_docs\\mock_aadhaar.jpg",
+    "image_path": "d:\\OCR\\docuscan_india\\tests\\fixtures\\sample_docs\\mock_aadhaar.jpg",
     "ocr_raw_text": "GOVERNMENT OF INDIA\nMERA AADHAAR, MERI PEHCHAN\nKARTIK KAPOOR\nDOB: 15/08/1990\nMALE\n3668 7483 0214\n",
     "ocr_confidence": 0.92,
     "ocr_word_map": [

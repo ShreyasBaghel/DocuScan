@@ -202,6 +202,21 @@ class ClassificationScreen(tk.Frame):
         self.content_card.pack(fill="both", expand=True)
         self.auto_frame.pack(fill="both", expand=True)
         
+        # Update Labels
+        doc_labels = {
+            DocumentType.AADHAAR: "Aadhaar Card",
+            DocumentType.PAN: "PAN Card",
+            DocumentType.PASSPORT: "Indian Passport",
+            DocumentType.DRIVING_LICENCE: "Driving Licence"
+        }
+        self.doc_name_lbl.configure(text=doc_labels.get(packet.document_type, "UNKNOWN"))
+
+        # Clear badge and redraw
+        for widget in self.badge_container.winfo_children():
+            widget.destroy()
+        self.conf_badge = ConfidenceBadge(self.badge_container, packet.classification_confidence)
+        self.conf_badge.pack()
+        
         # Hide manual override panel and confirm buttons since we are done
         self.manual_frame.pack_forget()
         self.verify_btn.pack_forget()

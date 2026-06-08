@@ -30,16 +30,37 @@ class BaseExtractor(ABC):
 
         # Find words matching tokens
         for token in tokens:
+            clean_token = re.sub(r'[^a-z0-9/<]', '', token)
+            if not clean_token:
+                continue
             for w in word_map:
                 w_text = w['text'].lower()
-                # Check for exact or partial matches
-                if token in w_text or w_text in token:
+                clean_w_text = re.sub(r'[^a-z0-9/<]', '', w_text)
+                if clean_token == clean_w_text:
                     matched_boxes.append(w)
 
         if not matched_boxes:
             return None
 
-        # Compute bounding box encompassing all matched words
+        # Group matched boxes by line (y-coordinate)
+        line_groups = []
+        for box in matched_boxes:
+            box_center_y = box['top'] + box['height'] / 2
+            added = False
+            for group in line_groups:
+                group_center_y = sum(b['top'] + b['height'] / 2 for b in group) / len(group)
+                if abs(box_center_y - group_center_y) < 20:  # 20 pixels vertical tolerance
+                    group.append(box)
+                    added = True
+                    break
+            if not added:
+                line_groups.append([box])
+
+        # Pick the line group that has the most matched boxes
+        best_group = max(line_groups, key=len)
+        matched_boxes = best_group
+
+        # Compute bounding box encompassing all matched words in the best group
         min_x = min(w['left'] for w in matched_boxes)
         min_y = min(w['top'] for w in matched_boxes)
         max_r = max(w['left'] + w['width'] for w in matched_boxes)

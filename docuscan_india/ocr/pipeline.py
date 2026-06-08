@@ -57,7 +57,24 @@ class VerificationPipeline:
         # Stage 1: Load and Preprocess Image
         try:
             packet.raw_image = ImageLoader.load(image_path)
-            packet.preprocessed_image = self.preprocessor.preprocess(packet.raw_image)
+            
+            # If it's a PDF, bypass destructive preprocessing steps (denoise, clahe, binarise)
+            # to preserve clean, high-resolution digital text.
+            is_pdf = image_path.lower().endswith('.pdf')
+            if is_pdf:
+                logger.info("PDF document detected. Bypassing denoise, clahe, and binarise to preserve digital text quality.")
+                old_config = self.preprocessor.config
+                temp_config = old_config.copy()
+                temp_config['denoise'] = False
+                temp_config['clahe'] = False
+                temp_config['binarise'] = False
+                
+                self.preprocessor.config = temp_config
+                packet.preprocessed_image = self.preprocessor.preprocess(packet.raw_image)
+                self.preprocessor.config = old_config
+            else:
+                packet.preprocessed_image = self.preprocessor.preprocess(packet.raw_image)
+                
             logger.info("Stage 1 (Preprocessing) completed successfully.")
         except Exception as e:
             logger.error(f"Stage 1 failed: {e}")
@@ -101,6 +118,38 @@ class VerificationPipeline:
         try:
             extractor = ExtractorRegistry.get_extractor(packet.document_type)
             packet.extracted_fields = extractor.extract(packet.ocr_raw_text, packet.ocr_word_map)
+            
+            # Fallback OCR pass for Aadhaar or PAN if the primary ID number was not found
+            # (Very useful for low-res photos/scans where PSM 3 misses the separate number block)
+            if packet.document_type == DocumentType.AADHAAR:
+                num_field = packet.extracted_fields.get("aadhaar_number")
+                if not num_field or num_field.value == "NOT_FOUND":
+                    logger.info("Aadhaar number not found in first pass. Running fallback OCR (PSM 11)...")
+                    raw_fb, conf_fb, map_fb = self.ocr_engine.extract(packet.preprocessed_image, "AADHAAR_FALLBACK")
+                    fb_fields = extractor.extract(raw_fb, map_fb)
+                    fb_num = fb_fields.get("aadhaar_number")
+                    if fb_num and fb_num.value != "NOT_FOUND":
+                        logger.info(f"Successfully recovered Aadhaar number in fallback pass: {fb_num.value}")
+                        packet.extracted_fields["aadhaar_number"] = fb_num
+                        # Also recover other NOT_FOUND fields if possible
+                        for k, v in fb_fields.items():
+                            if k not in packet.extracted_fields or packet.extracted_fields[k].value == "NOT_FOUND":
+                                packet.extracted_fields[k] = v
+                                
+            elif packet.document_type == DocumentType.PAN:
+                num_field = packet.extracted_fields.get("pan_number")
+                if not num_field or num_field.value == "NOT_FOUND":
+                    logger.info("PAN number not found in first pass. Running fallback OCR (PSM 11)...")
+                    raw_fb, conf_fb, map_fb = self.ocr_engine.extract(packet.preprocessed_image, "PAN_FALLBACK")
+                    fb_fields = extractor.extract(raw_fb, map_fb)
+                    fb_num = fb_fields.get("pan_number")
+                    if fb_num and fb_num.value != "NOT_FOUND":
+                        logger.info(f"Successfully recovered PAN number in fallback pass: {fb_num.value}")
+                        packet.extracted_fields["pan_number"] = fb_num
+                        for k, v in fb_fields.items():
+                            if k not in packet.extracted_fields or packet.extracted_fields[k].value == "NOT_FOUND":
+                                packet.extracted_fields[k] = v
+
             logger.info(f"Stage 4 (Extraction) completed. Fields: {list(packet.extracted_fields.keys())}")
         except Exception as e:
             logger.error(f"Stage 4 failed: {e}")

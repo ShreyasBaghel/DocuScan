@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import ttk
 from ui.components.risk_gauge import RiskGauge
 from utils.document_packet import DocumentPacket
 
@@ -25,8 +26,8 @@ class FraudAnalysisScreen(tk.Frame):
         content_frame.pack(fill="both", expand=True)
 
         # Left Column: Risk Dial & Verdict Card
-        left_col = tk.Frame(content_frame, bg="#282830", padx=25, pady=25, highlightbackground="#3f3f46", highlightthickness=1)
-        left_col.pack(side="left", fill="both", width=340, padx=(0, 15))
+        left_col = tk.Frame(content_frame, bg="#282830", padx=25, pady=25, highlightbackground="#3f3f46", highlightthickness=1, width=340)
+        left_col.pack(side="left", fill="both", padx=(0, 15))
 
         dial_title = tk.Label(left_col, text="AGGREGATED RISK METER", fg="#00bcd4", bg="#282830", font=("Segoe UI Bold", 10))
         dial_title.pack(anchor="w", pady=(0, 10))
@@ -84,7 +85,7 @@ class FraudAnalysisScreen(tk.Frame):
         scroll_canvas.configure(yscrollcommand=scrollbar.set)
 
         scroll_canvas.pack(side="left", fill="both", expand=True)
-        scrollbar.pack(side="right", fill="ns")
+        scrollbar.pack(side="right", fill="y")
 
         self._populate_signals()
 

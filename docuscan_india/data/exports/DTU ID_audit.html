@@ -26,7 +26,7 @@
                 <p>Intelligent OCR & Verification System</p>
             </div>
             <div>
-                <span class="status-badge status-pass">PASS</span>
+                <span class="status-badge status-fail">FAIL</span>
             </div>
         </div>
 
@@ -36,13 +36,13 @@
                 <th>Document Type</th>
                 <td>AADHAAR</td>
                 <th>Fraud Risk Score</th>
-                <td class="risk-score" style="color: #28a745">0/100</td>
+                <td class="risk-score" style="color: #dc3545">85/100</td>
             </tr>
             <tr>
                 <th>Source File</th>
-                <td>mock_aadhaar.jpg</td>
+                <td>DTU ID.jpeg</td>
                 <th>Timestamp</th>
-                <td>2026-06-05 16:25:55</td>
+                <td>2026-06-05 11:22:35</td>
             </tr>
         </table>
 
@@ -59,26 +59,26 @@
                 
                 <tr>
                     <td><strong>Aadhaar Number</strong></td>
-                    <td>366874830214</td>
-                    <td>95.0%</td>
+                    <td>NOT_FOUND</td>
+                    <td>0.0%</td>
                 </tr>
                 
                 <tr>
                     <td><strong>Dob</strong></td>
-                    <td>1990-08-15</td>
-                    <td>90.0%</td>
+                    <td>NOT_FOUND</td>
+                    <td>0.0%</td>
                 </tr>
                 
                 <tr>
                     <td><strong>Gender</strong></td>
-                    <td>MALE</td>
-                    <td>95.0%</td>
+                    <td>NOT_FOUND</td>
+                    <td>0.0%</td>
                 </tr>
                 
                 <tr>
                     <td><strong>Name</strong></td>
-                    <td>KARTIK KAPOOR</td>
-                    <td>85.0%</td>
+                    <td>NOT_FOUND</td>
+                    <td>0.0%</td>
                 </tr>
                 
             </tbody>
@@ -97,50 +97,34 @@
                 
                 <tr>
                     <td>Aadhaar Number Format</td>
-                    <td style="color: #28a745; font-weight: bold;">
-                        PASS
+                    <td style="color: #dc3545; font-weight: bold;">
+                        FAIL
                     </td>
-                    <td>Expected: 12 digits | Actual: 366874830214</td>
+                    <td>Expected: 12 digits | Actual: Missing field</td>
                 </tr>
                 
                 <tr>
                     <td>Dob</td>
-                    <td style="color: #28a745; font-weight: bold;">
-                        PASS
+                    <td style="color: #dc3545; font-weight: bold;">
+                        FAIL
                     </td>
-                    <td>Expected: YYYY-MM-DD | Actual: 1990-08-15</td>
+                    <td>Expected: YYYY-MM-DD | Actual: Missing field</td>
                 </tr>
                 
                 <tr>
                     <td>Gender Format</td>
-                    <td style="color: #28a745; font-weight: bold;">
-                        PASS
+                    <td style="color: #dc3545; font-weight: bold;">
+                        FAIL
                     </td>
-                    <td>Expected: MALE/FEMALE/OTHER | Actual: MALE</td>
+                    <td>Expected: MALE/FEMALE/OTHER | Actual: Missing field</td>
                 </tr>
                 
                 <tr>
                     <td>Name</td>
-                    <td style="color: #28a745; font-weight: bold;">
-                        PASS
+                    <td style="color: #dc3545; font-weight: bold;">
+                        FAIL
                     </td>
-                    <td>Expected: Uppercase Alphabetic | Actual: KARTIK KAPOOR</td>
-                </tr>
-                
-                <tr>
-                    <td>Dob Range</td>
-                    <td style="color: #28a745; font-weight: bold;">
-                        PASS
-                    </td>
-                    <td>Expected: DOB is in the past | Actual: DOB is valid, age: 35</td>
-                </tr>
-                
-                <tr>
-                    <td>Aadhaar Checksum Verhoeff</td>
-                    <td style="color: #28a745; font-weight: bold;">
-                        PASS
-                    </td>
-                    <td>Expected: Verhoeff check digit matches | Actual: Aadhaar Number: 366874830214 (Valid: True)</td>
+                    <td>Expected: Uppercase Alphabetic | Actual: Missing field</td>
                 </tr>
                 
             </tbody>

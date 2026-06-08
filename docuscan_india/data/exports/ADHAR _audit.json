@@ -1,0 +1,433 @@
+{
+    "image_path": "C:/Users/shrey/Downloads/ADHAR .pdf",
+    "ocr_raw_text": "Issue Date: 23/09/2011\n\n- Governmentopindiamims\u2014\u2014\n\nSHREYAS BAGHEL\naieA fatal / DOB : 01/01/2006\nWes/ Male\n\nHU eae FT WAT B, area Fr at!\nAadhaar is a proof of identity, not of citizenship.\n\n2086 8322 2522\n\nTare\n\n=)\n-\n\n2086 6322 2522\n\n\u2018\n\n",
+    "ocr_confidence": 0.6404444444444445,
+    "ocr_word_map": [
+        {
+            "text": "Issue",
+            "left": 26,
+            "top": 451,
+            "width": 20,
+            "height": 59,
+            "conf": 0.95
+        },
+        {
+            "text": "Date:",
+            "left": 26,
+            "top": 384,
+            "width": 20,
+            "height": 58,
+            "conf": 0.96
+        },
+        {
+            "text": "23/09/2011",
+            "left": 26,
+            "top": 251,
+            "width": 20,
+            "height": 123,
+            "conf": 0.96
+        },
+        {
+            "text": "-",
+            "left": 281,
+            "top": 72,
+            "width": 33,
+            "height": 56,
+            "conf": 0.0
+        },
+        {
+            "text": "Governmentopindiamims\u2014\u2014",
+            "left": 285,
+            "top": 77,
+            "width": 663,
+            "height": 47,
+            "conf": 0.0
+        },
+        {
+            "text": "SHREYAS",
+            "left": 400,
+            "top": 242,
+            "width": 164,
+            "height": 27,
+            "conf": 0.91
+        },
+        {
+            "text": "BAGHEL",
+            "left": 578,
+            "top": 243,
+            "width": 138,
+            "height": 26,
+            "conf": 0.91
+        },
+        {
+            "text": "aieA",
+            "left": 398,
+            "top": 297,
+            "width": 78,
+            "height": 26,
+            "conf": 0.13
+        },
+        {
+            "text": "fatal",
+            "left": 493,
+            "top": 288,
+            "width": 94,
+            "height": 36,
+            "conf": 0.0
+        },
+        {
+            "text": "/",
+            "left": 581,
+            "top": 284,
+            "width": 9,
+            "height": 50,
+            "conf": 0.63
+        },
+        {
+            "text": "DOB",
+            "left": 600,
+            "top": 297,
+            "width": 71,
+            "height": 26,
+            "conf": 0.92
+        },
+        {
+            "text": ":",
+            "left": 686,
+            "top": 304,
+            "width": 3,
+            "height": 19,
+            "conf": 0.78
+        },
+        {
+            "text": "01/01/2006",
+            "left": 703,
+            "top": 297,
+            "width": 173,
+            "height": 27,
+            "conf": 0.96
+        },
+        {
+            "text": "Wes/",
+            "left": 394,
+            "top": 344,
+            "width": 90,
+            "height": 49,
+            "conf": 0.0
+        },
+        {
+            "text": "Male",
+            "left": 497,
+            "top": 343,
+            "width": 72,
+            "height": 39,
+            "conf": 0.96
+        },
+        {
+            "text": "HU",
+            "left": 411,
+            "top": 512,
+            "width": 63,
+            "height": 20,
+            "conf": 0.71
+        },
+        {
+            "text": "eae",
+            "left": 486,
+            "top": 514,
+            "width": 71,
+            "height": 21,
+            "conf": 0.0
+        },
+        {
+            "text": "FT",
+            "left": 568,
+            "top": 514,
+            "width": 28,
+            "height": 17,
+            "conf": 0.35
+        },
+        {
+            "text": "WAT",
+            "left": 606,
+            "top": 514,
+            "width": 62,
+            "height": 17,
+            "conf": 0.46
+        },
+        {
+            "text": "B,",
+            "left": 678,
+            "top": 507,
+            "width": 21,
+            "height": 28,
+            "conf": 0.0
+        },
+        {
+            "text": "area",
+            "left": 712,
+            "top": 508,
+            "width": 106,
+            "height": 25,
+            "conf": 0.35
+        },
+        {
+            "text": "Fr",
+            "left": 829,
+            "top": 514,
+            "width": 27,
+            "height": 18,
+            "conf": 0.31
+        },
+        {
+            "text": "at!",
+            "left": 867,
+            "top": 508,
+            "width": 46,
+            "height": 28,
+            "conf": 0.0
+        },
+        {
+            "text": "Aadhaar",
+            "left": 399,
+            "top": 546,
+            "width": 96,
+            "height": 20,
+            "conf": 0.9
+        },
+        {
+            "text": "is",
+            "left": 502,
+            "top": 547,
+            "width": 17,
+            "height": 18,
+            "conf": 0.96
+        },
+        {
+            "text": "a",
+            "left": 527,
+            "top": 551,
+            "width": 13,
+            "height": 15,
+            "conf": 0.96
+        },
+        {
+            "text": "proof",
+            "left": 552,
+            "top": 546,
+            "width": 146,
+            "height": 20,
+            "conf": 0.96
+        },
+        {
+            "text": "of",
+            "left": 609,
+            "top": 542,
+            "width": 20,
+            "height": 33,
+            "conf": 0.96
+        },
+        {
+            "text": "identity,",
+            "left": 639,
+            "top": 546,
+            "width": 59,
+            "height": 20,
+            "conf": 0.96
+        },
+        {
+            "text": "not",
+            "left": 720,
+            "top": 547,
+            "width": 48,
+            "height": 22,
+            "conf": 0.96
+        },
+        {
+            "text": "of",
+            "left": 775,
+            "top": 546,
+            "width": 22,
+            "height": 20,
+            "conf": 0.96
+        },
+        {
+            "text": "citizenship.",
+            "left": 803,
+            "top": 547,
+            "width": 122,
+            "height": 24,
+            "conf": 0.96
+        },
+        {
+            "text": "2086",
+            "left": 377,
+            "top": 594,
+            "width": 140,
+            "height": 47,
+            "conf": 0.96
+        },
+        {
+            "text": "8322",
+            "left": 543,
+            "top": 594,
+            "width": 138,
+            "height": 46,
+            "conf": 0.96
+        },
+        {
+            "text": "2522",
+            "left": 707,
+            "top": 595,
+            "width": 138,
+            "height": 46,
+            "conf": 0.96
+        },
+        {
+            "text": "Tare",
+            "left": 1047,
+            "top": 99,
+            "width": 101,
+            "height": 23,
+            "conf": 0.28
+        },
+        {
+            "text": "=)",
+            "left": 1070,
+            "top": 197,
+            "width": 49,
+            "height": 38,
+            "conf": 0.46
+        },
+        {
+            "text": "-",
+            "left": 1083,
+            "top": 245,
+            "width": 28,
+            "height": 32,
+            "conf": 0.0
+        },
+        {
+            "text": "2086",
+            "left": 1045,
+            "top": 306,
+            "width": 31,
+            "height": 28,
+            "conf": 0.9
+        },
+        {
+            "text": "6322",
+            "left": 1082,
+            "top": 306,
+            "width": 29,
+            "height": 28,
+            "conf": 0.66
+        },
+        {
+            "text": "2522",
+            "left": 1117,
+            "top": 306,
+            "width": 33,
+            "height": 28,
+            "conf": 0.96
+        },
+        {
+            "text": "\u2018",
+            "left": 1207,
+            "top": 0,
+            "width": 17,
+            "height": 31,
+            "conf": 0.0
+        }
+    ],
+    "document_type": "AADHAAR",
+    "classification_confidence": 0.95,
+    "extracted_fields": {
+        "aadhaar_number": {
+            "value": "208683222522",
+            "raw_text": "2086 8322 2522",
+            "confidence": 0.95,
+            "bounding_box": {
+                "x": 377,
+                "y": 594,
+                "w": 468,
+                "h": 47
+            }
+        },
+        "dob": {
+            "value": "2006-01-01",
+            "raw_text": "DOB : 01/01/2006",
+            "confidence": 0.9,
+            "bounding_box": {
+                "x": 600,
+                "y": 297,
+                "w": 276,
+                "h": 27
+            }
+        },
+        "gender": {
+            "value": "MALE",
+            "raw_text": "Male",
+            "confidence": 0.95,
+            "bounding_box": {
+                "x": 497,
+                "y": 343,
+                "w": 72,
+                "h": 39
+            }
+        },
+        "name": {
+            "value": "SHREYAS BAGHEL",
+            "raw_text": "SHREYAS BAGHEL",
+            "confidence": 0.85,
+            "bounding_box": {
+                "x": 400,
+                "y": 242,
+                "w": 316,
+                "h": 27
+            }
+        }
+    },
+    "validation_results": [
+        {
+            "status": "PASS",
+            "field_name": "aadhaar_number_format",
+            "expected": "12 digits",
+            "actual": "208683222522"
+        },
+        {
+            "status": "PASS",
+            "field_name": "dob",
+            "expected": "YYYY-MM-DD",
+            "actual": "2006-01-01"
+        },
+        {
+            "status": "PASS",
+            "field_name": "gender_format",
+            "expected": "MALE/FEMALE/OTHER",
+            "actual": "MALE"
+        },
+        {
+            "status": "PASS",
+            "field_name": "name",
+            "expected": "Uppercase Alphabetic",
+            "actual": "SHREYAS BAGHEL"
+        },
+        {
+            "status": "PASS",
+            "field_name": "dob_range",
+            "expected": "DOB is in the past",
+            "actual": "DOB is valid, age: 20"
+        },
+        {
+            "status": "PASS",
+            "field_name": "aadhaar_checksum_verhoeff",
+            "expected": "Verhoeff check digit matches",
+            "actual": "Aadhaar Number: 208683222522 (Valid: True)"
+        }
+    ],
+    "fraud_signals": [],
+    "fraud_risk_score": 0,
+    "report_path": "",
+    "pipeline_metadata": {}
+}

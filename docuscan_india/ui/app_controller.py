@@ -78,8 +78,11 @@ class AppController(tk.Tk):
         """Updates classification and triggers background thread for Stages 4-7."""
         self.current_packet.document_type = doc_type
         
-        # Transition to Classification display screen
-        self.show_frame("ClassificationScreen")
+        # Transition to Classification display screen if not already on it
+        from ui.screens.classification_screen import ClassificationScreen
+        if not isinstance(self.current_frame, ClassificationScreen):
+            self.show_frame("ClassificationScreen")
+            
         self.current_frame.set_loading("Running extraction, validation, and fraud checks...")
 
         thread = threading.Thread(target=self._run_verification_stage, daemon=True)

@@ -26,7 +26,7 @@
                 <p>Intelligent OCR & Verification System</p>
             </div>
             <div>
-                <span class="status-badge status-pass">PASS</span>
+                <span class="status-badge status-fail">FAIL</span>
             </div>
         </div>
 
@@ -34,15 +34,15 @@
         <table>
             <tr>
                 <th>Document Type</th>
-                <td>AADHAAR</td>
+                <td>PAN</td>
                 <th>Fraud Risk Score</th>
-                <td class="risk-score" style="color: #28a745">0/100</td>
+                <td class="risk-score" style="color: #28a745">20/100</td>
             </tr>
             <tr>
                 <th>Source File</th>
-                <td>mock_aadhaar.jpg</td>
+                <td>PAN Front.jpg</td>
                 <th>Timestamp</th>
-                <td>2026-06-05 16:25:55</td>
+                <td>2026-06-05 16:26:22</td>
             </tr>
         </table>
 
@@ -58,27 +58,27 @@
             <tbody>
                 
                 <tr>
-                    <td><strong>Aadhaar Number</strong></td>
-                    <td>366874830214</td>
-                    <td>95.0%</td>
-                </tr>
-                
-                <tr>
-                    <td><strong>Dob</strong></td>
-                    <td>1990-08-15</td>
-                    <td>90.0%</td>
-                </tr>
-                
-                <tr>
-                    <td><strong>Gender</strong></td>
-                    <td>MALE</td>
-                    <td>95.0%</td>
+                    <td><strong>Pan Number</strong></td>
+                    <td>HXDPB8430A</td>
+                    <td>98.0%</td>
                 </tr>
                 
                 <tr>
                     <td><strong>Name</strong></td>
-                    <td>KARTIK KAPOOR</td>
+                    <td>NOT_FOUND</td>
+                    <td>0.0%</td>
+                </tr>
+                
+                <tr>
+                    <td><strong>Father Name</strong></td>
+                    <td>SANJEEV KUMAR</td>
                     <td>85.0%</td>
+                </tr>
+                
+                <tr>
+                    <td><strong>Dob</strong></td>
+                    <td>2006-01-01</td>
+                    <td>92.0%</td>
                 </tr>
                 
             </tbody>
@@ -96,11 +96,11 @@
             <tbody>
                 
                 <tr>
-                    <td>Aadhaar Number Format</td>
+                    <td>Pan Format</td>
                     <td style="color: #28a745; font-weight: bold;">
                         PASS
                     </td>
-                    <td>Expected: 12 digits | Actual: 366874830214</td>
+                    <td>Expected: 5 Letters, 4 Digits, 1 Letter | Actual: HXDPB8430A</td>
                 </tr>
                 
                 <tr>
@@ -108,23 +108,23 @@
                     <td style="color: #28a745; font-weight: bold;">
                         PASS
                     </td>
-                    <td>Expected: YYYY-MM-DD | Actual: 1990-08-15</td>
-                </tr>
-                
-                <tr>
-                    <td>Gender Format</td>
-                    <td style="color: #28a745; font-weight: bold;">
-                        PASS
-                    </td>
-                    <td>Expected: MALE/FEMALE/OTHER | Actual: MALE</td>
+                    <td>Expected: YYYY-MM-DD | Actual: 2006-01-01</td>
                 </tr>
                 
                 <tr>
                     <td>Name</td>
+                    <td style="color: #dc3545; font-weight: bold;">
+                        FAIL
+                    </td>
+                    <td>Expected: Uppercase Alphabetic | Actual: Missing field</td>
+                </tr>
+                
+                <tr>
+                    <td>Father Name</td>
                     <td style="color: #28a745; font-weight: bold;">
                         PASS
                     </td>
-                    <td>Expected: Uppercase Alphabetic | Actual: KARTIK KAPOOR</td>
+                    <td>Expected: Uppercase Alphabetic | Actual: SANJEEV KUMAR</td>
                 </tr>
                 
                 <tr>
@@ -132,15 +132,7 @@
                     <td style="color: #28a745; font-weight: bold;">
                         PASS
                     </td>
-                    <td>Expected: DOB is in the past | Actual: DOB is valid, age: 35</td>
-                </tr>
-                
-                <tr>
-                    <td>Aadhaar Checksum Verhoeff</td>
-                    <td style="color: #28a745; font-weight: bold;">
-                        PASS
-                    </td>
-                    <td>Expected: Verhoeff check digit matches | Actual: Aadhaar Number: 366874830214 (Valid: True)</td>
+                    <td>Expected: DOB is in the past | Actual: DOB is valid, age: 20</td>
                 </tr>
                 
             </tbody>

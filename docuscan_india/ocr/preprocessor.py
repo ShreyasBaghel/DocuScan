@@ -31,9 +31,26 @@ class Preprocessor:
         """
         processed = img.copy()
 
+        # Step 0: Upscale low-resolution images (Tesseract prefers ~300 DPI / large text)
+        h, w = processed.shape[:2]
+        if w < 1800:
+            new_w = w * 2
+            new_h = h * 2
+            processed = cv2.resize(processed, (new_w, new_h), interpolation=cv2.INTER_CUBIC)
+
         # Step 1: Deskew (Hough-line/minAreaRect rotation correction)
         if self.config.get('deskew', True):
             processed = self.deskew(processed)
+
+        # Check if any grayscale preprocessing steps are enabled
+        gray_needed = (
+            self.config.get('denoise', True) or 
+            self.config.get('clahe', True) or 
+            self.config.get('binarise', True)
+        )
+
+        if not gray_needed:
+            return processed
 
         # Convert to grayscale for remaining operations if not already
         if len(processed.shape) == 3:
@@ -115,11 +132,14 @@ class Preprocessor:
 
     def binarise(self, gray: np.ndarray) -> np.ndarray:
         """Applies adaptive binarisation for high-contrast text."""
+        h, w = gray.shape[:2]
+        # Dynamically scale block size with image resolution (must be odd and >= 31)
+        block_size = max(31, (min(h, w) // 30) | 1)
         return cv2.adaptiveThreshold(
             gray, 
             255, 
             cv2.ADAPTIVE_THRESH_GAUSSIAN_C, 
             cv2.THRESH_BINARY, 
-            11, 
+            block_size, 
             2
         )

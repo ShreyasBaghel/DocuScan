@@ -48,8 +48,8 @@ class OCRResultScreen(tk.Frame):
         self.img_lbl.pack(fill="both", expand=True)
 
         # Right Column: Raw OCR Text Box
-        self.right_col = tk.Frame(self.data_frame, bg="#282830", padx=15, pady=15, highlightbackground="#3f3f46", highlightthickness=1)
-        self.right_col.pack(side="right", fill="both", width=420)
+        self.right_col = tk.Frame(self.data_frame, bg="#282830", padx=15, pady=15, highlightbackground="#3f3f46", highlightthickness=1, width=420)
+        self.right_col.pack(side="right", fill="both")
 
         txt_title = tk.Label(self.right_col, text="RAW EXTRACTED OCR TEXT", fg="#00bcd4", bg="#282830", font=("Segoe UI Bold", 10))
         txt_title.pack(anchor="w", pady=(0, 10))
@@ -63,7 +63,7 @@ class OCRResultScreen(tk.Frame):
         self.ocr_txt.configure(yscrollcommand=scrollbar.set)
 
         self.ocr_txt.pack(side="left", fill="both", expand=True)
-        scrollbar.pack(side="right", fill="ns")
+        scrollbar.pack(side="right", fill="y")
 
         # 4. Bottom Confidence & Actions Row
         self.bottom_frame = tk.Frame(self.main_frame, bg="#1e1e24")

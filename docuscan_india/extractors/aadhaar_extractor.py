@@ -50,7 +50,19 @@ class AadhaarExtractor(BaseExtractor):
             bbox = self.merge_bounding_boxes(dob_raw, word_map)
             results["dob"] = FieldResult(value=dob_val, raw_text=dob_raw, confidence=0.90, bounding_box=bbox)
         else:
-            results["dob"] = FieldResult(value="NOT_FOUND", raw_text="", confidence=0.0, bounding_box=None)
+            # Fallback: Search for any DD/MM/YYYY date pattern in the text
+            m_date = re.search(r"\b(\d{2}[/\-\.]\d{2}[/\-\.]\d{4})\b", raw_text)
+            if m_date:
+                dob_raw = m_date.group(0)
+                norm_date = normalize_date(m_date.group(1))
+                if norm_date:
+                    dob_val = norm_date
+
+            if dob_val != "NOT_FOUND":
+                bbox = self.merge_bounding_boxes(dob_raw, word_map)
+                results["dob"] = FieldResult(value=dob_val, raw_text=dob_raw, confidence=0.85, bounding_box=bbox)
+            else:
+                results["dob"] = FieldResult(value="NOT_FOUND", raw_text="", confidence=0.0, bounding_box=None)
 
         # 3. Gender Extraction
         gender_val = "NOT_FOUND"

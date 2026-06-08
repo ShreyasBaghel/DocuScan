@@ -10,7 +10,7 @@ preprocessing:
   deskew: true
   denoise: true
   clahe: true
-  binarise: true
+  binarise: false
 
 classification:
   confidence_threshold: 0.70
@@ -22,7 +22,9 @@ classification:
 # OCR Page Segmentation Modes per document type
 ocr_psm:
   AADHAAR: 3
+  AADHAAR_FALLBACK: 11
   PAN: 3
+  PAN_FALLBACK: 11
   PASSPORT: 3
   DRIVING_LICENCE: 3
   UNKNOWN: 3

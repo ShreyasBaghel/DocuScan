@@ -12,7 +12,7 @@ class PANExtractor(BaseExtractor):
         # 1. PAN Number Extraction
         pan_num = "NOT_FOUND"
         pan_raw = ""
-        m_pan = re.search(r"\b([A-Z]{5}[0-9]{4}[A-Z])\b", raw_text)
+        m_pan = re.search(r"(?:[^A-Z0-9]|^)([A-Z]{5}[0-9]{4}[A-Z])(?:[^A-Z0-9]|$)", raw_text)
         if m_pan:
             pan_num = m_pan.group(1)
             pan_raw = m_pan.group(0)
@@ -93,8 +93,11 @@ class PANExtractor(BaseExtractor):
             for line in lines:
                 if any(h in line.lower() for h in ["income", "tax", "department", "permanent", "account", "card", "govt", "india"]):
                     continue
+                # Skip lines containing numbers (such as PAN number or date) to prevent false name extraction
+                if sum(c.isdigit() for c in line) >= 3:
+                    continue
                 clean_line = re.sub(r'[^a-zA-Z\s\.]', '', line).strip()
-                if len(clean_line) >= 4 and clean_line.isupper() and not re.search(r"\b[A-Z]{5}[0-9]{4}[A-Z]\b", clean_line):
+                if len(clean_line) >= 4 and clean_line.isupper():
                     uppercase_lines.append((line, clean_line))
 
             if len(uppercase_lines) >= 2:
