@@ -26,7 +26,7 @@
                 <p>Intelligent OCR & Verification System</p>
             </div>
             <div>
-                <span class="status-badge status-fail">FAIL</span>
+                <span class="status-badge status-pass">PASS</span>
             </div>
         </div>
 
@@ -36,13 +36,13 @@
                 <th>Document Type</th>
                 <td>PAN</td>
                 <th>Fraud Risk Score</th>
-                <td class="risk-score" style="color: #28a745">20/100</td>
+                <td class="risk-score" style="color: #28a745">3/100</td>
             </tr>
             <tr>
                 <th>Source File</th>
                 <td>PAN Front.jpg</td>
                 <th>Timestamp</th>
-                <td>2026-06-05 16:26:22</td>
+                <td>2026-06-11 10:31:17</td>
             </tr>
         </table>
 
@@ -65,8 +65,8 @@
                 
                 <tr>
                     <td><strong>Name</strong></td>
-                    <td>NOT_FOUND</td>
-                    <td>0.0%</td>
+                    <td>SHREYAS BAGHEL</td>
+                    <td>88.0%</td>
                 </tr>
                 
                 <tr>
@@ -113,10 +113,10 @@
                 
                 <tr>
                     <td>Name</td>
-                    <td style="color: #dc3545; font-weight: bold;">
-                        FAIL
+                    <td style="color: #28a745; font-weight: bold;">
+                        PASS
                     </td>
-                    <td>Expected: Uppercase Alphabetic | Actual: Missing field</td>
+                    <td>Expected: Uppercase Alphabetic | Actual: SHREYAS BAGHEL</td>
                 </tr>
                 
                 <tr>
@@ -133,6 +133,14 @@
                         PASS
                     </td>
                     <td>Expected: DOB is in the past | Actual: DOB is valid, age: 20</td>
+                </tr>
+                
+                <tr>
+                    <td>Pan Name Consistency</td>
+                    <td style="color: #28a745; font-weight: bold;">
+                        PASS
+                    </td>
+                    <td>Expected: 5th character of PAN 'B' matches surname first letter 'B' | Actual: PAN: HXDPB8430A, Name: SHREYAS BAGHEL</td>
                 </tr>
                 
             </tbody>

@@ -87,3 +87,79 @@ def levenshtein_ratio(s1: str, s2: str) -> float:
                                  dist[row-1][col-1] + cost) # substitution
                                  
     return 1.0 - (dist[-1][-1] / max(len(s1), len(s2)))
+
+
+OCR_DIGIT_SUBSTITUTIONS = {
+    'O': '0', 'o': '0',
+    'I': '1', 'i': '1', 'l': '1', '|': '1', '!': '1',
+    'Z': '2', 'z': '2',
+    'S': '5', 's': '5',
+    'B': '8', 'g': '9', 'G': '6'
+}
+
+def ocr_correct_digits(text: str) -> str:
+    """Replaces letters commonly misrecognized by OCR in a digit string with correct digits."""
+    if not text:
+        return ""
+    return "".join(OCR_DIGIT_SUBSTITUTIONS.get(c, c) for c in text)
+
+def extract_uppercase_name(line: str) -> str:
+    """
+    Extracts contiguous uppercase words from a line, keeping periods for initials,
+    and stopping at the first lowercase/garbage word to avoid OCR trailing noise.
+    """
+    if not line:
+        return "NOT_FOUND"
+    
+    # Split the line into tokens/words
+    words = line.split()
+    clean_words = []
+    for word in words:
+        # Extract letters
+        w_letters = re.sub(r'[^a-zA-Z]', '', word)
+        if w_letters.isupper() and len(w_letters) >= 1:
+            # Keep only letters and dots
+            w_clean = re.sub(r'[^a-zA-Z\.]', '', word)
+            clean_words.append(w_clean)
+        elif any(c.islower() for c in word):
+            if clean_words:
+                break
+                
+    if clean_words:
+        val = " ".join(clean_words)
+        val = re.sub(r'\s+', ' ', val).strip()
+        # Ensure it has a reasonable number of alphabetic characters
+        if len(re.sub(r'[^a-zA-Z]', '', val)) >= 3:
+            return val
+            
+    return "NOT_FOUND"
+
+def is_valid_name(name: str, doc_number: str = "") -> bool:
+    """
+    Validates that a name is likely a real name and not an ID card number or header field.
+    """
+    if not name or name == "NOT_FOUND":
+        return False
+    
+    # Strip spaces and dots
+    clean_name = re.sub(r'[^A-Z]', '', name.upper())
+    if len(clean_name) < 3:
+        return False
+        
+    # Safeguard against extracting the ID card number as a name
+    if doc_number and doc_number != "NOT_FOUND":
+        clean_doc_no = re.sub(r'[^A-Z]', '', doc_number.upper())
+        if clean_doc_no:
+            if clean_name == clean_doc_no:
+                return False
+            if clean_name in clean_doc_no or clean_doc_no in clean_name:
+                return False
+            
+    # Safeguard against extracting typical header fields
+    headers = ["INCOME", "TAX", "DEPARTMENT", "GOVERNMENT", "INDIA", "PERMANENT", "ACCOUNT", "CARD", "SIGNATURE", "HOLDER"]
+    for h in headers:
+        if h in name.upper().split():
+            return False
+            
+    return True
+

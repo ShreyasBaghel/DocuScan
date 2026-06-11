@@ -2,7 +2,7 @@ import re
 from typing import Dict, List, Any
 from extractors.base_extractor import BaseExtractor
 from utils.document_packet import FieldResult
-from utils.string_utils import normalize_date, clean_whitespace
+from utils.string_utils import normalize_date, clean_whitespace, extract_uppercase_name, is_valid_name, ocr_correct_digits
 
 class PANExtractor(BaseExtractor):
     def extract(self, raw_text: str, word_map: List[Dict[str, Any]]) -> Dict[str, FieldResult]:
@@ -12,10 +12,22 @@ class PANExtractor(BaseExtractor):
         # 1. PAN Number Extraction
         pan_num = "NOT_FOUND"
         pan_raw = ""
+        
+        # A. Try strict regex first
         m_pan = re.search(r"(?:[^A-Z0-9]|^)([A-Z]{5}[0-9]{4}[A-Z])(?:[^A-Z0-9]|$)", raw_text)
         if m_pan:
             pan_num = m_pan.group(1)
             pan_raw = m_pan.group(0)
+        else:
+            # B. Try soft regex allowing OCR substitutions
+            m_pan_soft = re.search(r"(?:[^A-Z0-9]|^)([A-Z]{5}[0-9OISZB]{4}[A-Z])(?:[^A-Z0-9]|$)", raw_text)
+            if m_pan_soft:
+                raw_match = m_pan_soft.group(1)
+                # Correct digits in the 4-digit middle block
+                corrected = raw_match[:5] + ocr_correct_digits(raw_match[5:9]) + raw_match[9]
+                if re.match(r"^[A-Z]{5}[0-9]{4}[A-Z]$", corrected):
+                    pan_num = corrected
+                    pan_raw = m_pan_soft.group(0)
 
         if pan_num != "NOT_FOUND":
             bbox = self.merge_bounding_boxes(pan_raw, word_map)
@@ -52,17 +64,16 @@ class PANExtractor(BaseExtractor):
         # Extract values (usually on the next line or two)
         if name_label_idx != -1 and name_label_idx + 1 < len(lines):
             val_line = lines[name_label_idx + 1]
-            # Ensure it is a valid name format (mostly uppercase text)
-            clean_val = re.sub(r'[^a-zA-Z\s\.]', '', val_line).strip()
-            if len(clean_val) >= 3 and clean_val.isupper():
-                name_val = clean_val
+            candidate = extract_uppercase_name(val_line)
+            if is_valid_name(candidate, pan_num):
+                name_val = candidate
                 name_raw = val_line
 
         if father_label_idx != -1 and father_label_idx + 1 < len(lines):
             val_line = lines[father_label_idx + 1]
-            clean_val = re.sub(r'[^a-zA-Z\s\.]', '', val_line).strip()
-            if len(clean_val) >= 3 and clean_val.isupper():
-                father_val = clean_val
+            candidate = extract_uppercase_name(val_line)
+            if is_valid_name(candidate, pan_num):
+                father_val = candidate
                 father_raw = val_line
 
         if dob_label_idx != -1 and dob_label_idx + 1 < len(lines):
@@ -83,11 +94,6 @@ class PANExtractor(BaseExtractor):
                     dob_raw = m_date.group(0)
 
         # Fallback Name and Father's Name scanning in case labels were missed
-        # Standard PAN card structure before 2018:
-        # Line 1: Income Tax Department
-        # Line 2: Name
-        # Line 3: Father's Name
-        # Line 4: DOB
         if name_val == "NOT_FOUND" or father_val == "NOT_FOUND":
             uppercase_lines = []
             for line in lines:
@@ -96,15 +102,19 @@ class PANExtractor(BaseExtractor):
                 # Skip lines containing numbers (such as PAN number or date) to prevent false name extraction
                 if sum(c.isdigit() for c in line) >= 3:
                     continue
-                clean_line = re.sub(r'[^a-zA-Z\s\.]', '', line).strip()
-                if len(clean_line) >= 4 and clean_line.isupper():
-                    uppercase_lines.append((line, clean_line))
+                
+                candidate = extract_uppercase_name(line)
+                if is_valid_name(candidate, pan_num):
+                    uppercase_lines.append((line, candidate))
 
             if len(uppercase_lines) >= 2:
                 if name_val == "NOT_FOUND":
                     name_raw, name_val = uppercase_lines[0]
                 if father_val == "NOT_FOUND" and len(uppercase_lines) > 1:
                     father_raw, father_val = uppercase_lines[1]
+            elif len(uppercase_lines) == 1:
+                if name_val == "NOT_FOUND":
+                    name_raw, name_val = uppercase_lines[0]
 
         # Write results
         if name_val != "NOT_FOUND":

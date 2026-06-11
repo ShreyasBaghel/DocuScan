@@ -6,11 +6,32 @@ import re
 class LayoutClassifier(BaseClassifier):
     def classify(self, raw_text: str, word_map: List[Dict[str, Any]]) -> Tuple[DocumentType, float]:
         if not word_map:
+            # Fallback to checking raw text for Passport MRZ `<` characters
+            if raw_text:
+                count_brackets = raw_text.count("<")
+                if count_brackets >= 15:
+                    return DocumentType.PASSPORT, 0.70
             return DocumentType.UNKNOWN, 0.0
 
+        # Sort the word map: first top-to-bottom, then left-to-right on similar lines (vertical tolerance 15px)
+        sorted_words = []
+        unsorted = list(word_map)
+        
+        while unsorted:
+            # Pick first word
+            first = min(unsorted, key=lambda w: w['top'])
+            # Get all words on the same line (within 15px top difference)
+            line_words = [w for w in unsorted if abs(w['top'] - first['top']) < 15]
+            # Sort line words left-to-right
+            line_words.sort(key=lambda w: w['left'])
+            sorted_words.extend(line_words)
+            # Remove from unsorted
+            for w in line_words:
+                unsorted.remove(w)
+
         # Calculate bounding dimensions of the document
-        max_x = max(w['left'] + w['width'] for w in word_map)
-        max_y = max(w['top'] + w['height'] for w in word_map)
+        max_x = max(w['left'] + w['width'] for w in sorted_words)
+        max_y = max(w['top'] + w['height'] for w in sorted_words)
         
         if max_y == 0 or max_x == 0:
             return DocumentType.UNKNOWN, 0.0
@@ -20,11 +41,9 @@ class LayoutClassifier(BaseClassifier):
         pan_score = 0.0
         dl_score = 0.0
 
-        # 1. PASSPORT check: Look for MRZ-like structures at the bottom
-        # MRZ consists of two lines of 44 characters containing '<' at the bottom 25% of height
-        bottom_words = [w for w in word_map if w['top'] > 0.70 * max_y]
-        
-        # Group bottom words by line (similar top coordinates, e.g. within 20px)
+        # 1. PASSPORT check:
+        # A. Look for MRZ-like structures at the bottom
+        bottom_words = [w for w in sorted_words if w['top'] > 0.70 * max_y]
         lines: Dict[int, List[Dict[str, Any]]] = {}
         for w in bottom_words:
             matched_line = False
@@ -38,41 +57,38 @@ class LayoutClassifier(BaseClassifier):
 
         mrz_like_lines = 0
         for line_y, line_words in lines.items():
-            # Sort words by left coordinate
             line_words.sort(key=lambda x: x['left'])
             line_text = "".join(w['text'] for w in line_words)
-            # Clean text but keep '<'
             line_text_clean = re.sub(r'[^a-zA-Z0-9<]', '', line_text)
-            if len(line_text_clean) >= 30 and '<' in line_text_clean:
+            if len(line_text_clean) >= 25 and '<' in line_text_clean:
                 mrz_like_lines += 1
 
-        if mrz_like_lines >= 1:
-            passport_score = 0.90 if mrz_like_lines == 1 else 1.0
+        # B. Density of `<` character in general
+        brackets_count = raw_text.count("<")
+        if mrz_like_lines >= 1 or brackets_count >= 15:
+            passport_score = 0.90 if mrz_like_lines == 1 or brackets_count < 20 else 1.0
 
-        # 2. AADHAAR check: Look for 12-digit Aadhaar number horizontally aligned in the lower 40% of the card
-        lower_words = [w for w in word_map if w['top'] > 0.50 * max_y]
-        
-        # Check if we have three groups of 4 digits close to each other on the same line
-        # We can scan the word map for digit groups
+        # 2. AADHAAR check: Look for 12-digit Aadhaar number horizontally aligned in lower 40%
+        # Use our sorted word list to reliably locate three consecutive 4-digit groups on the same line
         aadhaar_number_found = False
-        for i in range(len(word_map) - 2):
-            w1, w2, w3 = word_map[i], word_map[i+1], word_map[i+2]
-            if abs(w1['top'] - w2['top']) < 10 and abs(w2['top'] - w3['top']) < 10:
+        for i in range(len(sorted_words) - 2):
+            w1, w2, w3 = sorted_words[i], sorted_words[i+1], sorted_words[i+2]
+            # Check if they are on the same line
+            if abs(w1['top'] - w2['top']) < 15 and abs(w2['top'] - w3['top']) < 15:
                 # Check if all are 4-digit strings
                 if re.match(r"^\d{4}$", w1['text']) and re.match(r"^\d{4}$", w2['text']) and re.match(r"^\d{4}$", w3['text']):
-                    # Check if they are sequential horizontally
-                    if w1['left'] < w2['left'] < w3['left'] and (w3['left'] - w1['left']) < max_x * 0.5:
+                    # Check if they flow left-to-right
+                    if w1['left'] < w2['left'] < w3['left']:
                         aadhaar_number_found = True
                         break
         
         if aadhaar_number_found:
             aadhaar_score = 0.85
 
-        # 3. PAN check: Usually has Permanent Account Number label and signature box area
-        # Check for stacked layout: Name label, Father's Name label
+        # 3. PAN check: Name and Father's Name labels
         father_name_label = False
         name_label = False
-        for w in word_map:
+        for w in sorted_words:
             text = w['text'].lower()
             if "father" in text or "पिता" in text:
                 father_name_label = True
@@ -82,9 +98,9 @@ class LayoutClassifier(BaseClassifier):
         if father_name_label and name_label and not aadhaar_number_found:
             pan_score = 0.60
 
-        # 4. DRIVING LICENCE check: Check for vehicle classes (LMV, MCWG, TRANS) layout
+        # 4. DRIVING LICENCE check: MCWG / LMV keywords
         vehicle_classes = 0
-        for w in word_map:
+        for w in sorted_words:
             text = w['text'].upper()
             if text in ["LMV", "MCWG", "MCWOG", "HMV", "TRANS"]:
                 vehicle_classes += 1
@@ -94,7 +110,6 @@ class LayoutClassifier(BaseClassifier):
         elif vehicle_classes == 1:
             dl_score = 0.40
 
-        # Output the best match
         scores = {
             DocumentType.PASSPORT: passport_score,
             DocumentType.AADHAAR: aadhaar_score,

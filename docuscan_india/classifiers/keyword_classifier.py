@@ -5,23 +5,25 @@ from utils.document_packet import DocumentType
 
 class KeywordClassifier(BaseClassifier):
     def __init__(self):
-        # Specific keywords that uniquely identify each document type
+        # Broaden keyword list to include common OCR errors and partial matches
         self.keywords = {
             DocumentType.AADHAAR: [
                 r"unique\s+identification",
                 r"uidai",
                 r"aadhaar",
+                r"adhar",
+                r"bharat\s+sarkar",
                 r"भारत\s+सरकार",
-                r"विशिष्ट\s+पहचान\s+प्राधिकरण",
+                r"विशिष्ट\s+पहचान",
                 r"mera\s+aadhaar",
                 r"yob\s*:",
-                r"male\s+/\s+female",
-                r"enrollment\s+no"
+                r"enrollment\s+no",
+                r"enrolment\s+no"
             ],
             DocumentType.PAN: [
                 r"income\s+tax",
-                r"permanent\s+account\s+card",
-                r"permanent\s+account\s+number",
+                r"permanent\s+account",
+                r"perm{1,2}anent\s+acc",
                 r"आयकर\s+विभाग",
                 r"pan\s+card",
                 r"father\'s\s+name",
@@ -39,12 +41,12 @@ class KeywordClassifier(BaseClassifier):
                 r"given\s+name"
             ],
             DocumentType.DRIVING_LICENCE: [
-                r"driving\s+licence",
-                r"driving\s+license",
+                r"driving\s+licen",
+                r"driving\s+lic",
                 r"licence\s+to\s+drive",
-                r"licensing\s+authority",
-                r"transport\s+department",
-                r"class\s+of\s+vehicle",
+                r"licensing\s+auth",
+                r"transport\s+dep",
+                r"class\s+of\s+veh",
                 r"lmv",
                 r"mcwg",
                 r"badge\s+no"
@@ -55,13 +57,17 @@ class KeywordClassifier(BaseClassifier):
         if not raw_text:
             return DocumentType.UNKNOWN, 0.0
 
-        text_lower = raw_text.lower()
+        # Normalise input text: lowercase, strip punctuation except spaces, clean multiple spaces
+        clean_text = raw_text.lower()
+        clean_text = re.sub(r'[^\w\s\u0900-\u097F]', ' ', clean_text)  # Keep devanagari characters
+        clean_text = " ".join(clean_text.split())
+
         scores: Dict[DocumentType, float] = {}
 
         for doc_type, regex_list in self.keywords.items():
             matches = 0
             for regex in regex_list:
-                if re.search(regex, text_lower, re.IGNORECASE):
+                if re.search(regex, clean_text, re.IGNORECASE):
                     matches += 1
             # Calculate fraction of matched keywords
             scores[doc_type] = matches / len(regex_list) if regex_list else 0.0

@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
-from PIL import Image, ImageTk
+from PIL import Image, ImageTk, ImageDraw, ImageFont
 from utils.image_utils import resize_keep_aspect, to_pil
 
 class OCRResultScreen(tk.Frame):
@@ -41,7 +41,7 @@ class OCRResultScreen(tk.Frame):
         self.left_col = tk.Frame(self.data_frame, bg="#282830", padx=15, pady=15, highlightbackground="#3f3f46", highlightthickness=1)
         self.left_col.pack(side="left", fill="both", expand=True, padx=(0, 10))
 
-        img_title = tk.Label(self.left_col, text="PREPROCESSED IMAGE (Deskewed & Binarized)", fg="#00bcd4", bg="#282830", font=("Segoe UI Bold", 10))
+        img_title = tk.Label(self.left_col, text="PREPROCESSED IMAGE (With Highlights)", fg="#00bcd4", bg="#282830", font=("Segoe UI Bold", 10))
         img_title.pack(anchor="w", pady=(0, 10))
 
         self.img_lbl = tk.Label(self.left_col, bg="#1e1e24")
@@ -51,7 +51,7 @@ class OCRResultScreen(tk.Frame):
         self.right_col = tk.Frame(self.data_frame, bg="#282830", padx=15, pady=15, highlightbackground="#3f3f46", highlightthickness=1, width=420)
         self.right_col.pack(side="right", fill="both")
 
-        txt_title = tk.Label(self.right_col, text="RAW EXTRACTED OCR TEXT", fg="#00bcd4", bg="#282830", font=("Segoe UI Bold", 10))
+        txt_title = tk.Label(self.right_col, text="EXTRACTED DETAILS & USEFUL TEXT", fg="#00bcd4", bg="#282830", font=("Segoe UI Bold", 10))
         txt_title.pack(anchor="w", pady=(0, 10))
 
         # Text Box + Scrollbar
@@ -87,6 +87,20 @@ class OCRResultScreen(tk.Frame):
         self.btn_frame = tk.Frame(self.bottom_frame, bg="#1e1e24")
         self.btn_frame.pack(side="right")
 
+        # Back Button
+        self.back_btn = tk.Label(
+            self.btn_frame,
+            text="← BACK",
+            fg="#ffffff",
+            bg="#3f3f46",
+            font=("Segoe UI Bold", 10),
+            padx=20,
+            pady=10,
+            cursor="hand2"
+        )
+        self.back_btn.pack(side="left", padx=(0, 10))
+        self.back_btn.bind("<Button-1>", lambda e: self.controller.show_frame("UploadScreen"))
+
         self.continue_btn = tk.Label(
             self.btn_frame,
             text="CONTINUE TO CLASSIFICATION →",
@@ -97,7 +111,7 @@ class OCRResultScreen(tk.Frame):
             pady=10,
             cursor="arrow"
         )
-        self.continue_btn.pack()
+        self.continue_btn.pack(side="right")
 
     def set_loading(self, message: str):
         self.loading_lbl.configure(text=message)
@@ -128,23 +142,73 @@ class OCRResultScreen(tk.Frame):
         self.loading_frame.pack_forget()
         self.data_frame.pack(fill="both", expand=True, pady=10)
 
-        # 1. Populate Preprocessed Image Thumbnail
+        # 1. Populate Preprocessed Image Thumbnail with visual Highlights (Yellow)
         if packet.preprocessed_image is not None:
             try:
+                # Copy image and convert to RGBA to draw alpha highlights
+                base_rgba = packet.preprocessed_image.copy().convert("RGBA")
+                overlay = Image.new("RGBA", base_rgba.size, (0, 0, 0, 0))
+                draw = ImageDraw.Draw(overlay)
+                
+                # Check if we have extracted fields with bounding boxes
+                has_extracted_highlights = False
+                if packet.extracted_fields:
+                    for field_name, field_res in packet.extracted_fields.items():
+                        if field_res.value != "NOT_FOUND" and field_res.bounding_box:
+                            bbox = field_res.bounding_box  # {'x': ..., 'y': ..., 'w': ..., 'h': ...}
+                            x, y, w, h = bbox['x'], bbox['y'], bbox['w'], bbox['h']
+                            
+                            # Draw thick yellow rectangle filled with semi-transparent yellow around the extracted field
+                            draw.rectangle(
+                                [x, y, x + w, y + h], 
+                                fill=(245, 158, 11, 80), 
+                                outline=(245, 158, 11, 255), 
+                                width=3
+                            )
+                            
+                            # Draw label
+                            label_text = f" {field_name.replace('_', ' ').upper()} "
+                            try:
+                                font = ImageFont.truetype("arial.ttf", 18)
+                            except IOError:
+                                font = ImageFont.load_default()
+                                
+                            if hasattr(draw, "textbbox"):
+                                tb = draw.textbbox((x, max(0, y - 25)), label_text, font=font)
+                                draw.rectangle(tb, fill=(245, 158, 11, 255))
+                            else:
+                                draw.rectangle([x, max(0, y - 25), x + 120, y], fill=(245, 158, 11, 255))
+                                
+                            draw.text((x, max(0, y - 25)), label_text, fill=(30, 30, 36, 255), font=font)
+                            has_extracted_highlights = True
+                            
+                # Fallback: highlight all detected OCR words in light cyan borders if no fields extracted yet
+                if not has_extracted_highlights and packet.ocr_word_map:
+                    for w in packet.ocr_word_map:
+                        x, y, wd, ht = w['left'], w['top'], w['width'], w['height']
+                        draw.rectangle(
+                            [x, y, x + wd, y + ht], 
+                            fill=(0, 188, 212, 40), 
+                            outline=(0, 188, 212, 255), 
+                            width=1
+                        )
+                
+                # Composite overlay onto the original image
+                highlight_img = Image.alpha_composite(base_rgba, overlay).convert("RGB")
+                
                 # Resize to fit left panel
-                cv_img = packet.preprocessed_image
-                preview_img = resize_keep_aspect(cv_img, max_width=450, max_height=380)
-                pil_img = to_pil(preview_img)
-                self.preprocessed_image_ref = ImageTk.PhotoImage(pil_img)
+                preview_img = resize_keep_aspect(highlight_img, max_width=450, max_height=380)
+                self.preprocessed_image_ref = ImageTk.PhotoImage(preview_img)
                 self.img_lbl.configure(image=self.preprocessed_image_ref)
             except Exception as e:
                 self.img_lbl.configure(text=f"Failed to show image preview: {e}", fg="#ef4444")
         else:
             self.img_lbl.configure(text="No preprocessed image data", fg="#ef4444")
 
-        # 2. Populate Text Box
+        # 2. Populate Text Box (Filter out noise, show highlighted details & classification keywords)
         self.ocr_txt.delete("1.0", tk.END)
-        self.ocr_txt.insert(tk.END, packet.ocr_raw_text)
+        clean_text = self._get_clean_ocr_display(packet)
+        self.ocr_txt.insert(tk.END, clean_text)
 
         # 3. Update Confidence Score
         conf_val = packet.ocr_confidence
@@ -164,17 +228,38 @@ class OCRResultScreen(tk.Frame):
         # Bind transition to Stage 3 / Classification
         self.continue_btn.bind("<Button-1>", lambda e: self._go_to_classification())
 
+    def _get_clean_ocr_display(self, packet) -> str:
+        """Filters the raw OCR text to keep only clean, useful information for classification and verification."""
+        lines = []
+        
+        doc_type = packet.document_type
+        from utils.document_packet import DocumentType
+        doc_type_str = doc_type.value if doc_type else "UNKNOWN"
+        lines.append(f"CLASSIFIED DOCUMENT: {doc_type_str}")
+        if doc_type and doc_type != DocumentType.UNKNOWN:
+            lines.append(f"CLASSIFICATION CONFIDENCE: {packet.classification_confidence * 100:.1f}%")
+        lines.append("=" * 45)
+        
+        # Show the fields that are extracted/highlighted
+        has_extracted = False
+        if packet.extracted_fields:
+            lines.append("EXTRACTED DETAILS (HIGHLIGHTED IN YELLOW):")
+            for field, res in packet.extracted_fields.items():
+                if res.value and res.value != "NOT_FOUND":
+                    display_name = field.replace('_', ' ').title()
+                    lines.append(f"  {display_name}: {res.value}")
+                    has_extracted = True
+            
+            if not has_extracted:
+                lines.append("  (No fields extracted successfully yet)")
+        else:
+            lines.append("  (No fields extracted successfully yet)")
+            
+        return "\n".join(lines)
+
     def _go_to_classification(self):
         packet = self.controller.current_packet
         if packet:
-            # Trigger dynamic flow for Stage 3/4
-            # We first run the classifier on the packet
-            # If the classifier predicts UNKNOWN, we pause on ClassificationScreen to ask user
-            # Otherwise we directly show ClassificationScreen with the automatic prediction
-            if packet.document_type == "UNKNOWN" or packet.document_type == tk.StringVar(): 
-                # wait, let's look at controller logic
-                pass
-            
             # Transition to Classification display screen
             self.controller.show_frame("ClassificationScreen")
             self.controller.current_frame.populate_initial_classification(packet)

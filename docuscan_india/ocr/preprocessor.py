@@ -1,4 +1,4 @@
-import cv2
+from PIL import Image, ImageOps, ImageFilter, ImageEnhance
 import numpy as np
 from typing import Dict, Any
 
@@ -24,122 +24,136 @@ class Preprocessor:
         else:
             self.config = config
 
-    def preprocess(self, img: np.ndarray) -> np.ndarray:
+    def preprocess(self, img: Image.Image) -> Image.Image:
         """
-        Runs the full preprocessing pipeline on the input image.
-        Returns the preprocessed image.
+        Runs the full preprocessing pipeline on the input PIL Image.
+        Returns the preprocessed PIL Image.
         """
         processed = img.copy()
 
         # Step 0: Upscale low-resolution images (Tesseract prefers ~300 DPI / large text)
-        h, w = processed.shape[:2]
+        w, h = processed.size
         if w < 1800:
             new_w = w * 2
             new_h = h * 2
-            processed = cv2.resize(processed, (new_w, new_h), interpolation=cv2.INTER_CUBIC)
+            processed = processed.resize((new_w, new_h), Image.Resampling.BICUBIC)
 
-        # Step 1: Deskew (Hough-line/minAreaRect rotation correction)
+        # Step 1: Deskew (horizontal projection profile rotation correction)
         if self.config.get('deskew', True):
             processed = self.deskew(processed)
 
-        # Check if any grayscale preprocessing steps are enabled
-        gray_needed = (
-            self.config.get('denoise', True) or 
-            self.config.get('clahe', True) or 
-            self.config.get('binarise', True)
-        )
-
-        if not gray_needed:
-            return processed
-
-        # Convert to grayscale for remaining operations if not already
-        if len(processed.shape) == 3:
-            gray = cv2.cvtColor(processed, cv2.COLOR_BGR2GRAY)
-        else:
-            gray = processed.copy()
-
         # Step 2: Denoise
         if self.config.get('denoise', True):
-            gray = self.denoise(gray)
+            processed = self.denoise(processed)
 
-        # Step 3: Contrast Enhancement (CLAHE)
+        # Step 3: Contrast Enhancement
         if self.config.get('clahe', True):
-            gray = self.apply_clahe(gray)
+            processed = self.apply_clahe(processed)
 
         # Step 4: Binarisation
         if self.config.get('binarise', True):
-            gray = self.binarise(gray)
+            processed = self.binarise(processed)
 
-        return gray
+        return processed
 
-    def deskew(self, img: np.ndarray) -> np.ndarray:
+    def deskew(self, img: Image.Image) -> Image.Image:
         """
         Detects skew angle and rotates the image to straighten it.
         We restrict rotation to a max of 15 degrees to prevent turning cards upside down.
         """
-        # Convert to gray
-        if len(img.shape) == 3:
-            gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-        else:
-            gray = img.copy()
+        # Convert to gray and downscale to 300x300 for high performance projection profile
+        small_gray = img.convert("L").resize((300, 300), Image.Resampling.BILINEAR)
+        
+        # Invert (Tesseract expects black text on white background)
+        small_inverted = ImageOps.invert(small_gray)
+        binary_arr = np.array(small_inverted) > 127
 
-        # Apply threshold to isolate text
-        gray = cv2.bitwise_not(gray)
-        thresh = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)[1]
+        best_angle = 0.0
+        max_variance = 0.0
 
-        # Find coordinates of all text pixels
-        coords = np.column_stack(np.where(thresh > 0))
-        if len(coords) == 0:
-            return img
+        # We test angles between -15 and 15 degrees with 1 degree steps
+        angles = np.arange(-15, 16, 1)
+        for angle in angles:
+            # Rotate using PIL (fill with white in inverted form -> black, value 0)
+            rot_img = small_inverted.rotate(float(angle), resample=Image.Resampling.BILINEAR, expand=False, fillcolor=0)
+            rot_arr = np.array(rot_img) > 127
+            
+            # Sum pixels horizontally along each row
+            row_sums = np.sum(rot_arr, axis=1)
+            # Find variance of row sums
+            variance = np.var(row_sums)
+            
+            if variance > max_variance:
+                max_variance = variance
+                best_angle = angle
 
-        # Get minimum area bounding box
-        rect = cv2.minAreaRect(coords)
-        angle = rect[-1]
+        # If rotation is significant, rotate original image
+        if abs(best_angle) >= 0.5:
+            # Rotate original image using BICUBIC for high quality
+            # Use white background for exposed corners
+            return img.rotate(float(best_angle), resample=Image.Resampling.BICUBIC, expand=True, fillcolor=(255, 255, 255) if img.mode == "RGB" else 255)
+            
+        return img
 
-        # Normalize the angle (varies across OpenCV versions)
-        # We want the rotation angle to be close to 0
-        if angle < -45:
-            angle = -(90 + angle)
-        elif angle > 45:
-            angle = 90 - angle
-        else:
-            angle = -angle
-
-        # If angle is negligible or too large (indicating potential false detection), skip rotation
-        if abs(angle) < 0.5 or abs(angle) > 15.0:
-            return img
-
-        # Rotate the image
-        (h, w) = img.shape[:2]
-        center = (w // 2, h // 2)
-        M = cv2.getRotationMatrix2D(center, angle, 1.0)
-        rotated = cv2.warpAffine(img, M, (w, h), flags=cv2.INTER_CUBIC, borderMode=cv2.BORDER_REPLICATE)
-
-        return rotated
-
-    def denoise(self, gray: np.ndarray) -> np.ndarray:
-        """Applies median and Gaussian blur to reduce print/scanning noise."""
-        # Median blur to remove salt and pepper noise
-        denoised = cv2.medianBlur(gray, 3)
+    def denoise(self, img: Image.Image) -> Image.Image:
+        """Applies median and Gaussian blur filters to reduce noise."""
+        gray = img.convert("L")
+        # Median filter to remove salt & pepper noise
+        median_filtered = gray.filter(ImageFilter.MedianFilter(size=3))
         # Subtle Gaussian blur to smooth edges
-        denoised = cv2.GaussianBlur(denoised, (3, 3), 0)
+        denoised = median_filtered.filter(ImageFilter.GaussianBlur(radius=0.8))
         return denoised
 
-    def apply_clahe(self, gray: np.ndarray) -> np.ndarray:
-        """Applies Contrast Limited Adaptive Histogram Equalization."""
-        clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8, 8))
-        return clahe.apply(gray)
+    def apply_clahe(self, img: Image.Image) -> Image.Image:
+        """
+        Applies a high-performance local contrast normalization filter
+        that emulates OpenCV's CLAHE.
+        """
+        gray = img.convert("L")
+        w, h = gray.size
+        
+        # Calculate optimal radius dynamically based on resolution
+        radius = max(30, min(w, h) // 16)
+        
+        # Convert to float numpy array
+        arr = np.array(gray, dtype=float)
+        
+        # Compute local mean using Gaussian blur
+        mean_img = gray.filter(ImageFilter.GaussianBlur(radius))
+        mean = np.array(mean_img, dtype=float)
+        
+        # Compute absolute difference from mean
+        diff = arr - mean
+        
+        # Compute local standard deviation
+        # Scale to fit inside standard uint8 image to keep footprint low
+        diff_sq_norm = (diff**2) / 255.0
+        diff_sq_img = Image.fromarray(diff_sq_norm.astype(np.uint8))
+        var_img = diff_sq_img.filter(ImageFilter.GaussianBlur(radius))
+        var = np.array(var_img, dtype=float) * 255.0
+        
+        # Standard deviation (add epsilon to avoid division by zero)
+        std = np.sqrt(var) + 1e-5
+        
+        # Normalize: shift by 128 and scale with a text-gain of 55
+        norm = (diff / std) * 55.0 + 128.0
+        norm = np.clip(norm, 0, 255).astype(np.uint8)
+        
+        return Image.fromarray(norm)
 
-    def binarise(self, gray: np.ndarray) -> np.ndarray:
-        """Applies adaptive binarisation for high-contrast text."""
-        h, w = gray.shape[:2]
-        # Dynamically scale block size with image resolution (must be odd and >= 31)
-        block_size = max(31, (min(h, w) // 30) | 1)
-        return cv2.adaptiveThreshold(
-            gray, 
-            255, 
-            cv2.ADAPTIVE_THRESH_GAUSSIAN_C, 
-            cv2.THRESH_BINARY, 
-            block_size, 
-            2
-        )
+    def binarise(self, img: Image.Image) -> Image.Image:
+        """Applies adaptive/local thresholding using a blurred mask."""
+        gray = img.convert("L")
+        # Create a local threshold mask using a large Gaussian blur (simulates local background)
+        w, h = gray.size
+        radius = max(15, min(w, h) // 60)
+        bg = gray.filter(ImageFilter.GaussianBlur(radius=radius))
+        
+        # Adaptive thresholding: if pixel < bg_pixel - constant, then black (0), else white (255)
+        # We implement this in numpy for efficiency
+        gray_arr = np.array(gray, dtype=np.int16)
+        bg_arr = np.array(bg, dtype=np.int16)
+        
+        # P_xy < BG_xy - 10 -> 0, else 255
+        binary_arr = np.where(gray_arr < (bg_arr - 10), 0, 255).astype(np.uint8)
+        return Image.fromarray(binary_arr)

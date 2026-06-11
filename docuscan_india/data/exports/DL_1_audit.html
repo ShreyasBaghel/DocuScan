@@ -26,7 +26,7 @@
                 <p>Intelligent OCR & Verification System</p>
             </div>
             <div>
-                <span class="status-badge status-pass">PASS</span>
+                <span class="status-badge status-warn">WARN</span>
             </div>
         </div>
 
@@ -34,15 +34,15 @@
         <table>
             <tr>
                 <th>Document Type</th>
-                <td>AADHAAR</td>
+                <td>DRIVING_LICENCE</td>
                 <th>Fraud Risk Score</th>
-                <td class="risk-score" style="color: #28a745">0/100</td>
+                <td class="risk-score" style="color: #28a745">10/100</td>
             </tr>
             <tr>
                 <th>Source File</th>
-                <td>mock_aadhaar.jpg</td>
+                <td>DL_1.jpeg</td>
                 <th>Timestamp</th>
-                <td>2026-06-11 10:54:53</td>
+                <td>2026-06-11 12:43:31</td>
             </tr>
         </table>
 
@@ -58,27 +58,33 @@
             <tbody>
                 
                 <tr>
-                    <td><strong>Aadhaar Number</strong></td>
-                    <td>366874830214</td>
+                    <td><strong>Dl Number</strong></td>
+                    <td>MH1220010149313</td>
                     <td>95.0%</td>
                 </tr>
                 
                 <tr>
                     <td><strong>Dob</strong></td>
-                    <td>1990-08-15</td>
+                    <td>1979-05-05</td>
                     <td>90.0%</td>
                 </tr>
                 
                 <tr>
-                    <td><strong>Gender</strong></td>
-                    <td>MALE</td>
-                    <td>95.0%</td>
+                    <td><strong>Validity</strong></td>
+                    <td>2021-05-13</td>
+                    <td>88.0%</td>
                 </tr>
                 
                 <tr>
                     <td><strong>Name</strong></td>
-                    <td>KARTIK KAPOOR</td>
+                    <td>SDM</td>
                     <td>85.0%</td>
+                </tr>
+                
+                <tr>
+                    <td><strong>Vehicle Class</strong></td>
+                    <td>MCWG, LMV, COV</td>
+                    <td>90.0%</td>
                 </tr>
                 
             </tbody>
@@ -96,11 +102,11 @@
             <tbody>
                 
                 <tr>
-                    <td>Aadhaar Number Format</td>
+                    <td>Dl Format</td>
                     <td style="color: #28a745; font-weight: bold;">
                         PASS
                     </td>
-                    <td>Expected: 12 digits | Actual: 366874830214</td>
+                    <td>Expected: State+RTO+Year+7 Digits | Actual: MH1220010149313</td>
                 </tr>
                 
                 <tr>
@@ -108,15 +114,15 @@
                     <td style="color: #28a745; font-weight: bold;">
                         PASS
                     </td>
-                    <td>Expected: YYYY-MM-DD | Actual: 1990-08-15</td>
+                    <td>Expected: YYYY-MM-DD | Actual: 1979-05-05</td>
                 </tr>
                 
                 <tr>
-                    <td>Gender Format</td>
+                    <td>Validity</td>
                     <td style="color: #28a745; font-weight: bold;">
                         PASS
                     </td>
-                    <td>Expected: MALE/FEMALE/OTHER | Actual: MALE</td>
+                    <td>Expected: YYYY-MM-DD | Actual: 2021-05-13</td>
                 </tr>
                 
                 <tr>
@@ -124,7 +130,7 @@
                     <td style="color: #28a745; font-weight: bold;">
                         PASS
                     </td>
-                    <td>Expected: Uppercase Alphabetic | Actual: KARTIK KAPOOR</td>
+                    <td>Expected: Uppercase Alphabetic | Actual: SDM</td>
                 </tr>
                 
                 <tr>
@@ -132,15 +138,31 @@
                     <td style="color: #28a745; font-weight: bold;">
                         PASS
                     </td>
-                    <td>Expected: DOB is in the past | Actual: DOB is valid, age: 35</td>
+                    <td>Expected: DOB is in the past | Actual: DOB is valid, age: 47</td>
                 </tr>
                 
                 <tr>
-                    <td>Aadhaar Checksum Verhoeff</td>
+                    <td>Expiry Range</td>
+                    <td style="color: #ffc107; font-weight: bold;">
+                        WARN
+                    </td>
+                    <td>Expected: Document must not be expired | Actual: Expired on 2021-05-13</td>
+                </tr>
+                
+                <tr>
+                    <td>Dl Min Age</td>
                     <td style="color: #28a745; font-weight: bold;">
                         PASS
                     </td>
-                    <td>Expected: Verhoeff check digit matches | Actual: Aadhaar Number: 366874830214 (Valid: True)</td>
+                    <td>Expected: DL holder age >= 18 | Actual: Age is 47 (Adult)</td>
+                </tr>
+                
+                <tr>
+                    <td>Dl Issue Year Consistency</td>
+                    <td style="color: #28a745; font-weight: bold;">
+                        PASS
+                    </td>
+                    <td>Expected: Issue year 2001 is after DOB year 1979 + 16 | Actual: DL: MH1220010149313, DOB: 1979-05-05</td>
                 </tr>
                 
             </tbody>

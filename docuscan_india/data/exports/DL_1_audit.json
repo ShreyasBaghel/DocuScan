@@ -1,0 +1,872 @@
+{
+    "image_path": "D:/test doc/DL_1.jpeg",
+    "ocr_raw_text": "HE UNION OF IND\nMAHARASHTRA STATE MOTOR DRIVING LICENCE\n\n| MAHARASHTRA STATE MOTOR SRIVING LICENCE\ng DL No \u2018MH12 20010149313 DO/ : 14-05-2001 ig\n\nwud Valid Till : 13-05-2021 (NT)\n\nDLD 29-06-2016 FORM I, oy\n\nAUTHORISATION TO DRIVE FOLLOWING CLASS\n\nOF VEHICLES THROUGHOUT INDIA\n\nCOV DO;\n\nMCWG = 14-05-2001\n\nLMV 14-05-2001 or\n\nDOB : 05-05-1979 BG: \u201che \u201c7\nName -\u2018NIVRUTT| BODAKE at\nS/DM of KRUSHNA F |\nAdd \u2018AJP: MAZGAON, \u2018\nTAL: BHOR, a FF .\n\niST.PUN\n\nbet . w\nSignature & ID of a te\n\nSignature/Thumb\nAuthority) MH12 2016502 oO Impression of Holder\n",
+    "ocr_confidence": 0.6967,
+    "ocr_word_map": [
+        {
+            "text": "HE",
+            "left": 593,
+            "top": 76,
+            "width": 48,
+            "height": 29,
+            "conf": 0.96
+        },
+        {
+            "text": "UNION",
+            "left": 655,
+            "top": 75,
+            "width": 116,
+            "height": 30,
+            "conf": 0.96
+        },
+        {
+            "text": "OF",
+            "left": 785,
+            "top": 75,
+            "width": 48,
+            "height": 29,
+            "conf": 0.96
+        },
+        {
+            "text": "IND",
+            "left": 848,
+            "top": 75,
+            "width": 60,
+            "height": 28,
+            "conf": 0.95
+        },
+        {
+            "text": "MAHARASHTRA",
+            "left": 233,
+            "top": 112,
+            "width": 340,
+            "height": 35,
+            "conf": 0.95
+        },
+        {
+            "text": "STATE",
+            "left": 585,
+            "top": 112,
+            "width": 132,
+            "height": 34,
+            "conf": 0.96
+        },
+        {
+            "text": "MOTOR",
+            "left": 734,
+            "top": 111,
+            "width": 157,
+            "height": 33,
+            "conf": 0.96
+        },
+        {
+            "text": "DRIVING",
+            "left": 907,
+            "top": 109,
+            "width": 176,
+            "height": 33,
+            "conf": 0.96
+        },
+        {
+            "text": "LICENCE",
+            "left": 1099,
+            "top": 108,
+            "width": 187,
+            "height": 33,
+            "conf": 0.96
+        },
+        {
+            "text": "|",
+            "left": 199,
+            "top": 52,
+            "width": 24,
+            "height": 144,
+            "conf": 0.8
+        },
+        {
+            "text": "MAHARASHTRA",
+            "left": 203,
+            "top": 56,
+            "width": 1123,
+            "height": 108,
+            "conf": 0.7
+        },
+        {
+            "text": "STATE",
+            "left": 595,
+            "top": 52,
+            "width": 120,
+            "height": 144,
+            "conf": 0.7
+        },
+        {
+            "text": "MOTOR",
+            "left": 739,
+            "top": 52,
+            "width": 144,
+            "height": 144,
+            "conf": 0.88
+        },
+        {
+            "text": "SRIVING",
+            "left": 919,
+            "top": 52,
+            "width": 156,
+            "height": 144,
+            "conf": 0.71
+        },
+        {
+            "text": "LICENCE",
+            "left": 1099,
+            "top": 52,
+            "width": 180,
+            "height": 144,
+            "conf": 0.68
+        },
+        {
+            "text": "g",
+            "left": 72,
+            "top": 64,
+            "width": 93,
+            "height": 140,
+            "conf": 0.22
+        },
+        {
+            "text": "DL",
+            "left": 210,
+            "top": 178,
+            "width": 51,
+            "height": 32,
+            "conf": 0.96
+        },
+        {
+            "text": "No",
+            "left": 275,
+            "top": 178,
+            "width": 52,
+            "height": 30,
+            "conf": 0.93
+        },
+        {
+            "text": "\u2018MH12",
+            "left": 349,
+            "top": 176,
+            "width": 100,
+            "height": 29,
+            "conf": 0.58
+        },
+        {
+            "text": "20010149313",
+            "left": 464,
+            "top": 174,
+            "width": 243,
+            "height": 31,
+            "conf": 0.96
+        },
+        {
+            "text": "DO/",
+            "left": 870,
+            "top": 173,
+            "width": 90,
+            "height": 32,
+            "conf": 0.74
+        },
+        {
+            "text": ":",
+            "left": 950,
+            "top": 168,
+            "width": 16,
+            "height": 48,
+            "conf": 0.64
+        },
+        {
+            "text": "14-05-2001",
+            "left": 975,
+            "top": 172,
+            "width": 197,
+            "height": 29,
+            "conf": 0.96
+        },
+        {
+            "text": "ig",
+            "left": 1307,
+            "top": 89,
+            "width": 199,
+            "height": 179,
+            "conf": 0.7
+        },
+        {
+            "text": "wud",
+            "left": 65,
+            "top": 211,
+            "width": 61,
+            "height": 18,
+            "conf": 0.2
+        },
+        {
+            "text": "Valid",
+            "left": 215,
+            "top": 216,
+            "width": 87,
+            "height": 32,
+            "conf": 0.49
+        },
+        {
+            "text": "Till",
+            "left": 318,
+            "top": 215,
+            "width": 48,
+            "height": 31,
+            "conf": 0.86
+        },
+        {
+            "text": ":",
+            "left": 388,
+            "top": 224,
+            "width": 1,
+            "height": 3,
+            "conf": 0.16
+        },
+        {
+            "text": "13-05-2021",
+            "left": 401,
+            "top": 215,
+            "width": 199,
+            "height": 30,
+            "conf": 0.95
+        },
+        {
+            "text": "(NT)",
+            "left": 616,
+            "top": 214,
+            "width": 77,
+            "height": 37,
+            "conf": 0.95
+        },
+        {
+            "text": "DLD",
+            "left": 872,
+            "top": 254,
+            "width": 78,
+            "height": 31,
+            "conf": 0.93
+        },
+        {
+            "text": "29-06-2016",
+            "left": 974,
+            "top": 252,
+            "width": 203,
+            "height": 32,
+            "conf": 0.96
+        },
+        {
+            "text": "FORM",
+            "left": 1307,
+            "top": 243,
+            "width": 90,
+            "height": 52,
+            "conf": 0.29
+        },
+        {
+            "text": "I,",
+            "left": 1400,
+            "top": 243,
+            "width": 32,
+            "height": 51,
+            "conf": 0.1
+        },
+        {
+            "text": "oy",
+            "left": 1439,
+            "top": 269,
+            "width": 36,
+            "height": 30,
+            "conf": 0.48
+        },
+        {
+            "text": "AUTHORISATION",
+            "left": 461,
+            "top": 295,
+            "width": 260,
+            "height": 25,
+            "conf": 0.96
+        },
+        {
+            "text": "TO",
+            "left": 733,
+            "top": 294,
+            "width": 39,
+            "height": 24,
+            "conf": 0.96
+        },
+        {
+            "text": "DRIVE",
+            "left": 781,
+            "top": 293,
+            "width": 94,
+            "height": 25,
+            "conf": 0.96
+        },
+        {
+            "text": "FOLLOWING",
+            "left": 884,
+            "top": 292,
+            "width": 187,
+            "height": 24,
+            "conf": 0.96
+        },
+        {
+            "text": "CLASS",
+            "left": 1081,
+            "top": 290,
+            "width": 102,
+            "height": 26,
+            "conf": 0.96
+        },
+        {
+            "text": "OF",
+            "left": 464,
+            "top": 326,
+            "width": 44,
+            "height": 24,
+            "conf": 0.96
+        },
+        {
+            "text": "VEHICLES",
+            "left": 517,
+            "top": 326,
+            "width": 153,
+            "height": 24,
+            "conf": 0.96
+        },
+        {
+            "text": "THROUGHOUT",
+            "left": 683,
+            "top": 324,
+            "width": 220,
+            "height": 25,
+            "conf": 0.96
+        },
+        {
+            "text": "INDIA",
+            "left": 911,
+            "top": 324,
+            "width": 81,
+            "height": 25,
+            "conf": 0.96
+        },
+        {
+            "text": "COV",
+            "left": 497,
+            "top": 364,
+            "width": 87,
+            "height": 32,
+            "conf": 0.93
+        },
+        {
+            "text": "DO;",
+            "left": 694,
+            "top": 363,
+            "width": 71,
+            "height": 31,
+            "conf": 0.63
+        },
+        {
+            "text": "MCWG",
+            "left": 482,
+            "top": 408,
+            "width": 115,
+            "height": 29,
+            "conf": 0.51
+        },
+        {
+            "text": "=",
+            "left": 616,
+            "top": 402,
+            "width": 23,
+            "height": 46,
+            "conf": 0.26
+        },
+        {
+            "text": "14-05-2001",
+            "left": 656,
+            "top": 406,
+            "width": 172,
+            "height": 29,
+            "conf": 0.91
+        },
+        {
+            "text": "LMV",
+            "left": 482,
+            "top": 432,
+            "width": 77,
+            "height": 56,
+            "conf": 0.71
+        },
+        {
+            "text": "14-05-2001",
+            "left": 656,
+            "top": 431,
+            "width": 174,
+            "height": 56,
+            "conf": 0.96
+        },
+        {
+            "text": "or",
+            "left": 1012,
+            "top": 475,
+            "width": 76,
+            "height": 13,
+            "conf": 0.0
+        },
+        {
+            "text": "DOB",
+            "left": 484,
+            "top": 598,
+            "width": 87,
+            "height": 33,
+            "conf": 0.9
+        },
+        {
+            "text": ":",
+            "left": 599,
+            "top": 607,
+            "width": 6,
+            "height": 24,
+            "conf": 0.76
+        },
+        {
+            "text": "05-05-1979",
+            "left": 636,
+            "top": 598,
+            "width": 204,
+            "height": 33,
+            "conf": 0.75
+        },
+        {
+            "text": "BG:",
+            "left": 901,
+            "top": 596,
+            "width": 79,
+            "height": 34,
+            "conf": 0.82
+        },
+        {
+            "text": "\u201che",
+            "left": 1068,
+            "top": 596,
+            "width": 52,
+            "height": 12,
+            "conf": 0.29
+        },
+        {
+            "text": "\u201c7",
+            "left": 1349,
+            "top": 588,
+            "width": 58,
+            "height": 47,
+            "conf": 0.21
+        },
+        {
+            "text": "Name",
+            "left": 60,
+            "top": 650,
+            "width": 110,
+            "height": 32,
+            "conf": 0.15
+        },
+        {
+            "text": "-\u2018NIVRUTT|",
+            "left": 231,
+            "top": 654,
+            "width": 172,
+            "height": 28,
+            "conf": 0.0
+        },
+        {
+            "text": "BODAKE",
+            "left": 427,
+            "top": 652,
+            "width": 153,
+            "height": 30,
+            "conf": 0.85
+        },
+        {
+            "text": "at",
+            "left": 1040,
+            "top": 642,
+            "width": 52,
+            "height": 46,
+            "conf": 0.66
+        },
+        {
+            "text": "S/DM",
+            "left": 61,
+            "top": 674,
+            "width": 94,
+            "height": 69,
+            "conf": 0.65
+        },
+        {
+            "text": "of",
+            "left": 183,
+            "top": 692,
+            "width": 47,
+            "height": 31,
+            "conf": 0.91
+        },
+        {
+            "text": "KRUSHNA",
+            "left": 252,
+            "top": 674,
+            "width": 163,
+            "height": 69,
+            "conf": 0.91
+        },
+        {
+            "text": "F",
+            "left": 1024,
+            "top": 704,
+            "width": 16,
+            "height": 32,
+            "conf": 0.73
+        },
+        {
+            "text": "|",
+            "left": 1400,
+            "top": 649,
+            "width": 89,
+            "height": 109,
+            "conf": 0.0
+        },
+        {
+            "text": "Add",
+            "left": 62,
+            "top": 734,
+            "width": 74,
+            "height": 30,
+            "conf": 0.95
+        },
+        {
+            "text": "\u2018AJP:",
+            "left": 152,
+            "top": 739,
+            "width": 73,
+            "height": 27,
+            "conf": 0.58
+        },
+        {
+            "text": "MAZGAON,",
+            "left": 242,
+            "top": 738,
+            "width": 190,
+            "height": 31,
+            "conf": 0.93
+        },
+        {
+            "text": "\u2018",
+            "left": 992,
+            "top": 748,
+            "width": 8,
+            "height": 4,
+            "conf": 0.44
+        },
+        {
+            "text": "TAL:",
+            "left": 62,
+            "top": 760,
+            "width": 79,
+            "height": 86,
+            "conf": 0.66
+        },
+        {
+            "text": "BHOR,",
+            "left": 158,
+            "top": 760,
+            "width": 111,
+            "height": 84,
+            "conf": 0.89
+        },
+        {
+            "text": "a",
+            "left": 740,
+            "top": 772,
+            "width": 60,
+            "height": 36,
+            "conf": 0.28
+        },
+        {
+            "text": "FF",
+            "left": 968,
+            "top": 754,
+            "width": 48,
+            "height": 82,
+            "conf": 0.25
+        },
+        {
+            "text": ".",
+            "left": 1376,
+            "top": 805,
+            "width": 25,
+            "height": 15,
+            "conf": 0.16
+        },
+        {
+            "text": "iST.PUN",
+            "left": 91,
+            "top": 814,
+            "width": 141,
+            "height": 27,
+            "conf": 0.25
+        },
+        {
+            "text": "bet",
+            "left": 443,
+            "top": 847,
+            "width": 186,
+            "height": 52,
+            "conf": 0.0
+        },
+        {
+            "text": ".",
+            "left": 824,
+            "top": 864,
+            "width": 7,
+            "height": 8,
+            "conf": 0.09
+        },
+        {
+            "text": "w",
+            "left": 896,
+            "top": 844,
+            "width": 24,
+            "height": 20,
+            "conf": 0.0
+        },
+        {
+            "text": "Signature",
+            "left": 63,
+            "top": 879,
+            "width": 171,
+            "height": 91,
+            "conf": 0.9
+        },
+        {
+            "text": "&",
+            "left": 256,
+            "top": 893,
+            "width": 16,
+            "height": 32,
+            "conf": 0.55
+        },
+        {
+            "text": "ID",
+            "left": 294,
+            "top": 891,
+            "width": 31,
+            "height": 33,
+            "conf": 0.78
+        },
+        {
+            "text": "of",
+            "left": 347,
+            "top": 891,
+            "width": 34,
+            "height": 46,
+            "conf": 0.78
+        },
+        {
+            "text": "a",
+            "left": 468,
+            "top": 870,
+            "width": 95,
+            "height": 63,
+            "conf": 0.24
+        },
+        {
+            "text": "te",
+            "left": 789,
+            "top": 864,
+            "width": 171,
+            "height": 56,
+            "conf": 0.3
+        },
+        {
+            "text": "Signature/Thumb",
+            "left": 1131,
+            "top": 882,
+            "width": 308,
+            "height": 41,
+            "conf": 0.92
+        },
+        {
+            "text": "Authority)",
+            "left": 208,
+            "top": 926,
+            "width": 170,
+            "height": 38,
+            "conf": 0.75
+        },
+        {
+            "text": "MH12",
+            "left": 403,
+            "top": 926,
+            "width": 103,
+            "height": 30,
+            "conf": 0.9
+        },
+        {
+            "text": "2016502",
+            "left": 517,
+            "top": 925,
+            "width": 157,
+            "height": 31,
+            "conf": 0.96
+        },
+        {
+            "text": "oO",
+            "left": 956,
+            "top": 918,
+            "width": 36,
+            "height": 47,
+            "conf": 0.38
+        },
+        {
+            "text": "Impression",
+            "left": 1132,
+            "top": 920,
+            "width": 196,
+            "height": 38,
+            "conf": 0.85
+        },
+        {
+            "text": "of",
+            "left": 1340,
+            "top": 919,
+            "width": 37,
+            "height": 31,
+            "conf": 0.96
+        },
+        {
+            "text": "Holder",
+            "left": 1385,
+            "top": 917,
+            "width": 123,
+            "height": 33,
+            "conf": 0.93
+        }
+    ],
+    "document_type": "DRIVING_LICENCE",
+    "classification_confidence": 0.95,
+    "extracted_fields": {
+        "dl_number": {
+            "value": "MH1220010149313",
+            "raw_text": "MH12 20010149313",
+            "confidence": 0.95,
+            "bounding_box": {
+                "x": 349,
+                "y": 174,
+                "w": 358,
+                "h": 31
+            }
+        },
+        "dob": {
+            "value": "1979-05-05",
+            "raw_text": "DOB : 05-05-1979",
+            "confidence": 0.9,
+            "bounding_box": {
+                "x": 484,
+                "y": 598,
+                "w": 87,
+                "h": 33
+            }
+        },
+        "validity": {
+            "value": "2021-05-13",
+            "raw_text": "Till : 13-05-2021",
+            "confidence": 0.88,
+            "bounding_box": {
+                "x": 318,
+                "y": 215,
+                "w": 48,
+                "h": 31
+            }
+        },
+        "name": {
+            "value": "SDM",
+            "raw_text": "S/DM of KRUSHNA F |",
+            "confidence": 0.85,
+            "bounding_box": {
+                "x": 61,
+                "y": 674,
+                "w": 979,
+                "h": 69
+            }
+        },
+        "vehicle_class": {
+            "value": "MCWG, LMV, COV",
+            "raw_text": "MCWG, LMV, COV",
+            "confidence": 0.9,
+            "bounding_box": {
+                "x": 482,
+                "y": 408,
+                "w": 115,
+                "h": 29
+            }
+        }
+    },
+    "validation_results": [
+        {
+            "status": "PASS",
+            "field_name": "dl_format",
+            "expected": "State+RTO+Year+7 Digits",
+            "actual": "MH1220010149313"
+        },
+        {
+            "status": "PASS",
+            "field_name": "dob",
+            "expected": "YYYY-MM-DD",
+            "actual": "1979-05-05"
+        },
+        {
+            "status": "PASS",
+            "field_name": "validity",
+            "expected": "YYYY-MM-DD",
+            "actual": "2021-05-13"
+        },
+        {
+            "status": "PASS",
+            "field_name": "name",
+            "expected": "Uppercase Alphabetic",
+            "actual": "SDM"
+        },
+        {
+            "status": "PASS",
+            "field_name": "dob_range",
+            "expected": "DOB is in the past",
+            "actual": "DOB is valid, age: 47"
+        },
+        {
+            "status": "WARN",
+            "field_name": "expiry_range",
+            "expected": "Document must not be expired",
+            "actual": "Expired on 2021-05-13"
+        },
+        {
+            "status": "PASS",
+            "field_name": "dl_min_age",
+            "expected": "DL holder age >= 18",
+            "actual": "Age is 47 (Adult)"
+        },
+        {
+            "status": "PASS",
+            "field_name": "dl_issue_year_consistency",
+            "expected": "Issue year 2001 is after DOB year 1979 + 16",
+            "actual": "DL: MH1220010149313, DOB: 1979-05-05"
+        }
+    ],
+    "fraud_signals": [],
+    "fraud_risk_score": 10,
+    "report_path": "",
+    "pipeline_metadata": {}
+}

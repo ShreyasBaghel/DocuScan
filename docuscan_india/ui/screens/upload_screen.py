@@ -12,6 +12,10 @@ class UploadScreen(tk.Frame):
         self.selected_file_path = None
         self.preview_image_ref = None  # Reference to avoid garbage collection
         self._init_ui()
+        
+        # Pre-populate if we are returning to this screen
+        if self.controller.current_packet:
+            self._prepopulate_packet(self.controller.current_packet)
 
     def _init_ui(self):
         main_frame = tk.Frame(self, bg="#1e1e24", padx=40, pady=30)
@@ -126,15 +130,13 @@ class UploadScreen(tk.Frame):
         # Show thumbnail preview
         try:
             # 1. Load image (handles PDF pages automatically)
-            cv_img = ImageLoader.load(path)
+            img = ImageLoader.load(path)
             
             # 2. Downscale for preview box
-            h, w = cv_img.shape[:2]
-            preview_img = resize_keep_aspect(cv_img, max_width=380, max_height=180)
+            preview_img = resize_keep_aspect(img, max_width=380, max_height=180)
             
-            # 3. Convert to PIL -> ImageTk
-            pil_img = to_pil(preview_img)
-            self.preview_image_ref = ImageTk.PhotoImage(pil_img)
+            # 3. Convert to ImageTk
+            self.preview_image_ref = ImageTk.PhotoImage(preview_img)
 
             # 4. Swap upload icon/text with the image preview
             self.upload_icon_lbl.pack_forget()
@@ -159,6 +161,28 @@ class UploadScreen(tk.Frame):
             messagebox.showerror("Loading Error", f"Could not generate preview for document:\n{e}")
             self.selected_file_path = None
             self.path_lbl.configure(text="No file selected", fg="#a0aec0", font=("Segoe UI Italic", 9))
+
+    def _prepopulate_packet(self, packet):
+        if not packet or not packet.image_path:
+            return
+        self.selected_file_path = packet.image_path
+        self.path_lbl.configure(text=f"Selected: {packet.image_path}", fg="#00bcd4", font=("Segoe UI Semibold", 9))
+        try:
+            img = ImageLoader.load(packet.image_path)
+            preview_img = resize_keep_aspect(img, max_width=380, max_height=180)
+            self.preview_image_ref = ImageTk.PhotoImage(preview_img)
+            self.upload_icon_lbl.pack_forget()
+            self.upload_text_lbl.pack_forget()
+            for child in self.upload_box.winfo_children():
+                if child not in [self.upload_icon_lbl, self.upload_text_lbl]:
+                    child.destroy()
+            preview_label = tk.Label(self.upload_box, image=self.preview_image_ref, bg="#1e1e24")
+            preview_label.pack(expand=True, fill="both")
+            preview_label.bind("<Button-1>", lambda e: self._browse_file())
+            self.process_btn.configure(bg="#00bcd4", fg="#1e1e24", cursor="hand2")
+            self.process_btn.bind("<Button-1>", lambda e: self._start_verification())
+        except Exception:
+            pass
 
     def _start_verification(self):
         if not self.selected_file_path:

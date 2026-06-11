@@ -98,6 +98,15 @@ class VerificationPipeline:
             packet.document_type = doc_type
             packet.classification_confidence = class_conf
             logger.info(f"Stage 3 (Classification) completed. Type: {doc_type.value}, Conf: {class_conf:.2f}")
+            
+            # Run extraction early if classification is successful and known
+            if doc_type != DocumentType.UNKNOWN:
+                try:
+                    extractor = ExtractorRegistry.get_extractor(doc_type)
+                    packet.extracted_fields = extractor.extract(packet.ocr_raw_text, packet.ocr_word_map)
+                    logger.info(f"Ran early extraction for classification display. Fields: {list(packet.extracted_fields.keys())}")
+                except Exception as e:
+                    logger.error(f"Early extraction failed: {e}")
         except Exception as e:
             logger.error(f"Stage 3 failed: {e}")
             raise e

@@ -37,25 +37,37 @@ class ClassifierEnsemble(BaseClassifier):
         logger.info(f"Classifier individual results: Keyword={kw_doc.value}({kw_score:.2f}), "
                     f"Regex={rg_doc.value}({rg_score:.2f}), Layout={ly_doc.value}({ly_score:.2f})")
 
-        # If a strict ID number regex matched with high confidence, trust it directly
-        if rg_score >= 0.90 and rg_doc != DocumentType.UNKNOWN:
-            logger.info(f"Ensemble bypassed: High confidence regex match for {rg_doc.value} ({rg_score:.2f})")
+        # If a strict or soft ID number regex matched with confidence >= 0.70, trust it directly.
+        # This prevents diluting reliable regex matches (like Aadhaar/PAN formats) when other classifiers are silent.
+        if rg_score >= 0.70 and rg_doc != DocumentType.UNKNOWN:
+            logger.info(f"Ensemble bypassed: Reliable regex match for {rg_doc.value} ({rg_score:.2f})")
             return rg_doc, rg_score
 
-        # 3. Aggregate scores
+        # 3. Aggregate scores with normalized weights for active classifiers
         scores = {
             DocumentType.AADHAAR: 0.0,
             DocumentType.PAN: 0.0,
             DocumentType.PASSPORT: 0.0,
             DocumentType.DRIVING_LICENCE: 0.0
         }
-
+        total_weight = 0.0
         if kw_doc != DocumentType.UNKNOWN:
-            scores[kw_doc] += w_keyword * kw_score
+            total_weight += w_keyword
         if rg_doc != DocumentType.UNKNOWN:
-            scores[rg_doc] += w_regex * rg_score
+            total_weight += w_regex
         if ly_doc != DocumentType.UNKNOWN:
-            scores[ly_doc] += w_layout * ly_score
+            total_weight += w_layout
+
+        if total_weight > 0.0:
+            if kw_doc != DocumentType.UNKNOWN:
+                scores[kw_doc] += (w_keyword / total_weight) * kw_score
+            if rg_doc != DocumentType.UNKNOWN:
+                scores[rg_doc] += (w_regex / total_weight) * rg_score
+            if ly_doc != DocumentType.UNKNOWN:
+                scores[ly_doc] += (w_layout / total_weight) * ly_score
+        else:
+            # If all are UNKNOWN, no score can exceed 0.0
+            pass
 
         # Find best score
         best_doc = DocumentType.UNKNOWN

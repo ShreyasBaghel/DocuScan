@@ -113,6 +113,21 @@ class ClassificationScreen(tk.Frame):
 
         # 3. Footer Navigation (Visible when stages 4-7 complete)
         self.footer_frame = tk.Frame(self.main_frame, bg="#1e1e24")
+        
+        # Back Button
+        self.back_btn = tk.Label(
+            self.footer_frame,
+            text="← BACK",
+            fg="#ffffff",
+            bg="#3f3f46",
+            font=("Segoe UI Bold", 10),
+            padx=20,
+            pady=10,
+            cursor="hand2"
+        )
+        self.back_btn.pack(side="left")
+        self.back_btn.bind("<Button-1>", lambda e: self._go_back())
+
         self.next_btn = tk.Label(
             self.footer_frame,
             text="PROCEED TO FRAUD ANALYSIS →",
@@ -125,6 +140,12 @@ class ClassificationScreen(tk.Frame):
         )
         self.next_btn.pack(side="right")
         self.next_btn.bind("<Button-1>", lambda e: self.controller.show_frame("FraudAnalysisScreen"))
+
+    def _go_back(self):
+        # Go back to OCR Results Screen and repopulate the current packet details
+        self.controller.show_frame("OCRResultScreen")
+        if self.controller.current_packet:
+            self.controller.current_frame.populate_ocr_data(self.controller.current_packet)
 
     def populate_initial_classification(self, packet: DocumentPacket):
         """Called when first swapping from the OCR screen."""
@@ -162,7 +183,7 @@ class ClassificationScreen(tk.Frame):
             self.manual_frame.pack(fill="both", expand=True, in_=self.auto_frame, pady=(30, 0))
 
     def set_loading(self, message: str):
-        """Displays full screen spinner duringStages 4-7."""
+        """Displays full screen spinner during Stages 4-7."""
         self.loading_lbl.configure(text=message)
         self.content_card.pack_forget()
         self.loading_frame.pack(fill="both", expand=True)
@@ -223,7 +244,13 @@ class ClassificationScreen(tk.Frame):
         self.div_lbl.pack_forget()
         
         # Display completed notice
+        # Check if already has done label to prevent duplicates
+        for child in self.auto_frame.winfo_children():
+            if getattr(child, "is_done_frame", False):
+                child.destroy()
+                
         done_frame = tk.Frame(self.auto_frame, bg="#282830", pady=10)
+        done_frame.is_done_frame = True
         done_frame.pack(anchor="w")
         
         lbl_done = tk.Label(done_frame, text="✓ Verification, Validation & Fraud analysis complete!", fg="#10b981", bg="#282830", font=("Segoe UI Semibold", 12))

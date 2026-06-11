@@ -52,36 +52,42 @@ class FraudAnalysisScreen(tk.Frame):
             v_color = "#f59e0b"
         elif score <= 75:
             v_title = "HIGH RISK"
-            v_desc = "Layout inconsistencies or validation rules failed. Document integrity is questionable."
-            v_color = "#f97316"
+            v_desc = "Several fraud anomalies or key validation failures. High probability of tampering."
+            v_color = "#ef4444"
         else:
             v_title = "CRITICAL RISK"
-            v_desc = "EXIF editing tool traces found, or mathematical checksums failed (e.g. Aadhaar Verhoeff)."
-            v_color = "#ef4444"
+            v_desc = "Severe tampering signals (checksum failures or EXIF metadata editor software matches)."
+            v_color = "#b91c1c"
 
-        v_lbl = tk.Label(verdict_card, text=v_title, fg=v_color, bg="#1e1e24", font=("Segoe UI Bold", 14))
-        v_lbl.pack(anchor="w")
+        lbl_v_title = tk.Label(verdict_card, text=v_title, fg=v_color, bg="#1e1e24", font=("Segoe UI Bold", 12))
+        lbl_v_title.pack(anchor="w")
 
-        v_desc_lbl = tk.Label(verdict_card, text=v_desc, fg="#a0aec0", bg="#1e1e24", font=("Segoe UI", 9), justify="left", wraplength=250)
-        v_desc_lbl.pack(anchor="w", pady=(5, 0))
+        lbl_v_desc = tk.Label(verdict_card, text=v_desc, fg="#a0aec0", bg="#1e1e24", font=("Segoe UI", 9), wraplength=200, justify="left")
+        lbl_v_desc.pack(anchor="w", pady=(5, 0))
 
-        # Right Column: List of Fraud Signals
-        right_col = tk.Frame(content_frame, bg="#282830", padx=25, pady=25, highlightbackground="#3f3f46", highlightthickness=1)
+        # Right Column: List of logged fraud signals / rules failed
+        right_col = tk.Frame(content_frame, bg="#282830", padx=20, pady=20, highlightbackground="#3f3f46", highlightthickness=1)
         right_col.pack(side="right", fill="both", expand=True)
 
         list_title = tk.Label(right_col, text="VERIFICATION SIGNALS LOG", fg="#00bcd4", bg="#282830", font=("Segoe UI Bold", 10))
-        list_title.pack(anchor="w", pady=(0, 15))
+        list_title.pack(anchor="w", pady=(0, 10))
 
-        # Scrollable container for fraud signals
-        scroll_canvas = tk.Canvas(right_col, bg="#282830", highlightthickness=0)
-        scrollbar = ttk.Scrollbar(right_col, orient="vertical", command=scroll_canvas.yview)
+        # Scrollable container for fraud items
+        container = tk.Frame(right_col, bg="#282830")
+        container.pack(fill="both", expand=True)
+
+        scroll_canvas = tk.Canvas(container, bg="#282830", highlightthickness=0)
+        scrollbar = ttk.Scrollbar(container, orient="vertical", command=scroll_canvas.yview)
         self.signal_list_frame = tk.Frame(scroll_canvas, bg="#282830")
 
         self.signal_list_frame.bind(
-            "<Configure>", 
-            lambda e: scroll_canvas.configure(scrollregion=scroll_canvas.bbox("all"))
+            "<Configure>",
+            lambda e: scroll_canvas.configure(
+                scrollregion=scroll_canvas.bbox("all")
+            )
         )
-        scroll_canvas.create_window((0, 0), window=self.signal_list_frame, anchor="nw")
+
+        scroll_canvas.create_window((0, 0), window=self.signal_list_frame, anchor="nw", width=420)
         scroll_canvas.configure(yscrollcommand=scrollbar.set)
 
         scroll_canvas.pack(side="left", fill="both", expand=True)
@@ -92,6 +98,20 @@ class FraudAnalysisScreen(tk.Frame):
         # Footer Actions Row
         footer_frame = tk.Frame(main_frame, bg="#1e1e24")
         footer_frame.pack(fill="x", side="bottom", pady=(15, 0))
+
+        # Back Button
+        back_btn = tk.Label(
+            footer_frame,
+            text="← BACK",
+            fg="#ffffff",
+            bg="#3f3f46",
+            font=("Segoe UI Bold", 10),
+            padx=20,
+            pady=10,
+            cursor="hand2"
+        )
+        back_btn.pack(side="left")
+        back_btn.bind("<Button-1>", lambda e: self._go_back())
 
         next_btn = tk.Label(
             footer_frame,
@@ -105,6 +125,12 @@ class FraudAnalysisScreen(tk.Frame):
         )
         next_btn.pack(side="right")
         next_btn.bind("<Button-1>", lambda e: self.controller.show_frame("AuditReportScreen"))
+
+    def _go_back(self):
+        # Go back to Classification screen and populate it
+        self.controller.show_frame("ClassificationScreen")
+        if self.controller.current_packet:
+            self.controller.current_frame.populate_classification_data(self.controller.current_packet)
 
     def _populate_signals(self):
         # 1. Clear current frame

@@ -18,8 +18,10 @@ def test_full_pipeline_aadhaar(mock_extract, mock_preprocess, mock_load):
     and produces database records, PDF reports, and JSON exports.
     """
     # 1. Setup mock returns for ImageLoader & Preprocessor
-    mock_load.return_value = np.zeros((100, 100, 3), dtype=np.uint8)
-    mock_preprocess.return_value = np.zeros((100, 100), dtype=np.uint8)
+    from PIL import Image
+    mock_load.return_value = Image.new("RGB", (100, 100), 0)
+    mock_preprocess.return_value = Image.new("L", (100, 100), 0)
+
 
     # 2. Setup mock OCR return representing a valid Aadhaar Card
     # Let's use a valid Verhoeff Aadhaar: 366874830214

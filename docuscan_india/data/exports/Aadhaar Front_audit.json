@@ -1,129 +1,8 @@
 {
     "image_path": "C:/Users/shrey/Downloads/Aadhaar and PAN/Aadhaar Front.jpg",
-    "ocr_raw_text": "ame ata\nSHREYAS BAGHEL\nwea fate / Dos ; 01/01/2006\n\nFFT / Male\n\n5 eal\n\n",
-    "ocr_confidence": 0.5752941176470588,
-    "ocr_word_map": [
-        {
-            "text": "ame",
-            "left": 249,
-            "top": 119,
-            "width": 43,
-            "height": 20,
-            "conf": 0.29
-        },
-        {
-            "text": "ata",
-            "left": 302,
-            "top": 122,
-            "width": 40,
-            "height": 17,
-            "conf": 0.35
-        },
-        {
-            "text": "SHREYAS",
-            "left": 248,
-            "top": 151,
-            "width": 96,
-            "height": 18,
-            "conf": 0.92
-        },
-        {
-            "text": "BAGHEL",
-            "left": 352,
-            "top": 154,
-            "width": 79,
-            "height": 17,
-            "conf": 0.92
-        },
-        {
-            "text": "wea",
-            "left": 247,
-            "top": 183,
-            "width": 45,
-            "height": 16,
-            "conf": 0.49
-        },
-        {
-            "text": "fate",
-            "left": 302,
-            "top": 179,
-            "width": 105,
-            "height": 23,
-            "conf": 0.23
-        },
-        {
-            "text": "/",
-            "left": 351,
-            "top": 175,
-            "width": 9,
-            "height": 36,
-            "conf": 0.7
-        },
-        {
-            "text": "Dos",
-            "left": 369,
-            "top": 179,
-            "width": 30,
-            "height": 23,
-            "conf": 0.63
-        },
-        {
-            "text": ";",
-            "left": 411,
-            "top": 175,
-            "width": 6,
-            "height": 36,
-            "conf": 0.77
-        },
-        {
-            "text": "01/01/2006",
-            "left": 424,
-            "top": 187,
-            "width": 101,
-            "height": 17,
-            "conf": 0.8
-        },
-        {
-            "text": "FFT",
-            "left": 247,
-            "top": 212,
-            "width": 99,
-            "height": 25,
-            "conf": 0.0
-        },
-        {
-            "text": "/",
-            "left": 290,
-            "top": 199,
-            "width": 8,
-            "height": 44,
-            "conf": 0.0
-        },
-        {
-            "text": "Male",
-            "left": 309,
-            "top": 212,
-            "width": 37,
-            "height": 25,
-            "conf": 0.93
-        },
-        {
-            "text": "5",
-            "left": 418,
-            "top": 264,
-            "width": 10,
-            "height": 5,
-            "conf": 0.53
-        },
-        {
-            "text": "eal",
-            "left": 409,
-            "top": 253,
-            "width": 86,
-            "height": 56,
-            "conf": 0.32
-        }
-    ],
+    "ocr_raw_text": "",
+    "ocr_confidence": 0.95,
+    "ocr_word_map": [],
     "document_type": "AADHAAR",
     "classification_confidence": 0.0,
     "extracted_fields": {
@@ -132,21 +11,21 @@
             "raw_text": "2086 8322 2522",
             "confidence": 0.95,
             "bounding_box": {
-                "x": 231,
-                "y": 354,
-                "w": 274,
-                "h": 33
+                "x": 463,
+                "y": 709,
+                "w": 546,
+                "h": 64
             }
         },
         "dob": {
-            "value": "2006-01-01",
-            "raw_text": "01/01/2006",
+            "value": "2008-01-01",
+            "raw_text": "01/01/2008",
             "confidence": 0.85,
             "bounding_box": {
-                "x": 424,
-                "y": 187,
-                "w": 101,
-                "h": 17
+                "x": 847,
+                "y": 368,
+                "w": 244,
+                "h": 44
             }
         },
         "gender": {
@@ -154,10 +33,10 @@
             "raw_text": "Male",
             "confidence": 0.95,
             "bounding_box": {
-                "x": 309,
-                "y": 212,
-                "w": 37,
-                "h": 25
+                "x": 613,
+                "y": 423,
+                "w": 80,
+                "h": 52
             }
         },
         "name": {
@@ -165,10 +44,10 @@
             "raw_text": "SHREYAS BAGHEL",
             "confidence": 0.85,
             "bounding_box": {
-                "x": 248,
-                "y": 151,
-                "w": 183,
-                "h": 20
+                "x": 495,
+                "y": 302,
+                "w": 373,
+                "h": 46
             }
         }
     },
@@ -183,7 +62,7 @@
             "status": "PASS",
             "field_name": "dob",
             "expected": "YYYY-MM-DD",
-            "actual": "2006-01-01"
+            "actual": "2008-01-01"
         },
         {
             "status": "PASS",
@@ -201,7 +80,7 @@
             "status": "PASS",
             "field_name": "dob_range",
             "expected": "DOB is in the past",
-            "actual": "DOB is valid, age: 20"
+            "actual": "DOB is valid, age: 18"
         },
         {
             "status": "PASS",
@@ -211,7 +90,7 @@
         }
     ],
     "fraud_signals": [],
-    "fraud_risk_score": 1,
+    "fraud_risk_score": 0,
     "report_path": "",
     "pipeline_metadata": {}
 }

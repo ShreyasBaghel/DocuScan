@@ -70,7 +70,23 @@ class AuditReportScreen(tk.Frame):
         actions_grid = tk.Frame(bottom_frame, bg="#282830")
         actions_grid.pack(side="right", fill="y", anchor="center")
 
-        # Row 1 Buttons
+        # Column 0: Back Button
+        back_btn = tk.Label(
+            actions_grid, 
+            text="← BACK", 
+            fg="#ffffff", 
+            bg="#3f3f46", 
+            font=("Segoe UI Bold", 9), 
+            padx=15, 
+            pady=8, 
+            cursor="hand2"
+        )
+        back_btn.grid(row=0, column=0, padx=6)
+        back_btn.bind("<Button-1>", lambda e: self._go_back())
+        back_btn.bind("<Enter>", lambda e: back_btn.configure(bg="#4f4f56"))
+        back_btn.bind("<Leave>", lambda e: back_btn.configure(bg="#3f3f46"))
+
+        # Column 1: Open PDF Button
         open_pdf_btn = tk.Label(
             actions_grid, 
             text="OPEN PDF REPORT", 
@@ -81,11 +97,12 @@ class AuditReportScreen(tk.Frame):
             pady=8, 
             cursor="hand2"
         )
-        open_pdf_btn.grid(row=0, column=0, padx=6)
+        open_pdf_btn.grid(row=0, column=1, padx=6)
         open_pdf_btn.bind("<Button-1>", lambda e: self._open_pdf())
         open_pdf_btn.bind("<Enter>", lambda e: open_pdf_btn.configure(bg="#00e5ff"))
         open_pdf_btn.bind("<Leave>", lambda e: open_pdf_btn.configure(bg="#00bcd4"))
 
+        # Column 2: Open JSON Button
         open_json_btn = tk.Label(
             actions_grid, 
             text="OPEN JSON FILE", 
@@ -98,11 +115,12 @@ class AuditReportScreen(tk.Frame):
             highlightthickness=1, 
             cursor="hand2"
         )
-        open_json_btn.grid(row=0, column=1, padx=6)
+        open_json_btn.grid(row=0, column=2, padx=6)
         open_json_btn.bind("<Button-1>", lambda e: self._open_json())
         open_json_btn.bind("<Enter>", lambda e: open_json_btn.configure(bg="#3f3f46"))
         open_json_btn.bind("<Leave>", lambda e: open_json_btn.configure(bg="#1e1e24"))
 
+        # Column 3: Finish Button
         finish_btn = tk.Label(
             actions_grid, 
             text="FINISH & RETURN", 
@@ -113,10 +131,14 @@ class AuditReportScreen(tk.Frame):
             pady=8, 
             cursor="hand2"
         )
-        finish_btn.grid(row=0, column=2, padx=6)
+        finish_btn.grid(row=0, column=3, padx=6)
         finish_btn.bind("<Button-1>", lambda e: self.controller.show_frame("HomeScreen"))
         finish_btn.bind("<Enter>", lambda e: finish_btn.configure(bg="#059669"))
         finish_btn.bind("<Leave>", lambda e: finish_btn.configure(bg="#10b981"))
+
+    def _go_back(self):
+        # Go back to Fraud analysis screen
+        self.controller.show_frame("FraudAnalysisScreen")
 
     def _open_pdf(self):
         if not self.packet or not self.packet.report_path:
@@ -129,7 +151,6 @@ class AuditReportScreen(tk.Frame):
             return
 
         try:
-            # os.startfile is Windows specific, which matches the user's OS info
             os.startfile(path)
         except Exception as e:
             messagebox.showerror("Error", f"Failed to open PDF file: {e}")
@@ -150,7 +171,6 @@ class AuditReportScreen(tk.Frame):
             os.startfile(json_path)
         except Exception as e:
             try:
-                # Fallback to notepad
                 subprocess.Popen(["notepad.exe", json_path])
             except Exception as ex:
                 messagebox.showerror("Error", f"Failed to open JSON file: {ex}")
