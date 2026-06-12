@@ -42,28 +42,34 @@ class FraudAnalysisScreen(tk.Frame):
         verdict_card.pack(fill="x", side="bottom", pady=(15, 0))
 
         # Verdict logic
-        if score <= 20:
-            v_title = "LOW RISK"
-            v_desc = "Document shows no modification signatures. Standard validations and check digits passed."
+        from utils.score_formatter import ScoreFormatter
+        auth_score = self.packet.authenticity_score if self.packet else 0
+        ext_reliability = self.packet.extraction_reliability if self.packet else 0
+        
+        if self.packet:
+            v_title, v_desc = ScoreFormatter.get_verdict(auth_score, score)
+        else:
+            v_title, v_desc = "Needs Manual Review", "No document processed."
+            
+        if v_title == "Genuine":
             v_color = "#10b981"
-        elif score <= 50:
-            v_title = "MODERATE RISK"
-            v_desc = "Minor discrepancies or warnings flagged (e.g. low OCR confidence). Review is recommended."
-            v_color = "#f59e0b"
-        elif score <= 75:
-            v_title = "HIGH RISK"
-            v_desc = "Several fraud anomalies or key validation failures. High probability of tampering."
+        elif v_title == "Suspicious":
             v_color = "#ef4444"
         else:
-            v_title = "CRITICAL RISK"
-            v_desc = "Severe tampering signals (checksum failures or EXIF metadata editor software matches)."
-            v_color = "#b91c1c"
+            v_color = "#f59e0b"
 
-        lbl_v_title = tk.Label(verdict_card, text=v_title, fg=v_color, bg="#1e1e24", font=("Segoe UI Bold", 12))
+        lbl_v_title = tk.Label(verdict_card, text=f"VERDICT: {v_title.upper()}", fg=v_color, bg="#1e1e24", font=("Segoe UI Bold", 11))
         lbl_v_title.pack(anchor="w")
 
+        lbl_auth_score = tk.Label(verdict_card, text=f"Authenticity Score: {auth_score}/100", fg="#ffffff", bg="#1e1e24", font=("Segoe UI Semibold", 9))
+        lbl_auth_score.pack(anchor="w", pady=(4, 0))
+
+        lbl_ext_score = tk.Label(verdict_card, text=f"Extraction Reliability: {ext_reliability}/100", fg="#ffffff", bg="#1e1e24", font=("Segoe UI Semibold", 9))
+        lbl_ext_score.pack(anchor="w")
+
         lbl_v_desc = tk.Label(verdict_card, text=v_desc, fg="#a0aec0", bg="#1e1e24", font=("Segoe UI", 9), wraplength=200, justify="left")
-        lbl_v_desc.pack(anchor="w", pady=(5, 0))
+        lbl_v_desc.pack(anchor="w", pady=(6, 0))
+
 
         # Right Column: List of logged fraud signals / rules failed
         right_col = tk.Frame(content_frame, bg="#282830", padx=20, pady=20, highlightbackground="#3f3f46", highlightthickness=1)

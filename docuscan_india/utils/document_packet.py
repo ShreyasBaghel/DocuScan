@@ -45,5 +45,9 @@ class DocumentPacket:
     validation_results: List[ValidationResult] = field(default_factory=list)
     fraud_signals: List[FraudSignal] = field(default_factory=list)
     fraud_risk_score: int = 0
+    authenticity_score: int = 0
+    extraction_reliability: int = 0
+    final_decision: str = "Needs Manual Review"
     report_path: str = ""
     pipeline_metadata: Dict[str, Any] = field(default_factory=dict)
+

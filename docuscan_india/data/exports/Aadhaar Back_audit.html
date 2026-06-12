@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>DocuScan India - Audit Report</title>
+    <style>
+        body { font-family: 'Segoe UI', Arial, sans-serif; margin: 40px; background-color: #f8f9fa; color: #212529; }
+        .container { max-width: 900px; margin: 0 auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .header { border-bottom: 2px solid #0056b3; padding-bottom: 20px; margin-bottom: 30px; display: flex; justify-content: space-between; align-items: center; }
+        .header h1 { margin: 0; color: #0056b3; }
+        .status-badge { padding: 8px 16px; border-radius: 20px; font-weight: bold; color: white; display: inline-block; }
+        .status-pass { background-color: #28a745; }
+        .status-warn { background-color: #ffc107; color: #212529; }
+        .status-fail { background-color: #dc3545; }
+        table { width: 100%; border-collapse: collapse; margin-bottom: 30px; }
+        th, td { padding: 12px; border: 1px solid #dee2e6; text-align: left; }
+        th { background-color: #f1f3f5; }
+        .section-title { font-size: 20px; color: #343a40; margin-bottom: 15px; border-left: 4px solid #0056b3; padding-left: 10px; }
+        .risk-score { font-size: 32px; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div>
+                <h1>DocuScan India</h1>
+                <p>Intelligent OCR & Verification System</p>
+            </div>
+            <div>
+                <span class="status-badge status-suspicious">Suspicious</span>
+            </div>
+        </div>
+
+        <div class="section-title">Document Summary</div>
+        <table>
+            <tr>
+                <th>Document Type</th>
+                <td>AADHAAR</td>
+                <th>Fraud Risk Score</th>
+                <td class="risk-score" style="color: #28a745">0/100</td>
+            </tr>
+            <tr>
+                <th>Source File</th>
+                <td>Aadhaar Back.jpg</td>
+                <th>Timestamp</th>
+                <td>2026-06-12 11:42:44</td>
+            </tr>
+        </table>
+
+        <div class="section-title">Extracted Fields</div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Field Name</th>
+                    <th>Extracted Value</th>
+                    <th>Confidence</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+                <tr>
+                    <td><strong>Aadhaar Number</strong></td>
+                    <td>NOT_FOUND</td>
+                    <td>0.0%</td>
+                </tr>
+                
+                <tr>
+                    <td><strong>Dob</strong></td>
+                    <td>NOT_FOUND</td>
+                    <td>0.0%</td>
+                </tr>
+                
+                <tr>
+                    <td><strong>Gender</strong></td>
+                    <td>NOT_FOUND</td>
+                    <td>0.0%</td>
+                </tr>
+                
+                <tr>
+                    <td><strong>Name</strong></td>
+                    <td>FAN</td>
+                    <td>72.0%</td>
+                </tr>
+                
+            </tbody>
+        </table>
+
+        <div class="section-title">Validation Checks</div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Check Name</th>
+                    <th>Status</th>
+                    <th>Details</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+                <tr>
+                    <td>Aadhaar Number Format</td>
+                    <td style="color: #dc3545; font-weight: bold;">
+                        FAIL
+                    </td>
+                    <td>Expected: 12 digits | Actual: Missing field</td>
+                </tr>
+                
+                <tr>
+                    <td>Dob</td>
+                    <td style="color: #dc3545; font-weight: bold;">
+                        FAIL
+                    </td>
+                    <td>Expected: YYYY-MM-DD | Actual: Missing field</td>
+                </tr>
+                
+                <tr>
+                    <td>Gender Format</td>
+                    <td style="color: #dc3545; font-weight: bold;">
+                        FAIL
+                    </td>
+                    <td>Expected: MALE/FEMALE/OTHER | Actual: Missing field</td>
+                </tr>
+                
+                <tr>
+                    <td>Name</td>
+                    <td style="color: #28a745; font-weight: bold;">
+                        PASS
+                    </td>
+                    <td>Expected: Uppercase Alphabetic | Actual: FAN</td>
+                </tr>
+                
+            </tbody>
+        </table>
+
+        
+    </div>
+</body>
+</html>

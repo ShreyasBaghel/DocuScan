@@ -46,6 +46,9 @@ class JsonSerializer:
                 } for s in packet.fraud_signals
             ],
             "fraud_risk_score": packet.fraud_risk_score,
+            "authenticity_score": packet.authenticity_score,
+            "extraction_reliability": packet.extraction_reliability,
+            "final_decision": packet.final_decision,
             "report_path": packet.report_path,
             "pipeline_metadata": packet.pipeline_metadata
         }

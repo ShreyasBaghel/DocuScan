@@ -69,8 +69,13 @@ class KeywordClassifier(BaseClassifier):
             for regex in regex_list:
                 if re.search(regex, clean_text, re.IGNORECASE):
                     matches += 1
-            # Calculate fraction of matched keywords
-            scores[doc_type] = matches / len(regex_list) if regex_list else 0.0
+            # Calculate absolute score based on number of keyword matches
+            if matches >= 2:
+                scores[doc_type] = 0.90
+            elif matches == 1:
+                scores[doc_type] = 0.75
+            else:
+                scores[doc_type] = 0.0
 
         # Find the document type with the highest score
         best_doc = DocumentType.UNKNOWN
@@ -82,7 +87,7 @@ class KeywordClassifier(BaseClassifier):
                 best_doc = doc_type
 
         # If best score is negligible, classify as UNKNOWN
-        if best_score < 0.15:
+        if best_score < 0.50:
             return DocumentType.UNKNOWN, 0.0
 
         return best_doc, best_score

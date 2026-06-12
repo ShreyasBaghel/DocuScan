@@ -1,255 +1,199 @@
 {
     "image_path": "D:/test doc/DL_1.jpeg",
-    "ocr_raw_text": "HE UNION OF IND\nMAHARASHTRA STATE MOTOR DRIVING LICENCE\n\n| MAHARASHTRA STATE MOTOR SRIVING LICENCE\ng DL No \u2018MH12 20010149313 DO/ : 14-05-2001 ig\n\nwud Valid Till : 13-05-2021 (NT)\n\nDLD 29-06-2016 FORM I, oy\n\nAUTHORISATION TO DRIVE FOLLOWING CLASS\n\nOF VEHICLES THROUGHOUT INDIA\n\nCOV DO;\n\nMCWG = 14-05-2001\n\nLMV 14-05-2001 or\n\nDOB : 05-05-1979 BG: \u201che \u201c7\nName -\u2018NIVRUTT| BODAKE at\nS/DM of KRUSHNA F |\nAdd \u2018AJP: MAZGAON, \u2018\nTAL: BHOR, a FF .\n\niST.PUN\n\nbet . w\nSignature & ID of a te\n\nSignature/Thumb\nAuthority) MH12 2016502 oO Impression of Holder\n",
-    "ocr_confidence": 0.6967,
+    "ocr_raw_text": "THE UNION OF INDIA\nMAHARASHTRA STATE MOTOR DRIVING LICENCE\n\n_ DL No MH12 20010149313 DO} : 14-05-2001 a,\n\u201cValid Till : 13-05-2021 (NT)\n\nDLD 29-06-2016\nTION TO DRIVE FOLLOWING CLASS RULE 16 2\n\nAUTHORISA\nOF VEHICLES THROUGHOUT INDIA\nCOV DO;\nMCWG = 14-05-2001\nLMV 14-05-2001\nae ia\n\nDOB - 05-05-1979 BG.\nName :NIVRUTT| BODAKE\nS/D/W of: KRUSHNA\nAdd :AJP: MAZGAON,\nTAL: BHOR,\nPog PUNE.\n\nOpt \u2014 =i\n\nSignature \u00a7 10 of MH12 2016502 parcaen Mlolder\n",
+    "ocr_confidence": 0.67,
     "ocr_word_map": [
         {
-            "text": "HE",
-            "left": 593,
-            "top": 76,
-            "width": 48,
-            "height": 29,
+            "text": "THE",
+            "left": 571,
+            "top": 77,
+            "width": 68,
+            "height": 27,
             "conf": 0.96
         },
         {
             "text": "UNION",
-            "left": 655,
-            "top": 75,
-            "width": 116,
-            "height": 30,
+            "left": 657,
+            "top": 77,
+            "width": 112,
+            "height": 27,
             "conf": 0.96
         },
         {
             "text": "OF",
-            "left": 785,
-            "top": 75,
-            "width": 48,
-            "height": 29,
+            "left": 786,
+            "top": 76,
+            "width": 45,
+            "height": 27,
             "conf": 0.96
         },
         {
-            "text": "IND",
-            "left": 848,
-            "top": 75,
-            "width": 60,
-            "height": 28,
+            "text": "INDIA",
+            "left": 849,
+            "top": 76,
+            "width": 95,
+            "height": 25,
             "conf": 0.95
         },
         {
             "text": "MAHARASHTRA",
-            "left": 233,
-            "top": 112,
-            "width": 340,
-            "height": 35,
-            "conf": 0.95
-        },
-        {
-            "text": "STATE",
-            "left": 585,
-            "top": 112,
-            "width": 132,
-            "height": 34,
-            "conf": 0.96
-        },
-        {
-            "text": "MOTOR",
-            "left": 734,
-            "top": 111,
-            "width": 157,
-            "height": 33,
-            "conf": 0.96
-        },
-        {
-            "text": "DRIVING",
-            "left": 907,
-            "top": 109,
-            "width": 176,
-            "height": 33,
-            "conf": 0.96
-        },
-        {
-            "text": "LICENCE",
-            "left": 1099,
-            "top": 108,
-            "width": 187,
-            "height": 33,
-            "conf": 0.96
-        },
-        {
-            "text": "|",
-            "left": 199,
-            "top": 52,
-            "width": 24,
-            "height": 144,
-            "conf": 0.8
-        },
-        {
-            "text": "MAHARASHTRA",
-            "left": 203,
-            "top": 56,
-            "width": 1123,
-            "height": 108,
-            "conf": 0.7
-        },
-        {
-            "text": "STATE",
-            "left": 595,
-            "top": 52,
-            "width": 120,
-            "height": 144,
-            "conf": 0.7
-        },
-        {
-            "text": "MOTOR",
-            "left": 739,
-            "top": 52,
-            "width": 144,
-            "height": 144,
-            "conf": 0.88
-        },
-        {
-            "text": "SRIVING",
-            "left": 919,
-            "top": 52,
-            "width": 156,
-            "height": 144,
-            "conf": 0.71
-        },
-        {
-            "text": "LICENCE",
-            "left": 1099,
-            "top": 52,
-            "width": 180,
-            "height": 144,
-            "conf": 0.68
-        },
-        {
-            "text": "g",
-            "left": 72,
-            "top": 64,
-            "width": 93,
-            "height": 140,
-            "conf": 0.22
-        },
-        {
-            "text": "DL",
-            "left": 210,
-            "top": 178,
-            "width": 51,
+            "left": 234,
+            "top": 114,
+            "width": 337,
             "height": 32,
             "conf": 0.96
         },
         {
-            "text": "No",
-            "left": 275,
-            "top": 178,
-            "width": 52,
-            "height": 30,
-            "conf": 0.93
-        },
-        {
-            "text": "\u2018MH12",
-            "left": 349,
-            "top": 176,
-            "width": 100,
-            "height": 29,
-            "conf": 0.58
-        },
-        {
-            "text": "20010149313",
-            "left": 464,
-            "top": 174,
-            "width": 243,
+            "text": "STATE",
+            "left": 587,
+            "top": 113,
+            "width": 128,
             "height": 31,
             "conf": 0.96
         },
         {
-            "text": "DO/",
-            "left": 870,
-            "top": 173,
-            "width": 90,
+            "text": "MOTOR",
+            "left": 735,
+            "top": 112,
+            "width": 154,
+            "height": 31,
+            "conf": 0.96
+        },
+        {
+            "text": "DRIVING",
+            "left": 908,
+            "top": 111,
+            "width": 173,
+            "height": 30,
+            "conf": 0.96
+        },
+        {
+            "text": "LICENCE",
+            "left": 1101,
+            "top": 109,
+            "width": 184,
+            "height": 31,
+            "conf": 0.96
+        },
+        {
+            "text": "_",
+            "left": 169,
+            "top": 213,
+            "width": 6,
+            "height": 5,
+            "conf": 0.8
+        },
+        {
+            "text": "DL",
+            "left": 210,
+            "top": 177,
+            "width": 51,
+            "height": 33,
+            "conf": 0.95
+        },
+        {
+            "text": "No",
+            "left": 274,
+            "top": 177,
+            "width": 54,
+            "height": 31,
+            "conf": 0.92
+        },
+        {
+            "text": "MH12",
+            "left": 341,
+            "top": 176,
+            "width": 109,
+            "height": 31,
+            "conf": 0.48
+        },
+        {
+            "text": "20010149313",
+            "left": 463,
+            "top": 174,
+            "width": 245,
             "height": 32,
-            "conf": 0.74
+            "conf": 0.96
+        },
+        {
+            "text": "DO}",
+            "left": 870,
+            "top": 172,
+            "width": 70,
+            "height": 33,
+            "conf": 0.71
         },
         {
             "text": ":",
-            "left": 950,
-            "top": 168,
-            "width": 16,
-            "height": 48,
-            "conf": 0.64
+            "left": 954,
+            "top": 180,
+            "width": 7,
+            "height": 24,
+            "conf": 0.57
         },
         {
             "text": "14-05-2001",
             "left": 975,
             "top": 172,
             "width": 197,
-            "height": 29,
-            "conf": 0.96
-        },
-        {
-            "text": "ig",
-            "left": 1307,
-            "top": 89,
-            "width": 199,
-            "height": 179,
-            "conf": 0.7
-        },
-        {
-            "text": "wud",
-            "left": 65,
-            "top": 211,
-            "width": 61,
-            "height": 18,
-            "conf": 0.2
-        },
-        {
-            "text": "Valid",
-            "left": 215,
-            "top": 216,
-            "width": 87,
-            "height": 32,
-            "conf": 0.49
-        },
-        {
-            "text": "Till",
-            "left": 318,
-            "top": 215,
-            "width": 48,
-            "height": 31,
-            "conf": 0.86
-        },
-        {
-            "text": ":",
-            "left": 388,
-            "top": 224,
-            "width": 1,
-            "height": 3,
-            "conf": 0.16
-        },
-        {
-            "text": "13-05-2021",
-            "left": 401,
-            "top": 215,
-            "width": 199,
             "height": 30,
             "conf": 0.95
         },
         {
-            "text": "(NT)",
-            "left": 616,
+            "text": "a,",
+            "left": 1307,
+            "top": 89,
+            "width": 199,
+            "height": 179,
+            "conf": 0.0
+        },
+        {
+            "text": "\u201cValid",
+            "left": 66,
+            "top": 212,
+            "width": 236,
+            "height": 36,
+            "conf": 0.0
+        },
+        {
+            "text": "Till",
+            "left": 317,
+            "top": 215,
+            "width": 50,
+            "height": 31,
+            "conf": 0.85
+        },
+        {
+            "text": ":",
+            "left": 384,
+            "top": 223,
+            "width": 1,
+            "height": 5,
+            "conf": 0.25
+        },
+        {
+            "text": "13-05-2021",
+            "left": 401,
             "top": 214,
-            "width": 77,
+            "width": 200,
+            "height": 32,
+            "conf": 0.93
+        },
+        {
+            "text": "(NT)",
+            "left": 615,
+            "top": 214,
+            "width": 78,
             "height": 37,
             "conf": 0.95
         },
         {
             "text": "DLD",
-            "left": 872,
+            "left": 871,
             "top": 254,
-            "width": 78,
+            "width": 79,
             "height": 31,
-            "conf": 0.93
+            "conf": 0.92
         },
         {
             "text": "29-06-2016",
@@ -260,51 +204,27 @@
             "conf": 0.96
         },
         {
-            "text": "FORM",
-            "left": 1307,
-            "top": 243,
-            "width": 90,
-            "height": 52,
-            "conf": 0.29
-        },
-        {
-            "text": "I,",
-            "left": 1400,
-            "top": 243,
-            "width": 32,
-            "height": 51,
-            "conf": 0.1
-        },
-        {
-            "text": "oy",
-            "left": 1439,
-            "top": 269,
-            "width": 36,
-            "height": 30,
-            "conf": 0.48
-        },
-        {
-            "text": "AUTHORISATION",
-            "left": 461,
-            "top": 295,
-            "width": 260,
+            "text": "TION",
+            "left": 648,
+            "top": 294,
+            "width": 74,
             "height": 25,
             "conf": 0.96
         },
         {
             "text": "TO",
-            "left": 733,
+            "left": 732,
             "top": 294,
-            "width": 39,
-            "height": 24,
+            "width": 40,
+            "height": 25,
             "conf": 0.96
         },
         {
             "text": "DRIVE",
-            "left": 781,
+            "left": 780,
             "top": 293,
-            "width": 94,
-            "height": 25,
+            "width": 95,
+            "height": 26,
             "conf": 0.96
         },
         {
@@ -312,8 +232,8 @@
             "left": 884,
             "top": 292,
             "width": 187,
-            "height": 24,
-            "conf": 0.96
+            "height": 25,
+            "conf": 0.92
         },
         {
             "text": "CLASS",
@@ -322,6 +242,38 @@
             "width": 102,
             "height": 26,
             "conf": 0.96
+        },
+        {
+            "text": "RULE",
+            "left": 1307,
+            "top": 242,
+            "width": 91,
+            "height": 53,
+            "conf": 0.93
+        },
+        {
+            "text": "16",
+            "left": 1403,
+            "top": 242,
+            "width": 22,
+            "height": 52,
+            "conf": 0.76
+        },
+        {
+            "text": "2",
+            "left": 1439,
+            "top": 269,
+            "width": 36,
+            "height": 30,
+            "conf": 0.73
+        },
+        {
+            "text": "AUTHORISA",
+            "left": 461,
+            "top": 295,
+            "width": 183,
+            "height": 25,
+            "conf": 0.9
         },
         {
             "text": "OF",
@@ -335,16 +287,16 @@
             "text": "VEHICLES",
             "left": 517,
             "top": 326,
-            "width": 153,
+            "width": 154,
             "height": 24,
-            "conf": 0.96
+            "conf": 0.95
         },
         {
             "text": "THROUGHOUT",
-            "left": 683,
+            "left": 682,
             "top": 324,
-            "width": 220,
-            "height": 25,
+            "width": 222,
+            "height": 26,
             "conf": 0.96
         },
         {
@@ -361,15 +313,15 @@
             "top": 364,
             "width": 87,
             "height": 32,
-            "conf": 0.93
+            "conf": 0.95
         },
         {
             "text": "DO;",
             "left": 694,
-            "top": 363,
-            "width": 71,
-            "height": 31,
-            "conf": 0.63
+            "top": 362,
+            "width": 72,
+            "height": 33,
+            "conf": 0.38
         },
         {
             "text": "MCWG",
@@ -377,95 +329,87 @@
             "top": 408,
             "width": 115,
             "height": 29,
-            "conf": 0.51
+            "conf": 0.63
         },
         {
             "text": "=",
-            "left": 616,
+            "left": 611,
             "top": 402,
-            "width": 23,
-            "height": 46,
-            "conf": 0.26
+            "width": 24,
+            "height": 47,
+            "conf": 0.1
         },
         {
             "text": "14-05-2001",
             "left": 656,
             "top": 406,
-            "width": 172,
+            "width": 171,
             "height": 29,
-            "conf": 0.91
+            "conf": 0.89
         },
         {
             "text": "LMV",
             "left": 482,
-            "top": 432,
+            "top": 443,
             "width": 77,
-            "height": 56,
-            "conf": 0.71
+            "height": 42,
+            "conf": 0.92
         },
         {
             "text": "14-05-2001",
             "left": 656,
-            "top": 431,
-            "width": 174,
-            "height": 56,
-            "conf": 0.96
+            "top": 445,
+            "width": 172,
+            "height": 27,
+            "conf": 0.93
         },
         {
-            "text": "or",
-            "left": 1012,
-            "top": 475,
-            "width": 76,
-            "height": 13,
-            "conf": 0.0
+            "text": "ae",
+            "left": 1257,
+            "top": 807,
+            "width": 112,
+            "height": 39,
+            "conf": 0.49
+        },
+        {
+            "text": "ia",
+            "left": 1374,
+            "top": 802,
+            "width": 26,
+            "height": 47,
+            "conf": 0.27
         },
         {
             "text": "DOB",
             "left": 484,
-            "top": 598,
+            "top": 599,
             "width": 87,
-            "height": 33,
-            "conf": 0.9
+            "height": 32,
+            "conf": 0.88
         },
         {
-            "text": ":",
-            "left": 599,
-            "top": 607,
-            "width": 6,
-            "height": 24,
-            "conf": 0.76
+            "text": "-",
+            "left": 601,
+            "top": 608,
+            "width": 3,
+            "height": 2,
+            "conf": 0.36
         },
         {
             "text": "05-05-1979",
-            "left": 636,
-            "top": 598,
-            "width": 204,
-            "height": 33,
-            "conf": 0.75
+            "left": 637,
+            "top": 599,
+            "width": 203,
+            "height": 32,
+            "conf": 0.76
         },
         {
-            "text": "BG:",
-            "left": 901,
-            "top": 596,
-            "width": 79,
-            "height": 34,
-            "conf": 0.82
-        },
-        {
-            "text": "\u201che",
-            "left": 1068,
-            "top": 596,
-            "width": 52,
-            "height": 12,
-            "conf": 0.29
-        },
-        {
-            "text": "\u201c7",
-            "left": 1349,
-            "top": 588,
-            "width": 58,
-            "height": 47,
-            "conf": 0.21
+            "text": "BG.",
+            "left": 902,
+            "top": 597,
+            "width": 74,
+            "height": 32,
+            "conf": 0.76
         },
         {
             "text": "Name",
@@ -473,15 +417,15 @@
             "top": 650,
             "width": 110,
             "height": 32,
-            "conf": 0.15
+            "conf": 0.32
         },
         {
-            "text": "-\u2018NIVRUTT|",
+            "text": ":NIVRUTT|",
             "left": 231,
             "top": 654,
             "width": 172,
             "height": 28,
-            "conf": 0.0
+            "conf": 0.48
         },
         {
             "text": "BODAKE",
@@ -489,324 +433,228 @@
             "top": 652,
             "width": 153,
             "height": 30,
-            "conf": 0.85
+            "conf": 0.9
         },
         {
-            "text": "at",
-            "left": 1040,
-            "top": 642,
-            "width": 52,
-            "height": 46,
-            "conf": 0.66
-        },
-        {
-            "text": "S/DM",
+            "text": "S/D/W",
             "left": 61,
-            "top": 674,
-            "width": 94,
-            "height": 69,
-            "conf": 0.65
+            "top": 692,
+            "width": 124,
+            "height": 32,
+            "conf": 0.56
         },
         {
-            "text": "of",
-            "left": 183,
-            "top": 692,
-            "width": 47,
-            "height": 31,
-            "conf": 0.91
+            "text": "of:",
+            "left": 187,
+            "top": 687,
+            "width": 54,
+            "height": 46,
+            "conf": 0.82
         },
         {
             "text": "KRUSHNA",
-            "left": 252,
-            "top": 674,
-            "width": 163,
-            "height": 69,
-            "conf": 0.91
-        },
-        {
-            "text": "F",
-            "left": 1024,
-            "top": 704,
-            "width": 16,
+            "left": 242,
+            "top": 692,
+            "width": 173,
             "height": 32,
-            "conf": 0.73
-        },
-        {
-            "text": "|",
-            "left": 1400,
-            "top": 649,
-            "width": 89,
-            "height": 109,
-            "conf": 0.0
+            "conf": 0.82
         },
         {
             "text": "Add",
             "left": 62,
             "top": 734,
-            "width": 74,
-            "height": 30,
-            "conf": 0.95
+            "width": 75,
+            "height": 31,
+            "conf": 0.93
         },
         {
-            "text": "\u2018AJP:",
-            "left": 152,
-            "top": 739,
-            "width": 73,
-            "height": 27,
-            "conf": 0.58
+            "text": ":AJP:",
+            "left": 150,
+            "top": 738,
+            "width": 76,
+            "height": 28,
+            "conf": 0.07
         },
         {
             "text": "MAZGAON,",
             "left": 242,
             "top": 738,
-            "width": 190,
+            "width": 189,
             "height": 31,
-            "conf": 0.93
-        },
-        {
-            "text": "\u2018",
-            "left": 992,
-            "top": 748,
-            "width": 8,
-            "height": 4,
-            "conf": 0.44
+            "conf": 0.91
         },
         {
             "text": "TAL:",
             "left": 62,
-            "top": 760,
-            "width": 79,
-            "height": 86,
-            "conf": 0.66
+            "top": 777,
+            "width": 80,
+            "height": 28,
+            "conf": 0.93
         },
         {
             "text": "BHOR,",
-            "left": 158,
-            "top": 760,
-            "width": 111,
-            "height": 84,
+            "left": 157,
+            "top": 776,
+            "width": 112,
+            "height": 33,
             "conf": 0.89
         },
         {
-            "text": "a",
-            "left": 740,
-            "top": 772,
-            "width": 60,
-            "height": 36,
-            "conf": 0.28
-        },
-        {
-            "text": "FF",
-            "left": 968,
-            "top": 754,
-            "width": 48,
-            "height": 82,
-            "conf": 0.25
-        },
-        {
-            "text": ".",
-            "left": 1376,
-            "top": 805,
-            "width": 25,
-            "height": 15,
-            "conf": 0.16
-        },
-        {
-            "text": "iST.PUN",
-            "left": 91,
+            "text": "Pog",
+            "left": 63,
             "top": 814,
-            "width": 141,
-            "height": 27,
-            "conf": 0.25
+            "width": 91,
+            "height": 67,
+            "conf": 0.13
         },
         {
-            "text": "bet",
-            "left": 443,
-            "top": 847,
+            "text": "PUNE.",
+            "left": 160,
+            "top": 804,
+            "width": 104,
+            "height": 46,
+            "conf": 0.94
+        },
+        {
+            "text": "Opt",
+            "left": 423,
+            "top": 838,
             "width": 186,
-            "height": 52,
+            "height": 89,
             "conf": 0.0
         },
         {
-            "text": ".",
-            "left": 824,
-            "top": 864,
-            "width": 7,
-            "height": 8,
-            "conf": 0.09
+            "text": "\u2014",
+            "left": 670,
+            "top": 876,
+            "width": 16,
+            "height": 4,
+            "conf": 0.0
         },
         {
-            "text": "w",
-            "left": 896,
-            "top": 844,
-            "width": 24,
-            "height": 20,
-            "conf": 0.0
+            "text": "=i",
+            "left": 1130,
+            "top": 831,
+            "width": 166,
+            "height": 41,
+            "conf": 0.43
         },
         {
             "text": "Signature",
             "left": 63,
-            "top": 879,
-            "width": 171,
-            "height": 91,
-            "conf": 0.9
-        },
-        {
-            "text": "&",
-            "left": 256,
-            "top": 893,
-            "width": 16,
-            "height": 32,
+            "top": 845,
+            "width": 175,
+            "height": 126,
             "conf": 0.55
         },
         {
-            "text": "ID",
-            "left": 294,
+            "text": "\u00a7",
+            "left": 258,
+            "top": 845,
+            "width": 11,
+            "height": 126,
+            "conf": 0.16
+        },
+        {
+            "text": "10",
+            "left": 290,
             "top": 891,
-            "width": 31,
-            "height": 33,
-            "conf": 0.78
+            "width": 32,
+            "height": 73,
+            "conf": 0.61
         },
         {
             "text": "of",
-            "left": 347,
+            "left": 342,
             "top": 891,
-            "width": 34,
+            "width": 39,
             "height": 46,
-            "conf": 0.78
-        },
-        {
-            "text": "a",
-            "left": 468,
-            "top": 870,
-            "width": 95,
-            "height": 63,
-            "conf": 0.24
-        },
-        {
-            "text": "te",
-            "left": 789,
-            "top": 864,
-            "width": 171,
-            "height": 56,
-            "conf": 0.3
-        },
-        {
-            "text": "Signature/Thumb",
-            "left": 1131,
-            "top": 882,
-            "width": 308,
-            "height": 41,
-            "conf": 0.92
-        },
-        {
-            "text": "Authority)",
-            "left": 208,
-            "top": 926,
-            "width": 170,
-            "height": 38,
             "conf": 0.75
         },
         {
             "text": "MH12",
             "left": 403,
-            "top": 926,
+            "top": 925,
             "width": 103,
-            "height": 30,
-            "conf": 0.9
+            "height": 32,
+            "conf": 0.81
         },
         {
             "text": "2016502",
             "left": 517,
             "top": 925,
-            "width": 157,
+            "width": 156,
             "height": 31,
             "conf": 0.96
         },
         {
-            "text": "oO",
-            "left": 956,
-            "top": 918,
-            "width": 36,
-            "height": 47,
-            "conf": 0.38
+            "text": "parcaen",
+            "left": 1131,
+            "top": 880,
+            "width": 195,
+            "height": 82,
+            "conf": 0.0
         },
         {
-            "text": "Impression",
-            "left": 1132,
-            "top": 920,
-            "width": 196,
-            "height": 38,
-            "conf": 0.85
-        },
-        {
-            "text": "of",
-            "left": 1340,
-            "top": 919,
-            "width": 37,
-            "height": 31,
-            "conf": 0.96
-        },
-        {
-            "text": "Holder",
-            "left": 1385,
-            "top": 917,
-            "width": 123,
-            "height": 33,
-            "conf": 0.93
+            "text": "Mlolder",
+            "left": 1380,
+            "top": 878,
+            "width": 129,
+            "height": 81,
+            "conf": 0.0
         }
     ],
     "document_type": "DRIVING_LICENCE",
-    "classification_confidence": 0.95,
+    "classification_confidence": 1.0,
     "extracted_fields": {
         "dl_number": {
             "value": "MH1220010149313",
             "raw_text": "MH12 20010149313",
-            "confidence": 0.95,
+            "confidence": 0.7070666666666667,
             "bounding_box": {
-                "x": 349,
+                "x": 341,
                 "y": 174,
-                "w": 358,
-                "h": 31
+                "w": 367,
+                "h": 33
             }
         },
         "dob": {
             "value": "1979-05-05",
-            "raw_text": "DOB : 05-05-1979",
-            "confidence": 0.9,
+            "raw_text": "DOB - 05-05-1979",
+            "confidence": 0.7070666666666667,
             "bounding_box": {
                 "x": 484,
-                "y": 598,
+                "y": 599,
                 "w": 87,
-                "h": 33
+                "h": 32
             }
         },
         "validity": {
             "value": "2021-05-13",
             "raw_text": "Till : 13-05-2021",
-            "confidence": 0.88,
+            "confidence": 0.7070666666666667,
             "bounding_box": {
-                "x": 318,
+                "x": 317,
                 "y": 215,
-                "w": 48,
+                "w": 50,
                 "h": 31
             }
         },
         "name": {
-            "value": "SDM",
-            "raw_text": "S/DM of KRUSHNA F |",
-            "confidence": 0.85,
+            "value": "NIVRUTT",
+            "raw_text": "Name :NIVRUTT| BODAKE",
+            "confidence": 0.48,
             "bounding_box": {
-                "x": 61,
-                "y": 674,
-                "w": 979,
-                "h": 69
+                "x": 60,
+                "y": 650,
+                "w": 520,
+                "h": 32
             }
         },
         "vehicle_class": {
-            "value": "MCWG, LMV, COV",
-            "raw_text": "MCWG, LMV, COV",
-            "confidence": 0.9,
+            "value": "MCWG, COV, LMV",
+            "raw_text": "MCWG, COV, LMV",
+            "confidence": 0.92,
             "bounding_box": {
                 "x": 482,
                 "y": 408,
@@ -838,7 +686,7 @@
             "status": "PASS",
             "field_name": "name",
             "expected": "Uppercase Alphabetic",
-            "actual": "SDM"
+            "actual": "NIVRUTT"
         },
         {
             "status": "PASS",
@@ -866,7 +714,12 @@
         }
     ],
     "fraud_signals": [],
-    "fraud_risk_score": 10,
+    "fraud_risk_score": 0,
+    "authenticity_score": 67,
+    "extraction_reliability": 67,
+    "final_decision": "Needs Manual Review",
     "report_path": "",
-    "pipeline_metadata": {}
+    "pipeline_metadata": {
+        "extracted_doc_type": "DRIVING_LICENCE"
+    }
 }

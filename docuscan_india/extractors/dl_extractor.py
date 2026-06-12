@@ -46,7 +46,8 @@ class DLExtractor(BaseExtractor):
 
         if dl_num != "NOT_FOUND":
             bbox = self.merge_bounding_boxes(dl_raw, word_map)
-            results["dl_number"] = FieldResult(value=dl_num, raw_text=dl_raw, confidence=0.95, bounding_box=bbox)
+            conf = self.get_field_confidence(dl_num, word_map)
+            results["dl_number"] = FieldResult(value=dl_num, raw_text=dl_raw, confidence=conf, bounding_box=bbox)
         else:
             results["dl_number"] = FieldResult(value="NOT_FOUND", raw_text="", confidence=0.0, bounding_box=None)
 
@@ -72,7 +73,8 @@ class DLExtractor(BaseExtractor):
 
         if dob_val != "NOT_FOUND":
             bbox = self.merge_bounding_boxes(dob_raw, word_map)
-            results["dob"] = FieldResult(value=dob_val, raw_text=dob_raw, confidence=0.90, bounding_box=bbox)
+            conf = self.get_field_confidence(dob_val, word_map)
+            results["dob"] = FieldResult(value=dob_val, raw_text=dob_raw, confidence=conf, bounding_box=bbox)
         else:
             results["dob"] = FieldResult(value="NOT_FOUND", raw_text="", confidence=0.0, bounding_box=None)
 
@@ -98,7 +100,8 @@ class DLExtractor(BaseExtractor):
 
         if validity_val != "NOT_FOUND":
             bbox = self.merge_bounding_boxes(validity_raw, word_map)
-            results["validity"] = FieldResult(value=validity_val, raw_text=validity_raw, confidence=0.88, bounding_box=bbox)
+            conf = self.get_field_confidence(validity_val, word_map)
+            results["validity"] = FieldResult(value=validity_val, raw_text=validity_raw, confidence=conf, bounding_box=bbox)
         else:
             results["validity"] = FieldResult(value="NOT_FOUND", raw_text="", confidence=0.0, bounding_box=None)
 
@@ -143,7 +146,8 @@ class DLExtractor(BaseExtractor):
 
         if name_val != "NOT_FOUND":
             bbox = self.merge_bounding_boxes(name_raw, word_map)
-            results["name"] = FieldResult(value=name_val, raw_text=name_raw, confidence=0.85, bounding_box=bbox)
+            conf = self.get_field_confidence(name_val, word_map)
+            results["name"] = FieldResult(value=name_val, raw_text=name_raw, confidence=conf, bounding_box=bbox)
         else:
             results["name"] = FieldResult(value="NOT_FOUND", raw_text="", confidence=0.0, bounding_box=None)
 
@@ -159,7 +163,8 @@ class DLExtractor(BaseExtractor):
 
         if class_val != "NOT_FOUND":
             bbox = self.merge_bounding_boxes(classes[0], word_map) if classes else None
-            results["vehicle_class"] = FieldResult(value=class_val, raw_text=class_val, confidence=0.90, bounding_box=bbox)
+            conf = self.get_field_confidence(class_val, word_map)
+            results["vehicle_class"] = FieldResult(value=class_val, raw_text=class_val, confidence=conf, bounding_box=bbox)
         else:
             results["vehicle_class"] = FieldResult(value="NOT_FOUND", raw_text="", confidence=0.0, bounding_box=None)
 

@@ -94,13 +94,13 @@ class PassportExtractor(BaseExtractor):
         pass_bbox = self.merge_bounding_boxes(pass_no_raw, word_map)
         name_bbox = self.merge_bounding_boxes(full_name, word_map)
 
-        res["passport_number"] = FieldResult(value=pass_no_raw, raw_text=pass_no_raw, confidence=0.99, bounding_box=pass_bbox)
-        res["nationality"] = FieldResult(value=nationality, raw_text=nationality, confidence=0.99, bounding_box=None)
-        res["dob"] = FieldResult(value=dob, raw_text=m2[13:19], confidence=0.99, bounding_box=None)
-        res["expiry"] = FieldResult(value=expiry, raw_text=m2[21:27], confidence=0.99, bounding_box=None)
-        res["name"] = FieldResult(value=full_name, raw_text=name_part, confidence=0.95, bounding_box=name_bbox)
-        res["mrz_line1"] = FieldResult(value=m1, raw_text=m1, confidence=0.99, bounding_box=None)
-        res["mrz_line2"] = FieldResult(value=m2, raw_text=m2, confidence=0.99, bounding_box=None)
+        res["passport_number"] = FieldResult(value=pass_no_raw, raw_text=pass_no_raw, confidence=self.get_field_confidence(pass_no_raw, word_map), bounding_box=pass_bbox)
+        res["nationality"] = FieldResult(value=nationality, raw_text=nationality, confidence=self.get_field_confidence(nationality, word_map), bounding_box=None)
+        res["dob"] = FieldResult(value=dob, raw_text=m2[13:19], confidence=self.get_field_confidence(dob, word_map), bounding_box=None)
+        res["expiry"] = FieldResult(value=expiry, raw_text=m2[21:27], confidence=self.get_field_confidence(expiry, word_map), bounding_box=None)
+        res["name"] = FieldResult(value=full_name, raw_text=name_part, confidence=self.get_field_confidence(full_name, word_map), bounding_box=name_bbox)
+        res["mrz_line1"] = FieldResult(value=m1, raw_text=m1, confidence=self.get_field_confidence(m1, word_map), bounding_box=None)
+        res["mrz_line2"] = FieldResult(value=m2, raw_text=m2, confidence=self.get_field_confidence(m2, word_map), bounding_box=None)
 
         return res
 
@@ -112,14 +112,14 @@ class PassportExtractor(BaseExtractor):
         if m_pass:
             pass_val = m_pass.group(1)
             bbox = self.merge_bounding_boxes(pass_val, word_map)
-            res["passport_number"] = FieldResult(value=pass_val, raw_text=m_pass.group(0), confidence=0.95, bounding_box=bbox)
+            res["passport_number"] = FieldResult(value=pass_val, raw_text=m_pass.group(0), confidence=self.get_field_confidence(pass_val, word_map), bounding_box=bbox)
         
         # Nationality (Usually "INDIAN" or "REPUBLIC OF INDIA")
         m_nat = re.search(r"\b(indian|republic\s+of\s+india)\b", raw_text, re.IGNORECASE)
         if m_nat:
-            res["nationality"] = FieldResult(value="IND", raw_text=m_nat.group(0), confidence=0.90, bounding_box=None)
+            res["nationality"] = FieldResult(value="IND", raw_text=m_nat.group(0), confidence=self.get_field_confidence("IND", word_map), bounding_box=None)
         else:
-            res["nationality"] = FieldResult(value="IND", raw_text="INDIAN", confidence=0.80, bounding_box=None)
+            res["nationality"] = FieldResult(value="IND", raw_text="INDIAN", confidence=self.get_field_confidence("IND", word_map), bounding_box=None)
 
         # Dates (DOB and Expiry)
         # Search for dates. Passport page 1 has: Date of Birth, Date of Expiry, Date of Issue.
@@ -133,10 +133,10 @@ class PassportExtractor(BaseExtractor):
         if dates:
             sorted_dates = sorted(dates, key=lambda x: x[0])
             dob_val, dob_raw = sorted_dates[0]
-            res["dob"] = FieldResult(value=dob_val, raw_text=dob_raw, confidence=0.90, bounding_box=self.merge_bounding_boxes(dob_raw, word_map))
+            res["dob"] = FieldResult(value=dob_val, raw_text=dob_raw, confidence=self.get_field_confidence(dob_val, word_map), bounding_box=self.merge_bounding_boxes(dob_raw, word_map))
             if len(sorted_dates) > 1:
                 exp_val, exp_raw = sorted_dates[-1]
-                res["expiry"] = FieldResult(value=exp_val, raw_text=exp_raw, confidence=0.90, bounding_box=self.merge_bounding_boxes(exp_raw, word_map))
+                res["expiry"] = FieldResult(value=exp_val, raw_text=exp_raw, confidence=self.get_field_confidence(exp_val, word_map), bounding_box=self.merge_bounding_boxes(exp_raw, word_map))
 
         # Name: Look for surname and given names labels
         # Standard Visual Zone labels: "Given Name(s)", "Surname"
@@ -150,6 +150,6 @@ class PassportExtractor(BaseExtractor):
                 break
 
         if name_val != "NOT_FOUND":
-            res["name"] = FieldResult(value=name_val, raw_text=name_raw, confidence=0.85, bounding_box=self.merge_bounding_boxes(name_raw, word_map))
+            res["name"] = FieldResult(value=name_val, raw_text=name_raw, confidence=self.get_field_confidence(name_val, word_map), bounding_box=self.merge_bounding_boxes(name_raw, word_map))
 
         return res

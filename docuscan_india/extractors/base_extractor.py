@@ -1,4 +1,5 @@
 import re
+import numpy as np
 from abc import ABC, abstractmethod
 from typing import Dict, List, Any, Optional
 from utils.document_packet import FieldResult, DocumentType
@@ -73,6 +74,36 @@ class BaseExtractor(ABC):
             'h': max_b - min_y
         }
 
+    def get_field_confidence(self, value: str, word_map: List[Dict[str, Any]], base_conf: float = 0.85) -> float:
+        """Calculates a field confidence dynamically based on word-level confidences."""
+        if not value or value == "NOT_FOUND" or not word_map:
+            return 0.0
+
+        # Clean and split target value into tokens
+        tokens = [t.lower() for t in value.split() if re.match(r"^[a-zA-Z0-9/<]+$", t)]
+        if not tokens:
+            # Fallback to mean of all word confidences
+            all_confs = [w['conf'] for w in word_map if 'conf' in w]
+            return float(np.mean(all_confs)) if all_confs else base_conf
+
+        matched_confs = []
+        for token in tokens:
+            clean_token = re.sub(r'[^a-z0-9/<]', '', token)
+            if not clean_token:
+                continue
+            for w in word_map:
+                w_text = w['text'].lower()
+                clean_w_text = re.sub(r'[^a-z0-9/<]', '', w_text)
+                if clean_token == clean_w_text:
+                    matched_confs.append(w['conf'])
+
+        if matched_confs:
+            return float(np.mean(matched_confs))
+
+        # Dynamic fallback: mean of all word confidences
+        all_confs = [w['conf'] for w in word_map if 'conf' in w]
+        return float(np.mean(all_confs)) if all_confs else base_conf
+
     def extract_field_with_regex(self, pattern: str, text: str, word_map: List[Dict[str, Any]], group_name: str = None) -> FieldResult:
         """Helper to run regex on raw text, return FieldResult with bounding box."""
         m = re.search(pattern, text, re.IGNORECASE)
@@ -80,11 +111,9 @@ class BaseExtractor(ABC):
             val = m.group(group_name) if group_name else m.group(0)
             val_clean = clean_whitespace(val)
             bbox = self.merge_bounding_boxes(val_clean, word_map)
-            # Estimate confidence from matching words (or default to 0.90)
-            conf = 0.90
-            matched_words = [w for w in word_map if w['text'] in val_clean]
-            if matched_words:
-                conf = sum(w['conf'] for w in matched_words) / len(matched_words)
+            # Estimate confidence dynamically from matching words
+            conf = self.get_field_confidence(val_clean, word_map)
             return FieldResult(value=val_clean, raw_text=m.group(0), confidence=conf, bounding_box=bbox)
         
         return FieldResult(value="NOT_FOUND", raw_text="", confidence=0.0, bounding_box=None)
+

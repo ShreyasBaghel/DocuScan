@@ -37,6 +37,25 @@ def test_clahe():
     assert isinstance(enhanced, Image.Image)
     assert enhanced.size == (100, 100)
 
+def test_clahe_low_contrast():
+    p = Preprocessor()
+    # Create low contrast image (values slightly fluctuating around 128)
+    # The standard deviation of this image is ~2.
+    np.random.seed(42)
+    noise = np.random.randint(-2, 3, (100, 100))
+    arr = (np.ones((100, 100), dtype=np.int16) * 128 + noise).clip(0, 255).astype(np.uint8)
+    img = Image.fromarray(arr)
+    enhanced = p.apply_clahe(img)
+    
+    # Check that output is not collapsed to only saturated values (0 or 255)
+    enhanced_arr = np.array(enhanced)
+    unique_vals = np.unique(enhanced_arr)
+    
+    # Under the old uint8 pipeline, standard deviation collapsed to 0, causing division-by-near-zero
+    # and extreme saturation (output had only a few unique values, mostly 0 and 255).
+    # With float-safe estimation, we preserve a continuous range of gray values.
+    assert len(unique_vals) >= 5
+
 def test_binarise():
     p = Preprocessor()
     dummy_img = Image.fromarray(np.random.randint(50, 200, (100, 100), dtype=np.uint8))

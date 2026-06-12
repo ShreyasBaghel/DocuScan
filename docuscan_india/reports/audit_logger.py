@@ -67,18 +67,9 @@ class AuditLogger:
             # 1. Compute Hash
             doc_hash = self._compute_sha256(packet.image_path)
             
-            # 2. Determine Verdict
-            # If there's any validation FAIL or Critical Risk, the verdict is REJECTED/FAIL
-            verdict = "PASS"
-            if packet.fraud_risk_score >= 50:
-                verdict = "FAIL"
-            else:
-                for res in packet.validation_results:
-                    if res.status == "FAIL":
-                        verdict = "FAIL"
-                        break
-                    elif res.status == "WARN":
-                        verdict = "WARN"
+            # 2. Determine Verdict dynamically using model decision
+            verdict = packet.final_decision
+
 
             # 3. Serialize extracted fields (simplified key-value for database queries)
             fields_dict = {k: v.value for k, v in packet.extracted_fields.items()}

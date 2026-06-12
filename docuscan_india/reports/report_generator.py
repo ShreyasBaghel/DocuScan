@@ -30,14 +30,14 @@ class ReportGenerator:
         .header { border-bottom: 2px solid #0056b3; padding-bottom: 20px; margin-bottom: 30px; display: flex; justify-content: space-between; align-items: center; }
         .header h1 { margin: 0; color: #0056b3; }
         .status-badge { padding: 8px 16px; border-radius: 20px; font-weight: bold; color: white; display: inline-block; }
-        .status-pass { background-color: #28a745; }
-        .status-warn { background-color: #ffc107; color: #212529; }
-        .status-fail { background-color: #dc3545; }
+        .status-genuine { background-color: #28a745; }
+        .status-needs-manual-review { background-color: #ffc107; color: #212529; }
+        .status-suspicious { background-color: #dc3545; }
         table { width: 100%; border-collapse: collapse; margin-bottom: 30px; }
         th, td { padding: 12px; border: 1px solid #dee2e6; text-align: left; }
         th { background-color: #f1f3f5; }
         .section-title { font-size: 20px; color: #343a40; margin-bottom: 15px; border-left: 4px solid #0056b3; padding-left: 10px; }
-        .risk-score { font-size: 32px; font-weight: bold; }
+        .risk-score { font-weight: bold; }
     </style>
 </head>
 <body>
@@ -48,7 +48,7 @@ class ReportGenerator:
                 <p>Intelligent OCR & Verification System</p>
             </div>
             <div>
-                <span class="status-badge status-{{ verdict.lower() }}">{{ verdict }}</span>
+                <span class="status-badge status-{{ verdict_slug }}">{{ verdict }}</span>
             </div>
         </div>
 
@@ -57,14 +57,26 @@ class ReportGenerator:
             <tr>
                 <th>Document Type</th>
                 <td>{{ document_type }}</td>
-                <th>Fraud Risk Score</th>
-                <td class="risk-score" style="color: {% if risk_score < 25 %}#28a745{% elif risk_score < 50 %}#ffc107{% else %}#dc3545{% endif %}">{{ risk_score }}/100</td>
+                <th>Final Decision</th>
+                <td style="font-weight: bold; color: {% if verdict == 'Genuine' %}#28a745{% elif verdict == 'Suspicious' %}#dc3545{% else %}#ffc107{% endif %}">{{ verdict }}</td>
             </tr>
             <tr>
+                <th>Fraud Risk Score</th>
+                <td class="risk-score" style="color: {% if risk_score < 25 %}#28a745{% elif risk_score < 50 %}#ffc107{% else %}#dc3545{% endif %}">{{ risk_score }}/100</td>
+                <th>Authenticity Score</th>
+                <td style="font-weight: bold; color: {% if authenticity_score >= 75 %}#28a745{% elif authenticity_score < 40 %}#dc3545{% else %}#ffc107{% endif %}">{{ authenticity_score }}/100</td>
+            </tr>
+            <tr>
+                <th>Extraction Reliability</th>
+                <td style="font-weight: bold;">{{ extraction_reliability }}/100</td>
                 <th>Source File</th>
                 <td>{{ image_path }}</td>
+            </tr>
+            <tr>
                 <th>Timestamp</th>
                 <td>{{ timestamp }}</td>
+                <th></th>
+                <td></td>
             </tr>
         </table>
 
@@ -144,23 +156,18 @@ class ReportGenerator:
             env = Environment(loader=FileSystemLoader(self.template_dir))
             template = env.get_template("audit_report.html")
 
-            # Determine verdict
-            verdict = "PASS"
-            if packet.fraud_risk_score >= 50:
-                verdict = "FAIL"
-            else:
-                for res in packet.validation_results:
-                    if res.status == "FAIL":
-                        verdict = "FAIL"
-                        break
-                    elif res.status == "WARN":
-                        verdict = "WARN"
+            # Determine verdict from model decision
+            verdict = packet.final_decision
+            verdict_slug = verdict.lower().replace(" ", "-")
 
             from datetime import datetime
             html_content = template.render(
                 verdict=verdict,
+                verdict_slug=verdict_slug,
                 document_type=packet.document_type.value,
                 risk_score=packet.fraud_risk_score,
+                authenticity_score=packet.authenticity_score,
+                extraction_reliability=packet.extraction_reliability,
                 image_path=os.path.basename(packet.image_path),
                 timestamp=datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
                 fields=packet.extracted_fields,
@@ -215,27 +222,23 @@ class ReportGenerator:
             story.append(Paragraph("Offline Government Identity Verification System", body_style))
             story.append(Spacer(1, 15))
 
-            # Determine Verdict
-            verdict = "PASS"
-            if packet.fraud_risk_score >= 50:
-                verdict = "FAIL"
+            # Determine Verdict from model decision
+            verdict = packet.final_decision
+            if verdict == "Genuine":
+                verdict_color = colors.HexColor("#28a745")
+            elif verdict == "Suspicious":
+                verdict_color = colors.HexColor("#dc3545")
             else:
-                for res in packet.validation_results:
-                    if res.status == "FAIL":
-                        verdict = "FAIL"
-                        break
-                    elif res.status == "WARN":
-                        verdict = "WARN"
-
-            verdict_color = colors.HexColor("#28a745") if verdict == "PASS" else (colors.HexColor("#ffc107") if verdict == "WARN" else colors.HexColor("#dc3545"))
+                verdict_color = colors.HexColor("#ffc107")
 
             # Summary Table
             summary_data = [
                 ["Document Type:", packet.document_type.value, "Verdict Status:", verdict],
-                ["Risk Score:", f"{packet.fraud_risk_score}/100", "Timestamp:", datetime_now_str()],
+                ["Risk Score:", f"{packet.fraud_risk_score}/100", "Authenticity Score:", f"{packet.authenticity_score}/100"],
+                ["Extraction Reliability:", f"{packet.extraction_reliability}/100", "Timestamp:", datetime_now_str()],
                 ["Image File:", os.path.basename(packet.image_path), "", ""]
             ]
-            t_summary = Table(summary_data, colWidths=[110, 150, 110, 150])
+            t_summary = Table(summary_data, colWidths=[130, 130, 130, 130])
             t_summary.setStyle(TableStyle([
                 ('BACKGROUND', (0,0), (-1,-1), colors.HexColor("#f8f9fa")),
                 ('TEXTCOLOR', (1,0), (1,0), colors.HexColor("#003366")),

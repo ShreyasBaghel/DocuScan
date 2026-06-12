@@ -1,5 +1,6 @@
-from typing import List, Dict, Any
-from utils.document_packet import FraudSignal, ValidationResult, DocumentType
+from typing import List, Dict, Any, Union
+from utils.document_packet import FraudSignal, ValidationResult, DocumentType, DocumentPacket
+from ml.inference import ScoringInference
 from utils.logger import get_logger
 
 logger = get_logger("risk_score_engine")
@@ -8,63 +9,39 @@ class RiskScoreEngine:
     def __init__(self, config: Dict[str, Any]):
         """
         Initializes the Risk Score Engine.
-        config: Dict containing fraud_weights and risk_score_tiers.
+        config: Dict containing config options.
         """
         self.config = config
 
     def calculate(self, 
-                  ocr_confidence: float, 
-                  validation_results: List[ValidationResult], 
-                  fraud_signals: List[FraudSignal]) -> int:
+                  packet_or_conf: Union[DocumentPacket, float], 
+                  validation_results: List[ValidationResult] = None, 
+                  fraud_signals: List[FraudSignal] = None) -> int:
         """
-        Computes a final integer fraud risk score between 0 and 100.
-        Uses weights configured in config.yaml.
+        Computes a final integer fraud risk score between 0 and 100 using ML model inference.
         """
-        # 1. Load weights
-        fraud_config = self.config.get("fraud_weights", {})
-        w_exif_software = fraud_config.get("exif_editing_software", 30)
-        w_exif_timestamp = fraud_config.get("exif_timestamp_anomaly", 15)
-        w_failed_checksum = fraud_config.get("failed_checksum", 40)
-        w_format_inconsistency = fraud_config.get("format_inconsistency", 25)
-        w_validation_fail = fraud_config.get("validation_failure", 20)
-        w_validation_warn = w_validation_fail // 2
+        if isinstance(packet_or_conf, DocumentPacket):
+            packet = packet_or_conf
+        else:
+            # Reconstruct dummy packet for backwards compatibility
+            packet = DocumentPacket(
+                image_path="",
+                ocr_confidence=packet_or_conf,
+                validation_results=validation_results or [],
+                fraud_signals=fraud_signals or []
+            )
 
-        score = 0
+        res = ScoringInference.predict(packet)
+        # Update packet if it's a real DocumentPacket
+        if isinstance(packet_or_conf, DocumentPacket):
+            packet.fraud_risk_score = res["fraud_risk_score"]
+            packet.authenticity_score = res["authenticity_score"]
+            packet.extraction_reliability = res["extraction_reliability"]
+            packet.final_decision = res["final_decision"]
+            # Calibrate ocr and classification confidence
+            packet.ocr_confidence = res["ocr_confidence"] / 100.0
+            if packet.document_type != DocumentType.UNKNOWN:
+                packet.classification_confidence = res["classification_confidence"] / 100.0
 
-        # 2. Add EXIF signals
-        for sig in fraud_signals:
-            if sig.name == "editing_software_detected":
-                score += w_exif_software
-            elif sig.name == "timestamp_mismatch":
-                score += w_exif_timestamp
-            elif "layout_anomaly" in sig.name or "overlapping" in sig.name:
-                score += w_format_inconsistency
-            else:
-                score += sig.score
+        return res["fraud_risk_score"]
 
-        # 3. Add validation issues
-        checksum_failed = False
-        for res in validation_results:
-            if res.status == "FAIL":
-                # Check if it is a checksum failure
-                if "checksum" in res.field_name or "verhoeff" in res.field_name:
-                    checksum_failed = True
-                else:
-                    score += w_validation_fail
-            elif res.status == "WARN":
-                score += w_validation_warn
-
-        if checksum_failed:
-            score += w_failed_checksum
-
-        # 4. Add OCR Confidence penalty (poor scan, blurry text)
-        if ocr_confidence < 0.60:
-            penalty = int((0.60 - ocr_confidence) * 50)
-            score += penalty
-            logger.info(f"Adding OCR low confidence penalty: +{penalty} (OCR Conf: {ocr_confidence:.2f})")
-
-        # 5. Cap risk score to [0, 100]
-        final_score = max(0, min(100, score))
-        logger.info(f"Calculated fraud risk score: {final_score}/100")
-        
-        return final_score

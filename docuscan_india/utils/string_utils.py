@@ -25,11 +25,11 @@ def normalize_date(date_str: str) -> Optional[str]:
     # Try parsing various formats
     patterns = [
         # DD-MM-YYYY, DD/MM/YYYY, DD.MM.YYYY
-        r'(?P<day>\d{1,2})[/\-\.\s]+(?P<month>\d{1,2})[/\-\.\s]+(?P<year>\d{4})',
+        r'(?P<day>\d{1,2})[/\-\.\s]?(?P<month>\d{1,2})[/\-\.\s]?(?P<year>\d{4})',
         # YYYY-MM-DD
-        r'(?P<year>\d{4})[/\-\.\s]+(?P<month>\d{1,2})[/\-\.\s]+(?P<day>\d{1,2})',
+        r'(?P<year>\d{4})[/\-\.\s]?(?P<month>\d{1,2})[/\-\.\s]?(?P<day>\d{1,2})',
         # DD-MM-YY (for 2-digit years, assume 1900/2000 boundary)
-        r'(?P<day>\d{1,2})[/\-\.\s]+(?P<month>\d{1,2})[/\-\.\s]+(?P<year>\d{2})'
+        r'(?P<day>\d{1,2})[/\-\.\s]?(?P<month>\d{1,2})[/\-\.\s]?(?P<year>\d{2})'
     ]
     
     for pat in patterns:
@@ -111,8 +111,14 @@ def extract_uppercase_name(line: str) -> str:
     if not line:
         return "NOT_FOUND"
     
+    # Strip typical leading punctuation and labels
+    line_clean = line.strip()
+    line_clean = re.sub(r'^[^a-zA-Z0-9]+', '', line_clean)
+    prefix_pattern = r'^(?:name|father|fathers|father\'s|mother|mothers|mother\'s|dob|yob|birth|gender|male|female)\s*[:\-]?\s*'
+    line_clean = re.sub(prefix_pattern, '', line_clean, flags=re.IGNORECASE)
+    
     # Split the line into tokens/words
-    words = line.split()
+    words = line_clean.split()
     clean_words = []
     for word in words:
         # Extract letters
@@ -156,7 +162,12 @@ def is_valid_name(name: str, doc_number: str = "") -> bool:
                 return False
             
     # Safeguard against extracting typical header fields
-    headers = ["INCOME", "TAX", "DEPARTMENT", "GOVERNMENT", "INDIA", "PERMANENT", "ACCOUNT", "CARD", "SIGNATURE", "HOLDER"]
+    headers = [
+        "INCOME", "TAX", "DEPARTMENT", "GOVERNMENT", "INDIA", "PERMANENT", "ACCOUNT", "CARD", "SIGNATURE", "HOLDER",
+        "DOB", "DATE", "BIRTH", "GENDER", "MALE", "FEMALE", "YEAR", "NAME", "FATHER", "FATHERS", "MOTHER", "MOTHERS",
+        "UNIQUE", "IDENTIFICATION", "ENROLLMENT", "ENROLMENT", "UIDAI", "GOVT", "STATE", "DISTRICT", "POST", "ADDRESS",
+        "NUMBER", "NO", "VALID", "TILL", "EXPIRY", "LICENCE", "LICENSE", "DRIVING", "PASSPORT", "NATIONALITY", "ISSUE"
+    ]
     for h in headers:
         if h in name.upper().split():
             return False

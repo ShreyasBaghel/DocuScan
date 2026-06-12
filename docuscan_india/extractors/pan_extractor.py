@@ -31,7 +31,8 @@ class PANExtractor(BaseExtractor):
 
         if pan_num != "NOT_FOUND":
             bbox = self.merge_bounding_boxes(pan_raw, word_map)
-            results["pan_number"] = FieldResult(value=pan_num, raw_text=pan_raw, confidence=0.98, bounding_box=bbox)
+            conf = self.get_field_confidence(pan_num, word_map)
+            results["pan_number"] = FieldResult(value=pan_num, raw_text=pan_raw, confidence=conf, bounding_box=bbox)
         else:
             results["pan_number"] = FieldResult(value="NOT_FOUND", raw_text="", confidence=0.0, bounding_box=None)
 
@@ -119,19 +120,22 @@ class PANExtractor(BaseExtractor):
         # Write results
         if name_val != "NOT_FOUND":
             bbox = self.merge_bounding_boxes(name_raw, word_map)
-            results["name"] = FieldResult(value=name_val, raw_text=name_raw, confidence=0.88, bounding_box=bbox)
+            conf = self.get_field_confidence(name_val, word_map)
+            results["name"] = FieldResult(value=name_val, raw_text=name_raw, confidence=conf, bounding_box=bbox)
         else:
             results["name"] = FieldResult(value="NOT_FOUND", raw_text="", confidence=0.0, bounding_box=None)
 
         if father_val != "NOT_FOUND":
             bbox = self.merge_bounding_boxes(father_raw, word_map)
-            results["father_name"] = FieldResult(value=father_val, raw_text=father_raw, confidence=0.85, bounding_box=bbox)
+            conf = self.get_field_confidence(father_val, word_map)
+            results["father_name"] = FieldResult(value=father_val, raw_text=father_raw, confidence=conf, bounding_box=bbox)
         else:
             results["father_name"] = FieldResult(value="NOT_FOUND", raw_text="", confidence=0.0, bounding_box=None)
 
         if dob_val != "NOT_FOUND":
             bbox = self.merge_bounding_boxes(dob_raw, word_map)
-            results["dob"] = FieldResult(value=dob_val, raw_text=dob_raw, confidence=0.92, bounding_box=bbox)
+            conf = self.get_field_confidence(dob_val, word_map)
+            results["dob"] = FieldResult(value=dob_val, raw_text=dob_raw, confidence=conf, bounding_box=bbox)
         else:
             results["dob"] = FieldResult(value="NOT_FOUND", raw_text="", confidence=0.0, bounding_box=None)
 

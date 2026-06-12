@@ -57,7 +57,8 @@ class AadhaarExtractor(BaseExtractor):
 
         if aadhaar_num != "NOT_FOUND":
             bbox = self.merge_bounding_boxes(aadhaar_raw, word_map)
-            results["aadhaar_number"] = FieldResult(value=aadhaar_num, raw_text=aadhaar_raw, confidence=0.95, bounding_box=bbox)
+            conf = self.get_field_confidence(aadhaar_num, word_map)
+            results["aadhaar_number"] = FieldResult(value=aadhaar_num, raw_text=aadhaar_raw, confidence=conf, bounding_box=bbox)
         else:
             results["aadhaar_number"] = FieldResult(value="NOT_FOUND", raw_text="", confidence=0.0, bounding_box=None)
 
@@ -78,7 +79,8 @@ class AadhaarExtractor(BaseExtractor):
 
         if dob_val != "NOT_FOUND":
             bbox = self.merge_bounding_boxes(dob_raw, word_map)
-            results["dob"] = FieldResult(value=dob_val, raw_text=dob_raw, confidence=0.90, bounding_box=bbox)
+            conf = self.get_field_confidence(dob_val, word_map)
+            results["dob"] = FieldResult(value=dob_val, raw_text=dob_raw, confidence=conf, bounding_box=bbox)
         else:
             m_date = re.search(r"\b(\d{2}[/\-\.]\d{2}[/\-\.]\d{4})\b", raw_text)
             if m_date:
@@ -89,7 +91,8 @@ class AadhaarExtractor(BaseExtractor):
 
             if dob_val != "NOT_FOUND":
                 bbox = self.merge_bounding_boxes(dob_raw, word_map)
-                results["dob"] = FieldResult(value=dob_val, raw_text=dob_raw, confidence=0.85, bounding_box=bbox)
+                conf = self.get_field_confidence(dob_val, word_map)
+                results["dob"] = FieldResult(value=dob_val, raw_text=dob_raw, confidence=conf, bounding_box=bbox)
             else:
                 results["dob"] = FieldResult(value="NOT_FOUND", raw_text="", confidence=0.0, bounding_box=None)
 
@@ -109,7 +112,8 @@ class AadhaarExtractor(BaseExtractor):
 
         if gender_val != "NOT_FOUND":
             bbox = self.merge_bounding_boxes(gender_raw, word_map)
-            results["gender"] = FieldResult(value=gender_val, raw_text=gender_raw, confidence=0.95, bounding_box=bbox)
+            conf = self.get_field_confidence(gender_val, word_map)
+            results["gender"] = FieldResult(value=gender_val, raw_text=gender_raw, confidence=conf, bounding_box=bbox)
         else:
             results["gender"] = FieldResult(value="NOT_FOUND", raw_text="", confidence=0.0, bounding_box=None)
 
@@ -150,8 +154,10 @@ class AadhaarExtractor(BaseExtractor):
 
         if name_val != "NOT_FOUND":
             bbox = self.merge_bounding_boxes(name_raw, word_map)
-            results["name"] = FieldResult(value=name_val, raw_text=name_raw, confidence=0.85, bounding_box=bbox)
+            conf = self.get_field_confidence(name_val, word_map)
+            results["name"] = FieldResult(value=name_val, raw_text=name_raw, confidence=conf, bounding_box=bbox)
         else:
             results["name"] = FieldResult(value="NOT_FOUND", raw_text="", confidence=0.0, bounding_box=None)
+
 
         return results

@@ -44,6 +44,60 @@ class VerificationPipeline:
         self.risk_engine = RiskScoreEngine(self.config)
         self.export_manager = ExportManager()
 
+    def _extract_fields(self, packet: DocumentPacket) -> None:
+        """Runs the primary extraction and necessary fallback OCR passes for the document type."""
+        if packet.document_type == DocumentType.UNKNOWN:
+            return
+
+        logger.info(f"Running field extraction for document type: {packet.document_type.value}")
+        extractor = ExtractorRegistry.get_extractor(packet.document_type)
+        packet.extracted_fields = extractor.extract(packet.ocr_raw_text, packet.ocr_word_map)
+        
+        # Fallback OCR pass for Aadhaar or PAN if the primary ID number or essential fields were not found
+        # (Very useful for low-res photos/scans where PSM 3 misses the separate blocks)
+        if packet.document_type == DocumentType.AADHAAR:
+            num_field = packet.extracted_fields.get("aadhaar_number")
+            name_field = packet.extracted_fields.get("name")
+            dob_field = packet.extracted_fields.get("dob")
+            
+            if (not num_field or num_field.value == "NOT_FOUND" or
+                not name_field or name_field.value == "NOT_FOUND" or
+                not dob_field or dob_field.value == "NOT_FOUND"):
+                logger.info("Aadhaar essential fields not found in first pass. Running fallback OCR (PSM 11)...")
+                raw_fb, conf_fb, map_fb = self.ocr_engine.extract(packet.preprocessed_image, "AADHAAR_FALLBACK")
+                fb_fields = extractor.extract(raw_fb, map_fb)
+                
+                # Merge recovered fields
+                for k, v in fb_fields.items():
+                    if k not in packet.extracted_fields or packet.extracted_fields[k].value == "NOT_FOUND":
+                        if v.value != "NOT_FOUND":
+                            logger.info(f"Successfully recovered Aadhaar {k} in fallback pass: {v.value}")
+                            packet.extracted_fields[k] = v
+                            
+        elif packet.document_type == DocumentType.PAN:
+            num_field = packet.extracted_fields.get("pan_number")
+            name_field = packet.extracted_fields.get("name")
+            father_field = packet.extracted_fields.get("father_name")
+            dob_field = packet.extracted_fields.get("dob")
+            
+            if (not num_field or num_field.value == "NOT_FOUND" or
+                not name_field or name_field.value == "NOT_FOUND" or
+                not father_field or father_field.value == "NOT_FOUND" or
+                not dob_field or dob_field.value == "NOT_FOUND"):
+                logger.info("PAN essential fields not found in first pass. Running fallback OCR (PSM 11)...")
+                raw_fb, conf_fb, map_fb = self.ocr_engine.extract(packet.preprocessed_image, "PAN_FALLBACK")
+                fb_fields = extractor.extract(raw_fb, map_fb)
+                
+                # Merge recovered fields
+                for k, v in fb_fields.items():
+                    if k not in packet.extracted_fields or packet.extracted_fields[k].value == "NOT_FOUND":
+                        if v.value != "NOT_FOUND":
+                            logger.info(f"Successfully recovered PAN {k} in fallback pass: {v.value}")
+                            packet.extracted_fields[k] = v
+        
+        # Track the document type for which these fields were extracted
+        packet.pipeline_metadata["extracted_doc_type"] = packet.document_type
+
     def process_classification(self, image_path: str) -> DocumentPacket:
         """
         Executes Stages 1-3: Load image, Preprocess, OCR, and Classify.
@@ -102,14 +156,25 @@ class VerificationPipeline:
             # Run extraction early if classification is successful and known
             if doc_type != DocumentType.UNKNOWN:
                 try:
-                    extractor = ExtractorRegistry.get_extractor(doc_type)
-                    packet.extracted_fields = extractor.extract(packet.ocr_raw_text, packet.ocr_word_map)
+                    self._extract_fields(packet)
                     logger.info(f"Ran early extraction for classification display. Fields: {list(packet.extracted_fields.keys())}")
                 except Exception as e:
                     logger.error(f"Early extraction failed: {e}")
         except Exception as e:
             logger.error(f"Stage 3 failed: {e}")
             raise e
+
+        # Stage 3 dynamic model prediction
+        try:
+            from ml.inference import ScoringInference
+            res = ScoringInference.predict(packet)
+            packet.ocr_confidence = res["ocr_confidence"] / 100.0
+            if packet.document_type != DocumentType.UNKNOWN:
+                packet.classification_confidence = res["classification_confidence"] / 100.0
+            else:
+                packet.classification_confidence = 0.0
+        except Exception as e:
+            logger.error(f"Incremental classification scoring prediction failed: {e}")
 
         return packet
 
@@ -125,41 +190,11 @@ class VerificationPipeline:
 
         # Stage 4: Field Extraction
         try:
-            extractor = ExtractorRegistry.get_extractor(packet.document_type)
-            packet.extracted_fields = extractor.extract(packet.ocr_raw_text, packet.ocr_word_map)
-            
-            # Fallback OCR pass for Aadhaar or PAN if the primary ID number was not found
-            # (Very useful for low-res photos/scans where PSM 3 misses the separate number block)
-            if packet.document_type == DocumentType.AADHAAR:
-                num_field = packet.extracted_fields.get("aadhaar_number")
-                if not num_field or num_field.value == "NOT_FOUND":
-                    logger.info("Aadhaar number not found in first pass. Running fallback OCR (PSM 11)...")
-                    raw_fb, conf_fb, map_fb = self.ocr_engine.extract(packet.preprocessed_image, "AADHAAR_FALLBACK")
-                    fb_fields = extractor.extract(raw_fb, map_fb)
-                    fb_num = fb_fields.get("aadhaar_number")
-                    if fb_num and fb_num.value != "NOT_FOUND":
-                        logger.info(f"Successfully recovered Aadhaar number in fallback pass: {fb_num.value}")
-                        packet.extracted_fields["aadhaar_number"] = fb_num
-                        # Also recover other NOT_FOUND fields if possible
-                        for k, v in fb_fields.items():
-                            if k not in packet.extracted_fields or packet.extracted_fields[k].value == "NOT_FOUND":
-                                packet.extracted_fields[k] = v
-                                
-            elif packet.document_type == DocumentType.PAN:
-                num_field = packet.extracted_fields.get("pan_number")
-                if not num_field or num_field.value == "NOT_FOUND":
-                    logger.info("PAN number not found in first pass. Running fallback OCR (PSM 11)...")
-                    raw_fb, conf_fb, map_fb = self.ocr_engine.extract(packet.preprocessed_image, "PAN_FALLBACK")
-                    fb_fields = extractor.extract(raw_fb, map_fb)
-                    fb_num = fb_fields.get("pan_number")
-                    if fb_num and fb_num.value != "NOT_FOUND":
-                        logger.info(f"Successfully recovered PAN number in fallback pass: {fb_num.value}")
-                        packet.extracted_fields["pan_number"] = fb_num
-                        for k, v in fb_fields.items():
-                            if k not in packet.extracted_fields or packet.extracted_fields[k].value == "NOT_FOUND":
-                                packet.extracted_fields[k] = v
-
-            logger.info(f"Stage 4 (Extraction) completed. Fields: {list(packet.extracted_fields.keys())}")
+            if packet.pipeline_metadata.get("extracted_doc_type") == packet.document_type:
+                logger.info(f"Stage 4: Skipping extraction as fields were already extracted for {packet.document_type.value}.")
+            else:
+                self._extract_fields(packet)
+                logger.info(f"Stage 4 (Extraction) completed. Fields: {list(packet.extracted_fields.keys())}")
         except Exception as e:
             logger.error(f"Stage 4 failed: {e}")
             raise e
@@ -207,12 +242,8 @@ class VerificationPipeline:
             # Formatting consistency
             packet.fraud_signals.extend(self.format_checker.check(packet.document_type, packet.extracted_fields, packet.ocr_word_map))
             
-            # Compute fraud risk score
-            packet.fraud_risk_score = self.risk_engine.calculate(
-                packet.ocr_confidence,
-                packet.validation_results,
-                packet.fraud_signals
-            )
+            # Compute fraud risk score using dynamic ML scoring models
+            packet.fraud_risk_score = self.risk_engine.calculate(packet)
             logger.info(f"Stage 6 (Fraud Detection) completed. Risk Score: {packet.fraud_risk_score}")
         except Exception as e:
             logger.error(f"Stage 6 failed: {e}")

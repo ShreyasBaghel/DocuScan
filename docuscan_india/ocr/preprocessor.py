@@ -1,5 +1,6 @@
 from PIL import Image, ImageOps, ImageFilter, ImageEnhance
 import numpy as np
+import cv2
 from typing import Dict, Any
 
 class Preprocessor:
@@ -106,40 +107,16 @@ class Preprocessor:
 
     def apply_clahe(self, img: Image.Image) -> Image.Image:
         """
-        Applies a high-performance local contrast normalization filter
-        that emulates OpenCV's CLAHE.
+        Applies local contrast enhancement using OpenCV's native CLAHE.
         """
         gray = img.convert("L")
-        w, h = gray.size
+        gray_arr = np.array(gray)
         
-        # Calculate optimal radius dynamically based on resolution
-        radius = max(30, min(w, h) // 16)
+        # Apply OpenCV CLAHE
+        clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8, 8))
+        clahe_img = clahe.apply(gray_arr)
         
-        # Convert to float numpy array
-        arr = np.array(gray, dtype=float)
-        
-        # Compute local mean using Gaussian blur
-        mean_img = gray.filter(ImageFilter.GaussianBlur(radius))
-        mean = np.array(mean_img, dtype=float)
-        
-        # Compute absolute difference from mean
-        diff = arr - mean
-        
-        # Compute local standard deviation
-        # Scale to fit inside standard uint8 image to keep footprint low
-        diff_sq_norm = (diff**2) / 255.0
-        diff_sq_img = Image.fromarray(diff_sq_norm.astype(np.uint8))
-        var_img = diff_sq_img.filter(ImageFilter.GaussianBlur(radius))
-        var = np.array(var_img, dtype=float) * 255.0
-        
-        # Standard deviation (add epsilon to avoid division by zero)
-        std = np.sqrt(var) + 1e-5
-        
-        # Normalize: shift by 128 and scale with a text-gain of 55
-        norm = (diff / std) * 55.0 + 128.0
-        norm = np.clip(norm, 0, 255).astype(np.uint8)
-        
-        return Image.fromarray(norm)
+        return Image.fromarray(clahe_img)
 
     def binarise(self, img: Image.Image) -> Image.Image:
         """Applies adaptive/local thresholding using a blurred mask."""

@@ -1,0 +1,235 @@
+{
+    "image_path": "C:/Users/shrey/Downloads/Aadhaar and PAN/Aadhaar Back.jpg",
+    "ocr_raw_text": "Var: Wot asia FAN, 62, Heat\n\n110095\nAddress: s/o SANJEEV KUMAR, 72, JANTA\nFLATS VIVEK VIHAR, Vivek Vihar, East\n\n=\n\n",
+    "ocr_confidence": 1.0,
+    "ocr_word_map": [
+        {
+            "text": "Var:",
+            "left": 101,
+            "top": 197,
+            "width": 62,
+            "height": 26,
+            "conf": 0.68
+        },
+        {
+            "text": "Wot",
+            "left": 184,
+            "top": 192,
+            "width": 70,
+            "height": 33,
+            "conf": 0.53
+        },
+        {
+            "text": "asia",
+            "left": 270,
+            "top": 192,
+            "width": 86,
+            "height": 34,
+            "conf": 0.68
+        },
+        {
+            "text": "FAN,",
+            "left": 372,
+            "top": 202,
+            "width": 88,
+            "height": 41,
+            "conf": 0.72
+        },
+        {
+            "text": "62,",
+            "left": 480,
+            "top": 205,
+            "width": 44,
+            "height": 28,
+            "conf": 0.47
+        },
+        {
+            "text": "Heat",
+            "left": 546,
+            "top": 206,
+            "width": 84,
+            "height": 26,
+            "conf": 0.58
+        },
+        {
+            "text": "110095",
+            "left": 103,
+            "top": 287,
+            "width": 119,
+            "height": 31,
+            "conf": 0.88
+        },
+        {
+            "text": "Address:",
+            "left": 97,
+            "top": 334,
+            "width": 141,
+            "height": 31,
+            "conf": 0.96
+        },
+        {
+            "text": "s/o",
+            "left": 249,
+            "top": 337,
+            "width": 48,
+            "height": 29,
+            "conf": 0.93
+        },
+        {
+            "text": "SANJEEV",
+            "left": 307,
+            "top": 337,
+            "width": 163,
+            "height": 32,
+            "conf": 0.93
+        },
+        {
+            "text": "KUMAR,",
+            "left": 479,
+            "top": 340,
+            "width": 136,
+            "height": 35,
+            "conf": 0.96
+        },
+        {
+            "text": "72,",
+            "left": 627,
+            "top": 344,
+            "width": 46,
+            "height": 31,
+            "conf": 0.93
+        },
+        {
+            "text": "JANTA",
+            "left": 686,
+            "top": 345,
+            "width": 112,
+            "height": 29,
+            "conf": 0.9
+        },
+        {
+            "text": "FLATS",
+            "left": 97,
+            "top": 381,
+            "width": 110,
+            "height": 30,
+            "conf": 0.96
+        },
+        {
+            "text": "VIVEK",
+            "left": 219,
+            "top": 383,
+            "width": 103,
+            "height": 29,
+            "conf": 0.96
+        },
+        {
+            "text": "VIHAR,",
+            "left": 333,
+            "top": 385,
+            "width": 117,
+            "height": 33,
+            "conf": 0.96
+        },
+        {
+            "text": "Vivek",
+            "left": 462,
+            "top": 387,
+            "width": 86,
+            "height": 30,
+            "conf": 0.96
+        },
+        {
+            "text": "Vihar,",
+            "left": 557,
+            "top": 388,
+            "width": 92,
+            "height": 34,
+            "conf": 0.96
+        },
+        {
+            "text": "East",
+            "left": 662,
+            "top": 390,
+            "width": 70,
+            "height": 29,
+            "conf": 0.96
+        },
+        {
+            "text": "=",
+            "left": 55,
+            "top": 413,
+            "width": 20,
+            "height": 9,
+            "conf": 0.88
+        }
+    ],
+    "document_type": "AADHAAR",
+    "classification_confidence": 0.01,
+    "extracted_fields": {
+        "aadhaar_number": {
+            "value": "NOT_FOUND",
+            "raw_text": "",
+            "confidence": 0.0,
+            "bounding_box": null
+        },
+        "dob": {
+            "value": "NOT_FOUND",
+            "raw_text": "",
+            "confidence": 0.0,
+            "bounding_box": null
+        },
+        "gender": {
+            "value": "NOT_FOUND",
+            "raw_text": "",
+            "confidence": 0.0,
+            "bounding_box": null
+        },
+        "name": {
+            "value": "FAN",
+            "raw_text": "Var: Wot asia FAN, 62, Heat",
+            "confidence": 0.72,
+            "bounding_box": {
+                "x": 184,
+                "y": 192,
+                "w": 446,
+                "h": 40
+            }
+        }
+    },
+    "validation_results": [
+        {
+            "status": "FAIL",
+            "field_name": "aadhaar_number_format",
+            "expected": "12 digits",
+            "actual": "Missing field"
+        },
+        {
+            "status": "FAIL",
+            "field_name": "dob",
+            "expected": "YYYY-MM-DD",
+            "actual": "Missing field"
+        },
+        {
+            "status": "FAIL",
+            "field_name": "gender_format",
+            "expected": "MALE/FEMALE/OTHER",
+            "actual": "Missing field"
+        },
+        {
+            "status": "PASS",
+            "field_name": "name",
+            "expected": "Uppercase Alphabetic",
+            "actual": "FAN"
+        }
+    ],
+    "fraud_signals": [],
+    "fraud_risk_score": 0,
+    "authenticity_score": 1,
+    "extraction_reliability": 1,
+    "final_decision": "Suspicious",
+    "report_path": "",
+    "pipeline_metadata": {
+        "extracted_doc_type": "AADHAAR"
+    }
+}
