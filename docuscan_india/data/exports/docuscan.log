@@ -5977,3 +5977,311 @@ KeyError: 'top'
 2026-06-17 11:26:22 [INFO] inference: Model Inference Results: OCR=74, Class=100, Extract=0, FraudRisk=0, Auth=0 -> Verdict=Suspicious
 2026-06-17 11:26:22 [INFO] app_controller: UI Queue message received: CLASSIFICATION_DONE
 2026-06-17 11:27:00 [INFO] main: Application closed normally.
+2026-06-17 11:29:45 [INFO] pipeline: Pipeline loaded configuration: D:\OCR\docuscan_india\config.yaml
+2026-06-17 11:29:45 [INFO] ocr_engine: Tesseract path set from config: C:\Program Files\Tesseract-OCR\tesseract.exe
+2026-06-17 11:29:45 [INFO] audit_logger: Audit database initialized successfully at: D:\OCR\docuscan_india\data\db\audit.db
+2026-06-17 11:29:45 [INFO] pipeline: --- Pipeline starting classification for D:\OCR\docuscan_india\tests\fixtures\sample_docs\mock_aadhaar.jpg ---
+2026-06-17 11:29:45 [INFO] pipeline: Stage 1 (Preprocessing) completed successfully.
+2026-06-17 11:29:45 [INFO] pipeline: Stage 2 (OCR) completed. Confidence: 0.92
+2026-06-17 11:29:45 [INFO] inference: Scoring and calibration models loaded successfully.
+2026-06-17 11:29:45 [INFO] classifier_ensemble: Classifier individual results: Keyword=AADHAAR(0.99), Regex=AADHAAR(0.99), Layout=UNKNOWN(0.00)
+2026-06-17 11:29:45 [INFO] classifier_ensemble: Ensemble bypassed: Reliable regex match for AADHAAR (0.99)
+2026-06-17 11:29:45 [INFO] pipeline: Stage 3 (Classification) completed. Type: AADHAAR, Conf: 0.99
+2026-06-17 11:29:45 [INFO] pipeline: Running field extraction for document type: AADHAAR
+2026-06-17 11:29:45 [INFO] pipeline: Ran early extraction for classification display. Fields: ['aadhaar_number', 'dob', 'gender', 'name']
+2026-06-17 11:29:46 [INFO] inference: Model Inference Results: OCR=92, Class=100, Extract=100, FraudRisk=0, Auth=100 -> Verdict=Genuine
+2026-06-17 11:29:46 [INFO] pipeline: --- Pipeline continuing verification for AADHAAR ---
+2026-06-17 11:29:46 [INFO] pipeline: Stage 4: Skipping extraction as fields were already extracted for AADHAAR.
+2026-06-17 11:29:46 [INFO] pipeline: Stage 5 (Validation) completed. Total check rules: 6
+2026-06-17 11:29:46 [INFO] metadata_analyser: No EXIF metadata found in: D:\OCR\docuscan_india\tests\fixtures\sample_docs\mock_aadhaar.jpg
+2026-06-17 11:29:46 [INFO] inference: Model Inference Results: OCR=92, Class=100, Extract=100, FraudRisk=0, Auth=100 -> Verdict=Genuine
+2026-06-17 11:29:46 [INFO] pipeline: Stage 6 (Fraud Detection) completed. Risk Score: 0
+2026-06-17 11:29:46 [INFO] export_manager: Saved JSON export: D:\OCR\docuscan_india\data\exports\mock_aadhaar_audit.json
+2026-06-17 11:29:46 [INFO] report_generator: HTML report generated at: D:\OCR\docuscan_india\data\exports\mock_aadhaar_audit.html
+2026-06-17 11:29:46 [INFO] report_generator: PDF report generated at: D:\OCR\docuscan_india\data\exports\mock_aadhaar_audit.pdf
+2026-06-17 11:29:46 [INFO] audit_logger: Audit log saved successfully. Hash: d00be442b4... Verdict: Genuine
+2026-06-17 11:29:46 [INFO] pipeline: Stage 7 (Reporting) completed. Exports generated.
+2026-06-17 11:29:46 [INFO] classifier_ensemble: Classifier individual results: Keyword=PAN(1.00), Regex=PAN(0.98), Layout=UNKNOWN(0.00)
+2026-06-17 11:29:46 [INFO] classifier_ensemble: Ensemble bypassed: Reliable regex match for PAN (0.98)
+2026-06-17 11:29:46 [INFO] classifier_ensemble: Classifier individual results: Keyword=UNKNOWN(0.00), Regex=UNKNOWN(0.00), Layout=UNKNOWN(0.00)
+2026-06-17 11:29:46 [INFO] classifier_ensemble: Ensemble raw decision: UNKNOWN with aggregated score 0.00 (Threshold: 0.51)
+2026-06-17 11:29:46 [WARNING] classifier_ensemble: Ensemble score 0.00 is below threshold 0.51. Classifying as UNKNOWN.
+2026-06-17 11:29:47 [INFO] inference: Model Inference Results: OCR=87, Class=0, Extract=0, FraudRisk=0, Auth=0 -> Verdict=Suspicious
+2026-06-17 11:29:47 [INFO] inference: Executing safe fallback scoring calculations.
+2026-06-17 11:29:47 [INFO] inference: Model Inference Results: OCR=80, Class=0, Extract=0, FraudRisk=0, Auth=0 -> Verdict=Suspicious
+2026-06-17 11:29:47 [INFO] inference: Model Inference Results: OCR=90, Class=0, Extract=0, FraudRisk=0, Auth=0 -> Verdict=Suspicious
+2026-06-17 11:29:47 [INFO] inference: Model Inference Results: OCR=90, Class=1, Extract=0, FraudRisk=100, Auth=0 -> Verdict=Suspicious
+2026-06-17 11:29:47 [INFO] ocr_engine: Tesseract found at standard path: C:\Program Files\Tesseract-OCR\tesseract.exe
+2026-06-17 11:29:47 [INFO] passport_splitter: Passport dual-page layout detected. Type: vertical, Coord: 400
+2026-06-17 11:29:47 [INFO] passport_splitter: MRZ indicator scores: Region A = 68, Region B = 0
+2026-06-17 11:29:47 [INFO] passport_splitter: Assigned Region A -> Page 1, Region B -> Page 2
+2026-06-17 11:29:47 [INFO] passport_splitter: Passport fields merged and packet updated successfully.
+2026-06-17 11:29:47 [INFO] pipeline: Pipeline loaded configuration: D:\OCR\docuscan_india\config.yaml
+2026-06-17 11:29:47 [INFO] ocr_engine: Tesseract path set from config: C:\Program Files\Tesseract-OCR\tesseract.exe
+2026-06-17 11:29:47 [INFO] audit_logger: Audit database initialized successfully at: D:\OCR\docuscan_india\data\db\audit.db
+2026-06-17 11:29:47 [INFO] pipeline: --- Pipeline starting classification for dummy_path.jpg ---
+2026-06-17 11:29:47 [INFO] pipeline: Stage 1 (Preprocessing) completed successfully.
+2026-06-17 11:29:47 [INFO] pipeline: Stage 2 (OCR) completed. Confidence: 0.92
+2026-06-17 11:29:47 [INFO] classifier_ensemble: Classifier individual results: Keyword=AADHAAR(0.99), Regex=UNKNOWN(0.00), Layout=UNKNOWN(0.00)
+2026-06-17 11:29:47 [INFO] classifier_ensemble: Ensemble raw decision: AADHAAR with aggregated score 0.99 (Threshold: 0.51)
+2026-06-17 11:29:47 [INFO] pipeline: Stage 3 (Classification) completed. Type: AADHAAR, Conf: 0.99
+2026-06-17 11:29:47 [INFO] pipeline: Running field extraction for document type: AADHAAR
+2026-06-17 11:29:47 [INFO] pipeline: Aadhaar essential fields not found in first pass. Running fallback OCR (PSM 11)...
+2026-06-17 11:29:47 [INFO] pipeline: Successfully recovered Aadhaar aadhaar_number in fallback pass: 366874830214
+2026-06-17 11:29:47 [INFO] pipeline: Ran early extraction for classification display. Fields: ['aadhaar_number', 'dob', 'gender', 'name']
+2026-06-17 11:29:47 [INFO] inference: Model Inference Results: OCR=92, Class=100, Extract=100, FraudRisk=0, Auth=100 -> Verdict=Genuine
+2026-06-17 11:29:47 [INFO] pipeline: --- Pipeline continuing verification for AADHAAR ---
+2026-06-17 11:29:47 [INFO] pipeline: Stage 4: Skipping extraction as fields were already extracted for AADHAAR.
+2026-06-17 11:29:47 [INFO] pipeline: Stage 5 (Validation) completed. Total check rules: 6
+2026-06-17 11:29:47 [ERROR] metadata_analyser: Failed to analyze EXIF metadata: [Errno 2] No such file or directory: 'dummy_path.jpg'
+2026-06-17 11:29:47 [INFO] inference: Model Inference Results: OCR=92, Class=100, Extract=100, FraudRisk=0, Auth=100 -> Verdict=Genuine
+2026-06-17 11:29:47 [INFO] pipeline: Stage 6 (Fraud Detection) completed. Risk Score: 0
+2026-06-17 11:29:47 [INFO] export_manager: Saved JSON export: D:\OCR\docuscan_india\data\exports\dummy_path_audit.json
+2026-06-17 11:29:47 [INFO] report_generator: HTML report generated at: D:\OCR\docuscan_india\data\exports\dummy_path_audit.html
+2026-06-17 11:29:47 [INFO] report_generator: PDF report generated at: D:\OCR\docuscan_india\data\exports\dummy_path_audit.pdf
+2026-06-17 11:29:47 [INFO] audit_logger: Audit log saved successfully. Hash: UNKNOWN... Verdict: Genuine
+2026-06-17 11:29:47 [INFO] pipeline: Stage 7 (Reporting) completed. Exports generated.
+2026-06-17 11:29:47 [INFO] pipeline: --- Pipeline continuing verification for PAN ---
+2026-06-17 11:29:47 [INFO] pipeline: Running field extraction for document type: PAN
+2026-06-17 11:29:47 [INFO] pipeline: PAN essential fields not found in first pass. Running fallback OCR (PSM 11)...
+2026-06-17 11:29:47 [INFO] pipeline: Successfully recovered PAN pan_number in fallback pass: HXDPB8430A
+2026-06-17 11:29:47 [INFO] pipeline: Stage 4 (Extraction) completed. Fields: ['pan_number', 'name', 'father_name', 'dob']
+2026-06-17 11:29:47 [INFO] pipeline: Stage 5 (Validation) completed. Total check rules: 6
+2026-06-17 11:29:47 [ERROR] metadata_analyser: Failed to analyze EXIF metadata: [Errno 2] No such file or directory: 'dummy_path.jpg'
+2026-06-17 11:29:47 [INFO] inference: Model Inference Results: OCR=92, Class=100, Extract=100, FraudRisk=0, Auth=100 -> Verdict=Genuine
+2026-06-17 11:29:47 [INFO] pipeline: Stage 6 (Fraud Detection) completed. Risk Score: 0
+2026-06-17 11:29:47 [INFO] export_manager: Saved JSON export: D:\OCR\docuscan_india\data\exports\dummy_path_audit.json
+2026-06-17 11:29:47 [INFO] report_generator: HTML report generated at: D:\OCR\docuscan_india\data\exports\dummy_path_audit.html
+2026-06-17 11:29:47 [INFO] report_generator: PDF report generated at: D:\OCR\docuscan_india\data\exports\dummy_path_audit.pdf
+2026-06-17 11:29:47 [INFO] audit_logger: Audit log saved successfully. Hash: UNKNOWN... Verdict: Genuine
+2026-06-17 11:29:47 [INFO] pipeline: Stage 7 (Reporting) completed. Exports generated.
+2026-06-17 11:38:46 [INFO] pipeline: Pipeline loaded configuration: D:\OCR\docuscan_india\config.yaml
+2026-06-17 11:38:46 [INFO] ocr_engine: Tesseract path set from config: C:\Program Files\Tesseract-OCR\tesseract.exe
+2026-06-17 11:38:46 [INFO] audit_logger: Audit database initialized successfully at: D:\OCR\docuscan_india\data\db\audit.db
+2026-06-17 11:38:46 [INFO] pipeline: --- Pipeline starting classification for D:\OCR\docuscan_india\tests\fixtures\sample_docs\mock_aadhaar.jpg ---
+2026-06-17 11:38:46 [INFO] pipeline: Stage 1 (Preprocessing) completed successfully.
+2026-06-17 11:38:46 [INFO] pipeline: Stage 2 (OCR) completed. Confidence: 0.92
+2026-06-17 11:38:46 [INFO] inference: Scoring and calibration models loaded successfully.
+2026-06-17 11:38:46 [INFO] classifier_ensemble: Classifier individual results: Keyword=AADHAAR(0.99), Regex=AADHAAR(0.99), Layout=UNKNOWN(0.00)
+2026-06-17 11:38:46 [INFO] classifier_ensemble: Ensemble bypassed: Reliable regex match for AADHAAR (0.99)
+2026-06-17 11:38:46 [INFO] pipeline: Stage 3 (Classification) completed. Type: AADHAAR, Conf: 0.99
+2026-06-17 11:38:46 [INFO] pipeline: Running field extraction for document type: AADHAAR
+2026-06-17 11:38:46 [INFO] pipeline: Ran early extraction for classification display. Fields: ['aadhaar_number', 'dob', 'gender', 'name']
+2026-06-17 11:38:48 [INFO] inference: Model Inference Results: OCR=91, Class=100, Extract=100, FraudRisk=0, Auth=100 -> Verdict=Genuine
+2026-06-17 11:38:48 [INFO] pipeline: --- Pipeline continuing verification for AADHAAR ---
+2026-06-17 11:38:48 [INFO] pipeline: Stage 4: Skipping extraction as fields were already extracted for AADHAAR.
+2026-06-17 11:38:48 [INFO] pipeline: Stage 5 (Validation) completed. Total check rules: 6
+2026-06-17 11:38:48 [INFO] metadata_analyser: No EXIF metadata found in: D:\OCR\docuscan_india\tests\fixtures\sample_docs\mock_aadhaar.jpg
+2026-06-17 11:38:48 [INFO] inference: Model Inference Results: OCR=91, Class=100, Extract=100, FraudRisk=0, Auth=100 -> Verdict=Genuine
+2026-06-17 11:38:48 [INFO] pipeline: Stage 6 (Fraud Detection) completed. Risk Score: 0
+2026-06-17 11:38:48 [INFO] export_manager: Saved JSON export: D:\OCR\docuscan_india\data\exports\mock_aadhaar_audit.json
+2026-06-17 11:38:48 [INFO] report_generator: HTML report generated at: D:\OCR\docuscan_india\data\exports\mock_aadhaar_audit.html
+2026-06-17 11:38:48 [INFO] report_generator: PDF report generated at: D:\OCR\docuscan_india\data\exports\mock_aadhaar_audit.pdf
+2026-06-17 11:38:48 [INFO] audit_logger: Audit log saved successfully. Hash: d00be442b4... Verdict: Genuine
+2026-06-17 11:38:48 [INFO] pipeline: Stage 7 (Reporting) completed. Exports generated.
+2026-06-17 11:38:48 [INFO] classifier_ensemble: Classifier individual results: Keyword=PAN(1.00), Regex=PAN(0.98), Layout=UNKNOWN(0.00)
+2026-06-17 11:38:48 [INFO] classifier_ensemble: Ensemble bypassed: Reliable regex match for PAN (0.98)
+2026-06-17 11:38:48 [INFO] classifier_ensemble: Classifier individual results: Keyword=UNKNOWN(0.00), Regex=UNKNOWN(0.00), Layout=UNKNOWN(0.00)
+2026-06-17 11:38:48 [INFO] classifier_ensemble: Ensemble raw decision: UNKNOWN with aggregated score 0.00 (Threshold: 0.51)
+2026-06-17 11:38:48 [WARNING] classifier_ensemble: Ensemble score 0.00 is below threshold 0.51. Classifying as UNKNOWN.
+2026-06-17 11:38:48 [INFO] inference: Model Inference Results: OCR=87, Class=0, Extract=0, FraudRisk=0, Auth=0 -> Verdict=Suspicious
+2026-06-17 11:38:48 [INFO] inference: Executing safe fallback scoring calculations.
+2026-06-17 11:38:48 [INFO] inference: Model Inference Results: OCR=80, Class=0, Extract=0, FraudRisk=0, Auth=0 -> Verdict=Suspicious
+2026-06-17 11:38:48 [INFO] inference: Model Inference Results: OCR=90, Class=0, Extract=0, FraudRisk=0, Auth=0 -> Verdict=Suspicious
+2026-06-17 11:38:48 [INFO] inference: Model Inference Results: OCR=90, Class=1, Extract=0, FraudRisk=100, Auth=0 -> Verdict=Suspicious
+2026-06-17 11:38:48 [INFO] ocr_engine: Tesseract found at standard path: C:\Program Files\Tesseract-OCR\tesseract.exe
+2026-06-17 11:38:48 [INFO] passport_splitter: Passport dual-page layout detected. Type: vertical, Coord: 400
+2026-06-17 11:38:48 [INFO] passport_splitter: MRZ indicator scores: Region A = 68, Region B = 0
+2026-06-17 11:38:48 [INFO] passport_splitter: Assigned Region A -> Page 1, Region B -> Page 2
+2026-06-17 11:38:48 [INFO] passport_splitter: Passport fields merged and packet updated successfully.
+2026-06-17 11:38:48 [INFO] pipeline: Pipeline loaded configuration: D:\OCR\docuscan_india\config.yaml
+2026-06-17 11:38:48 [INFO] ocr_engine: Tesseract path set from config: C:\Program Files\Tesseract-OCR\tesseract.exe
+2026-06-17 11:38:48 [INFO] audit_logger: Audit database initialized successfully at: D:\OCR\docuscan_india\data\db\audit.db
+2026-06-17 11:38:48 [INFO] pipeline: --- Pipeline starting classification for dummy_path.jpg ---
+2026-06-17 11:38:48 [INFO] pipeline: Stage 1 (Preprocessing) completed successfully.
+2026-06-17 11:38:48 [INFO] pipeline: Stage 2 (OCR) completed. Confidence: 0.92
+2026-06-17 11:38:48 [INFO] classifier_ensemble: Classifier individual results: Keyword=AADHAAR(0.99), Regex=UNKNOWN(0.00), Layout=UNKNOWN(0.00)
+2026-06-17 11:38:48 [INFO] classifier_ensemble: Ensemble raw decision: AADHAAR with aggregated score 0.99 (Threshold: 0.51)
+2026-06-17 11:38:48 [INFO] pipeline: Stage 3 (Classification) completed. Type: AADHAAR, Conf: 0.99
+2026-06-17 11:38:48 [INFO] pipeline: Running field extraction for document type: AADHAAR
+2026-06-17 11:38:48 [INFO] pipeline: Aadhaar essential fields not found in first pass. Running fallback OCR (PSM 11)...
+2026-06-17 11:38:48 [INFO] pipeline: Successfully recovered Aadhaar aadhaar_number in fallback pass: 366874830214
+2026-06-17 11:38:48 [INFO] pipeline: Ran early extraction for classification display. Fields: ['aadhaar_number', 'dob', 'gender', 'name']
+2026-06-17 11:38:49 [INFO] inference: Model Inference Results: OCR=92, Class=100, Extract=100, FraudRisk=0, Auth=100 -> Verdict=Genuine
+2026-06-17 11:38:49 [INFO] pipeline: --- Pipeline continuing verification for AADHAAR ---
+2026-06-17 11:38:49 [INFO] pipeline: Stage 4: Skipping extraction as fields were already extracted for AADHAAR.
+2026-06-17 11:38:49 [INFO] pipeline: Stage 5 (Validation) completed. Total check rules: 6
+2026-06-17 11:38:49 [ERROR] metadata_analyser: Failed to analyze EXIF metadata: [Errno 2] No such file or directory: 'dummy_path.jpg'
+2026-06-17 11:38:49 [INFO] inference: Model Inference Results: OCR=92, Class=100, Extract=100, FraudRisk=0, Auth=100 -> Verdict=Genuine
+2026-06-17 11:38:49 [INFO] pipeline: Stage 6 (Fraud Detection) completed. Risk Score: 0
+2026-06-17 11:38:49 [INFO] export_manager: Saved JSON export: D:\OCR\docuscan_india\data\exports\dummy_path_audit.json
+2026-06-17 11:38:49 [INFO] report_generator: HTML report generated at: D:\OCR\docuscan_india\data\exports\dummy_path_audit.html
+2026-06-17 11:38:49 [INFO] report_generator: PDF report generated at: D:\OCR\docuscan_india\data\exports\dummy_path_audit.pdf
+2026-06-17 11:38:49 [INFO] audit_logger: Audit log saved successfully. Hash: UNKNOWN... Verdict: Genuine
+2026-06-17 11:38:49 [INFO] pipeline: Stage 7 (Reporting) completed. Exports generated.
+2026-06-17 11:38:49 [INFO] pipeline: --- Pipeline continuing verification for PAN ---
+2026-06-17 11:38:49 [INFO] pipeline: Running field extraction for document type: PAN
+2026-06-17 11:38:49 [INFO] pipeline: PAN essential fields not found in first pass. Running fallback OCR (PSM 11)...
+2026-06-17 11:38:49 [INFO] pipeline: Successfully recovered PAN pan_number in fallback pass: HXDPB8430A
+2026-06-17 11:38:49 [INFO] pipeline: Stage 4 (Extraction) completed. Fields: ['pan_number', 'name', 'father_name', 'dob']
+2026-06-17 11:38:49 [INFO] pipeline: Stage 5 (Validation) completed. Total check rules: 6
+2026-06-17 11:38:49 [ERROR] metadata_analyser: Failed to analyze EXIF metadata: [Errno 2] No such file or directory: 'dummy_path.jpg'
+2026-06-17 11:38:49 [INFO] inference: Model Inference Results: OCR=92, Class=100, Extract=100, FraudRisk=0, Auth=100 -> Verdict=Genuine
+2026-06-17 11:38:49 [INFO] pipeline: Stage 6 (Fraud Detection) completed. Risk Score: 0
+2026-06-17 11:38:49 [INFO] export_manager: Saved JSON export: D:\OCR\docuscan_india\data\exports\dummy_path_audit.json
+2026-06-17 11:38:49 [INFO] report_generator: HTML report generated at: D:\OCR\docuscan_india\data\exports\dummy_path_audit.html
+2026-06-17 11:38:49 [INFO] report_generator: PDF report generated at: D:\OCR\docuscan_india\data\exports\dummy_path_audit.pdf
+2026-06-17 11:38:49 [INFO] audit_logger: Audit log saved successfully. Hash: UNKNOWN... Verdict: Genuine
+2026-06-17 11:38:49 [INFO] pipeline: Stage 7 (Reporting) completed. Exports generated.
+2026-06-17 11:51:36 [INFO] main: Initializing DocuScan India application...
+2026-06-17 11:51:36 [INFO] main: Directory verified: D:\OCR\docuscan_india\data\db
+2026-06-17 11:51:36 [INFO] main: Directory verified: D:\OCR\docuscan_india\data\exports
+2026-06-17 11:51:36 [INFO] main: Directory verified: D:\OCR\docuscan_india\models
+2026-06-17 11:51:36 [INFO] main: Launching Tkinter desktop interface...
+2026-06-17 11:51:37 [INFO] pipeline: Pipeline loaded configuration: D:\OCR\docuscan_india\config.yaml
+2026-06-17 11:51:37 [INFO] ocr_engine: Tesseract path set from config: C:\Program Files\Tesseract-OCR\tesseract.exe
+2026-06-17 11:51:37 [INFO] audit_logger: Audit database initialized successfully at: D:\OCR\docuscan_india\data\db\audit.db
+2026-06-17 11:51:37 [INFO] app_controller: Swapping screen to: HomeScreen
+2026-06-17 11:51:37 [INFO] audit_logger: Audit database initialized successfully at: D:\OCR\docuscan_india\data\db\audit.db
+2026-06-17 11:51:38 [INFO] app_controller: Swapping screen to: UploadScreen
+2026-06-17 11:51:43 [INFO] app_controller: Swapping screen to: OCRResultScreen
+2026-06-17 11:51:43 [INFO] pipeline: --- Pipeline starting classification for D:/test doc/PAN Front.jpg ---
+2026-06-17 11:51:45 [INFO] pipeline: Stage 1 (Preprocessing) completed successfully.
+2026-06-17 11:51:48 [INFO] pipeline: Stage 2 (OCR) completed. Confidence: 0.67
+2026-06-17 11:51:49 [INFO] inference: Scoring and calibration models loaded successfully.
+2026-06-17 11:51:49 [INFO] classifier_ensemble: Classifier individual results: Keyword=PAN(1.00), Regex=PAN(0.97), Layout=PAN(0.59)
+2026-06-17 11:51:49 [INFO] classifier_ensemble: Ensemble bypassed: Reliable regex match for PAN (0.97)
+2026-06-17 11:51:49 [INFO] pipeline: Stage 3 (Classification) completed. Type: PAN, Conf: 0.97
+2026-06-17 11:51:49 [INFO] pipeline: Running field extraction for document type: PAN
+2026-06-17 11:51:49 [INFO] pipeline: PAN essential fields not found in first pass. Running fallback OCR (PSM 11)...
+2026-06-17 11:51:52 [INFO] pipeline: Successfully recovered PAN dob in fallback pass: 2006-01-01
+2026-06-17 11:51:52 [INFO] pipeline: Ran early extraction for classification display. Fields: ['pan_number', 'name', 'father_name', 'dob']
+2026-06-17 11:51:55 [INFO] inference: Model Inference Results: OCR=44, Class=100, Extract=100, FraudRisk=0, Auth=100 -> Verdict=Genuine
+2026-06-17 11:51:55 [INFO] app_controller: UI Queue message received: CLASSIFICATION_DONE
+2026-06-17 11:52:03 [INFO] app_controller: Swapping screen to: UploadScreen
+2026-06-17 11:52:06 [INFO] app_controller: Swapping screen to: OCRResultScreen
+2026-06-17 11:52:06 [INFO] pipeline: --- Pipeline starting classification for D:/test doc/Aadhaar Front.jpg ---
+2026-06-17 11:52:06 [INFO] pipeline: Stage 1 (Preprocessing) completed successfully.
+2026-06-17 11:52:07 [INFO] pipeline: Stage 2 (OCR) completed. Confidence: 0.65
+2026-06-17 11:52:07 [INFO] classifier_ensemble: Classifier individual results: Keyword=UNKNOWN(0.00), Regex=AADHAAR(1.00), Layout=UNKNOWN(0.00)
+2026-06-17 11:52:07 [INFO] classifier_ensemble: Ensemble bypassed: Reliable regex match for AADHAAR (1.00)
+2026-06-17 11:52:07 [INFO] pipeline: Stage 3 (Classification) completed. Type: AADHAAR, Conf: 1.00
+2026-06-17 11:52:07 [INFO] pipeline: Running field extraction for document type: AADHAAR
+2026-06-17 11:52:07 [INFO] pipeline: Ran early extraction for classification display. Fields: ['aadhaar_number', 'dob', 'gender', 'name']
+2026-06-17 11:52:07 [INFO] inference: Model Inference Results: OCR=36, Class=100, Extract=100, FraudRisk=0, Auth=100 -> Verdict=Genuine
+2026-06-17 11:52:07 [INFO] app_controller: UI Queue message received: CLASSIFICATION_DONE
+2026-06-17 11:52:08 [INFO] app_controller: Swapping screen to: UploadScreen
+2026-06-17 11:52:11 [INFO] app_controller: Swapping screen to: OCRResultScreen
+2026-06-17 11:52:11 [INFO] pipeline: --- Pipeline starting classification for D:/test doc/pan sample 4.jpeg ---
+2026-06-17 11:52:11 [INFO] pipeline: Stage 1 (Preprocessing) completed successfully.
+2026-06-17 11:52:12 [INFO] pipeline: Stage 2 (OCR) completed. Confidence: 0.71
+2026-06-17 11:52:12 [INFO] classifier_ensemble: Classifier individual results: Keyword=UNKNOWN(0.00), Regex=UNKNOWN(0.00), Layout=UNKNOWN(0.00)
+2026-06-17 11:52:12 [INFO] classifier_ensemble: Ensemble raw decision: UNKNOWN with aggregated score 0.00 (Threshold: 0.51)
+2026-06-17 11:52:12 [WARNING] classifier_ensemble: Ensemble score 0.00 is below threshold 0.51. Classifying as UNKNOWN.
+2026-06-17 11:52:12 [INFO] pipeline: Stage 3 (Classification) completed. Type: UNKNOWN, Conf: 0.00
+2026-06-17 11:52:12 [INFO] inference: Model Inference Results: OCR=22, Class=0, Extract=0, FraudRisk=0, Auth=0 -> Verdict=Suspicious
+2026-06-17 11:52:12 [INFO] app_controller: UI Queue message received: CLASSIFICATION_DONE
+2026-06-17 11:52:16 [INFO] app_controller: Swapping screen to: UploadScreen
+2026-06-17 11:52:19 [INFO] app_controller: Swapping screen to: OCRResultScreen
+2026-06-17 11:52:19 [INFO] pipeline: --- Pipeline starting classification for D:/test doc/pan sample 3.png ---
+2026-06-17 11:52:20 [INFO] pipeline: Stage 1 (Preprocessing) completed successfully.
+2026-06-17 11:52:22 [INFO] pipeline: Stage 2 (OCR) completed. Confidence: 0.53
+2026-06-17 11:52:22 [INFO] classifier_ensemble: Classifier individual results: Keyword=PAN(1.00), Regex=PAN(0.99), Layout=UNKNOWN(0.00)
+2026-06-17 11:52:22 [INFO] classifier_ensemble: Ensemble bypassed: Reliable regex match for PAN (0.99)
+2026-06-17 11:52:22 [INFO] pipeline: Stage 3 (Classification) completed. Type: PAN, Conf: 0.99
+2026-06-17 11:52:22 [INFO] pipeline: Running field extraction for document type: PAN
+2026-06-17 11:52:22 [INFO] pipeline: PAN essential fields not found in first pass. Running fallback OCR (PSM 11)...
+2026-06-17 11:52:25 [INFO] pipeline: Ran early extraction for classification display. Fields: ['pan_number', 'name', 'father_name', 'dob']
+2026-06-17 11:52:25 [INFO] inference: Model Inference Results: OCR=17, Class=100, Extract=0, FraudRisk=0, Auth=0 -> Verdict=Suspicious
+2026-06-17 11:52:25 [INFO] app_controller: UI Queue message received: CLASSIFICATION_DONE
+2026-06-17 11:52:28 [INFO] app_controller: Swapping screen to: UploadScreen
+2026-06-17 11:52:29 [INFO] main: Application closed normally.
+2026-06-17 11:53:50 [INFO] pipeline: Pipeline loaded configuration: D:\OCR\docuscan_india\config.yaml
+2026-06-17 11:53:50 [INFO] ocr_engine: Tesseract path set from config: C:\Program Files\Tesseract-OCR\tesseract.exe
+2026-06-17 11:53:50 [INFO] audit_logger: Audit database initialized successfully at: D:\OCR\docuscan_india\data\db\audit.db
+2026-06-17 11:53:50 [INFO] pipeline: --- Pipeline starting classification for D:\OCR\docuscan_india\tests\fixtures\sample_docs\mock_aadhaar.jpg ---
+2026-06-17 11:53:50 [INFO] pipeline: Stage 1 (Preprocessing) completed successfully.
+2026-06-17 11:53:50 [INFO] pipeline: Stage 2 (OCR) completed. Confidence: 0.92
+2026-06-17 11:53:50 [INFO] inference: Scoring and calibration models loaded successfully.
+2026-06-17 11:53:50 [INFO] classifier_ensemble: Classifier individual results: Keyword=AADHAAR(0.99), Regex=AADHAAR(0.99), Layout=UNKNOWN(0.00)
+2026-06-17 11:53:50 [INFO] classifier_ensemble: Ensemble bypassed: Reliable regex match for AADHAAR (0.99)
+2026-06-17 11:53:50 [INFO] pipeline: Stage 3 (Classification) completed. Type: AADHAAR, Conf: 0.99
+2026-06-17 11:53:50 [INFO] pipeline: Running field extraction for document type: AADHAAR
+2026-06-17 11:53:50 [INFO] pipeline: Ran early extraction for classification display. Fields: ['aadhaar_number', 'dob', 'gender', 'name']
+2026-06-17 11:53:51 [INFO] inference: Model Inference Results: OCR=91, Class=100, Extract=100, FraudRisk=0, Auth=100 -> Verdict=Genuine
+2026-06-17 11:53:51 [INFO] pipeline: --- Pipeline continuing verification for AADHAAR ---
+2026-06-17 11:53:51 [INFO] pipeline: Stage 4: Skipping extraction as fields were already extracted for AADHAAR.
+2026-06-17 11:53:51 [INFO] pipeline: Stage 5 (Validation) completed. Total check rules: 6
+2026-06-17 11:53:51 [INFO] metadata_analyser: No EXIF metadata found in: D:\OCR\docuscan_india\tests\fixtures\sample_docs\mock_aadhaar.jpg
+2026-06-17 11:53:51 [INFO] inference: Model Inference Results: OCR=91, Class=100, Extract=100, FraudRisk=0, Auth=100 -> Verdict=Genuine
+2026-06-17 11:53:51 [INFO] pipeline: Stage 6 (Fraud Detection) completed. Risk Score: 0
+2026-06-17 11:53:51 [INFO] export_manager: Saved JSON export: D:\OCR\docuscan_india\data\exports\mock_aadhaar_audit.json
+2026-06-17 11:53:51 [INFO] report_generator: HTML report generated at: D:\OCR\docuscan_india\data\exports\mock_aadhaar_audit.html
+2026-06-17 11:53:51 [INFO] report_generator: PDF report generated at: D:\OCR\docuscan_india\data\exports\mock_aadhaar_audit.pdf
+2026-06-17 11:53:51 [INFO] audit_logger: Audit log saved successfully. Hash: d00be442b4... Verdict: Genuine
+2026-06-17 11:53:51 [INFO] pipeline: Stage 7 (Reporting) completed. Exports generated.
+2026-06-17 11:53:51 [INFO] classifier_ensemble: Classifier individual results: Keyword=PAN(1.00), Regex=PAN(0.98), Layout=UNKNOWN(0.00)
+2026-06-17 11:53:51 [INFO] classifier_ensemble: Ensemble bypassed: Reliable regex match for PAN (0.98)
+2026-06-17 11:53:51 [INFO] classifier_ensemble: Classifier individual results: Keyword=UNKNOWN(0.00), Regex=UNKNOWN(0.00), Layout=UNKNOWN(0.00)
+2026-06-17 11:53:51 [INFO] classifier_ensemble: Ensemble raw decision: UNKNOWN with aggregated score 0.00 (Threshold: 0.51)
+2026-06-17 11:53:51 [WARNING] classifier_ensemble: Ensemble score 0.00 is below threshold 0.51. Classifying as UNKNOWN.
+2026-06-17 11:53:52 [INFO] inference: Model Inference Results: OCR=87, Class=0, Extract=0, FraudRisk=0, Auth=0 -> Verdict=Suspicious
+2026-06-17 11:53:52 [INFO] inference: Executing safe fallback scoring calculations.
+2026-06-17 11:53:52 [INFO] inference: Model Inference Results: OCR=80, Class=0, Extract=0, FraudRisk=0, Auth=0 -> Verdict=Suspicious
+2026-06-17 11:53:52 [INFO] inference: Model Inference Results: OCR=90, Class=0, Extract=0, FraudRisk=0, Auth=0 -> Verdict=Suspicious
+2026-06-17 11:53:52 [INFO] inference: Model Inference Results: OCR=90, Class=1, Extract=0, FraudRisk=100, Auth=0 -> Verdict=Suspicious
+2026-06-17 11:53:52 [INFO] ocr_engine: Tesseract found at standard path: C:\Program Files\Tesseract-OCR\tesseract.exe
+2026-06-17 11:53:52 [INFO] passport_splitter: Passport dual-page layout detected. Type: vertical, Coord: 400
+2026-06-17 11:53:52 [INFO] passport_splitter: MRZ indicator scores: Region A = 68, Region B = 0
+2026-06-17 11:53:52 [INFO] passport_splitter: Assigned Region A -> Page 1, Region B -> Page 2
+2026-06-17 11:53:52 [INFO] passport_splitter: Passport fields merged and packet updated successfully.
+2026-06-17 11:53:52 [INFO] pipeline: Pipeline loaded configuration: D:\OCR\docuscan_india\config.yaml
+2026-06-17 11:53:52 [INFO] ocr_engine: Tesseract path set from config: C:\Program Files\Tesseract-OCR\tesseract.exe
+2026-06-17 11:53:52 [INFO] audit_logger: Audit database initialized successfully at: D:\OCR\docuscan_india\data\db\audit.db
+2026-06-17 11:53:52 [INFO] pipeline: --- Pipeline starting classification for dummy_path.jpg ---
+2026-06-17 11:53:52 [INFO] pipeline: Stage 1 (Preprocessing) completed successfully.
+2026-06-17 11:53:52 [INFO] pipeline: Stage 2 (OCR) completed. Confidence: 0.92
+2026-06-17 11:53:52 [INFO] classifier_ensemble: Classifier individual results: Keyword=AADHAAR(0.99), Regex=UNKNOWN(0.00), Layout=UNKNOWN(0.00)
+2026-06-17 11:53:52 [INFO] classifier_ensemble: Ensemble raw decision: AADHAAR with aggregated score 0.99 (Threshold: 0.51)
+2026-06-17 11:53:52 [INFO] pipeline: Stage 3 (Classification) completed. Type: AADHAAR, Conf: 0.99
+2026-06-17 11:53:52 [INFO] pipeline: Running field extraction for document type: AADHAAR
+2026-06-17 11:53:52 [INFO] pipeline: Aadhaar essential fields not found in first pass. Running fallback OCR (PSM 11)...
+2026-06-17 11:53:52 [INFO] pipeline: Successfully recovered Aadhaar aadhaar_number in fallback pass: 366874830214
+2026-06-17 11:53:52 [INFO] pipeline: Ran early extraction for classification display. Fields: ['aadhaar_number', 'dob', 'gender', 'name']
+2026-06-17 11:53:52 [INFO] inference: Model Inference Results: OCR=92, Class=100, Extract=100, FraudRisk=0, Auth=100 -> Verdict=Genuine
+2026-06-17 11:53:52 [INFO] pipeline: --- Pipeline continuing verification for AADHAAR ---
+2026-06-17 11:53:52 [INFO] pipeline: Stage 4: Skipping extraction as fields were already extracted for AADHAAR.
+2026-06-17 11:53:52 [INFO] pipeline: Stage 5 (Validation) completed. Total check rules: 6
+2026-06-17 11:53:52 [ERROR] metadata_analyser: Failed to analyze EXIF metadata: [Errno 2] No such file or directory: 'dummy_path.jpg'
+2026-06-17 11:53:52 [INFO] inference: Model Inference Results: OCR=92, Class=100, Extract=100, FraudRisk=0, Auth=100 -> Verdict=Genuine
+2026-06-17 11:53:52 [INFO] pipeline: Stage 6 (Fraud Detection) completed. Risk Score: 0
+2026-06-17 11:53:52 [INFO] export_manager: Saved JSON export: D:\OCR\docuscan_india\data\exports\dummy_path_audit.json
+2026-06-17 11:53:52 [INFO] report_generator: HTML report generated at: D:\OCR\docuscan_india\data\exports\dummy_path_audit.html
+2026-06-17 11:53:52 [INFO] report_generator: PDF report generated at: D:\OCR\docuscan_india\data\exports\dummy_path_audit.pdf
+2026-06-17 11:53:52 [INFO] audit_logger: Audit log saved successfully. Hash: UNKNOWN... Verdict: Genuine
+2026-06-17 11:53:52 [INFO] pipeline: Stage 7 (Reporting) completed. Exports generated.
+2026-06-17 11:53:52 [INFO] pipeline: --- Pipeline continuing verification for PAN ---
+2026-06-17 11:53:52 [INFO] pipeline: Running field extraction for document type: PAN
+2026-06-17 11:53:52 [INFO] pipeline: PAN essential fields not found in first pass. Running fallback OCR (PSM 11)...
+2026-06-17 11:53:52 [INFO] pipeline: Successfully recovered PAN pan_number in fallback pass: HXDPB8430A
+2026-06-17 11:53:52 [INFO] pipeline: Stage 4 (Extraction) completed. Fields: ['pan_number', 'name', 'father_name', 'dob']
+2026-06-17 11:53:52 [INFO] pipeline: Stage 5 (Validation) completed. Total check rules: 6
+2026-06-17 11:53:52 [ERROR] metadata_analyser: Failed to analyze EXIF metadata: [Errno 2] No such file or directory: 'dummy_path.jpg'
+2026-06-17 11:53:52 [INFO] inference: Model Inference Results: OCR=92, Class=100, Extract=100, FraudRisk=0, Auth=100 -> Verdict=Genuine
+2026-06-17 11:53:52 [INFO] pipeline: Stage 6 (Fraud Detection) completed. Risk Score: 0
+2026-06-17 11:53:52 [INFO] export_manager: Saved JSON export: D:\OCR\docuscan_india\data\exports\dummy_path_audit.json
+2026-06-17 11:53:52 [INFO] report_generator: HTML report generated at: D:\OCR\docuscan_india\data\exports\dummy_path_audit.html
+2026-06-17 11:53:52 [INFO] report_generator: PDF report generated at: D:\OCR\docuscan_india\data\exports\dummy_path_audit.pdf
+2026-06-17 11:53:52 [INFO] audit_logger: Audit log saved successfully. Hash: UNKNOWN... Verdict: Genuine
+2026-06-17 11:53:52 [INFO] pipeline: Stage 7 (Reporting) completed. Exports generated.
+2026-06-17 11:54:13 [INFO] main: Initializing DocuScan India application...
+2026-06-17 11:54:13 [INFO] main: Directory verified: D:\OCR\docuscan_india\data\db
+2026-06-17 11:54:13 [INFO] main: Directory verified: D:\OCR\docuscan_india\data\exports
+2026-06-17 11:54:13 [INFO] main: Directory verified: D:\OCR\docuscan_india\models
+2026-06-17 11:54:13 [INFO] main: Launching Tkinter desktop interface...
+2026-06-17 11:54:13 [INFO] pipeline: Pipeline loaded configuration: D:\OCR\docuscan_india\config.yaml
+2026-06-17 11:54:13 [INFO] ocr_engine: Tesseract path set from config: C:\Program Files\Tesseract-OCR\tesseract.exe
+2026-06-17 11:54:13 [INFO] audit_logger: Audit database initialized successfully at: D:\OCR\docuscan_india\data\db\audit.db
+2026-06-17 11:54:13 [INFO] app_controller: Swapping screen to: HomeScreen
+2026-06-17 11:54:13 [INFO] audit_logger: Audit database initialized successfully at: D:\OCR\docuscan_india\data\db\audit.db
+2026-06-17 11:54:16 [INFO] main: Application closed normally.

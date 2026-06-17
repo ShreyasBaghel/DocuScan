@@ -1,7 +1,7 @@
 {
     "image_path": "dummy_path.jpg",
     "ocr_raw_text": "GOVERNMENT OF INDIA\nMERA AADHAAR, MERI PEHCHAN\nKARTIK KAPOOR\nDOB: 15/08/1990\nMALE\n",
-    "ocr_confidence": 0.87,
+    "ocr_confidence": 0.92,
     "ocr_word_map": [
         {
             "text": "GOVERNMENT",
@@ -188,8 +188,8 @@
     ],
     "fraud_signals": [],
     "fraud_risk_score": 0,
-    "authenticity_score": 99,
-    "extraction_reliability": 99,
+    "authenticity_score": 100,
+    "extraction_reliability": 100,
     "final_decision": "Genuine",
     "report_path": "D:\\OCR\\docuscan_india\\data\\exports\\dummy_path_audit.pdf",
     "pipeline_metadata": {

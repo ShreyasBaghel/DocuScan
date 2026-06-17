@@ -1,6 +1,5 @@
 from PIL import Image, ImageOps, ImageFilter, ImageEnhance
 import numpy as np
-import cv2
 from typing import Dict, Any
 
 class Preprocessor:
@@ -107,16 +106,82 @@ class Preprocessor:
 
     def apply_clahe(self, img: Image.Image) -> Image.Image:
         """
-        Applies local contrast enhancement using OpenCV's native CLAHE.
+        Applies local contrast enhancement using a custom vectorized CLAHE implementation.
         """
         gray = img.convert("L")
         gray_arr = np.array(gray)
         
-        # Apply OpenCV CLAHE
-        clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8, 8))
-        clahe_img = clahe.apply(gray_arr)
+        grid_h, grid_w = 8, 8
+        h, w = gray_arr.shape
         
-        return Image.fromarray(clahe_img)
+        tile_h = h // grid_h
+        tile_w = w // grid_w
+        
+        # Pad image to make it divisible by grid size if necessary
+        pad_h = (tile_h - h % tile_h) % tile_h
+        pad_w = (tile_w - w % tile_w) % tile_w
+        if pad_h > 0 or pad_w > 0:
+            img_padded = np.pad(gray_arr, ((0, pad_h), (0, pad_w)), mode='reflect')
+        else:
+            img_padded = gray_arr
+            
+        # Calculate histograms and CDFs for each tile
+        clip_limit = 2.0
+        histograms = np.zeros((grid_h, grid_w, 256), dtype=np.float32)
+        for i in range(grid_h):
+            for j in range(grid_w):
+                tile = img_padded[i*tile_h:(i+1)*tile_h, j*tile_w:(j+1)*tile_w]
+                hist, _ = np.histogram(tile, bins=256, range=(0, 256))
+                
+                # Clip histogram
+                actual_clip = clip_limit * (tile.size / 256.0)
+                clipped = np.minimum(hist, actual_clip)
+                excess = np.sum(hist) - np.sum(clipped)
+                
+                # Redistribute excess equally
+                redist = excess / 256.0
+                hist = clipped + redist
+                
+                # Calculate CDF
+                cdf = hist.cumsum()
+                cdf = (cdf - cdf[0]) / (cdf[-1] - cdf[0] or 1) * 255.0
+                histograms[i, j] = cdf
+                
+        # Bilinear interpolation
+        y_coords = (np.arange(h) - 0.5 * tile_h) / tile_h
+        x_coords = (np.arange(w) - 0.5 * tile_w) / tile_w
+        
+        y_coords = np.clip(y_coords, 0, grid_h - 1)
+        x_coords = np.clip(x_coords, 0, grid_w - 1)
+        
+        y_indices = y_coords.astype(np.int32)
+        x_indices = x_coords.astype(np.int32)
+        
+        y_diff = y_coords - y_indices
+        x_diff = x_coords - x_indices
+        
+        y_indices_next = np.minimum(y_indices + 1, grid_h - 1)
+        x_indices_next = np.minimum(x_indices + 1, grid_w - 1)
+        
+        y_idx = y_indices[:, None]
+        y_idx_next = y_indices_next[:, None]
+        x_idx = x_indices[None, :]
+        x_idx_next = x_indices_next[None, :]
+        
+        cdf_tl = histograms[y_idx, x_idx, gray_arr]
+        cdf_tr = histograms[y_idx, x_idx_next, gray_arr]
+        cdf_bl = histograms[y_idx_next, x_idx, gray_arr]
+        cdf_br = histograms[y_idx_next, x_idx_next, gray_arr]
+        
+        wa = (1.0 - y_diff[:, None]) * (1.0 - x_diff[None, :])
+        wb = (1.0 - y_diff[:, None]) * x_diff[None, :]
+        wc = y_diff[:, None] * (1.0 - x_diff[None, :])
+        wd = y_diff[:, None] * x_diff[None, :]
+        
+        interpolated = wa * cdf_tl + wb * cdf_tr + wc * cdf_bl + wd * cdf_br
+        enhanced_arr = np.round(interpolated).astype(np.uint8)
+        
+        return Image.fromarray(enhanced_arr)
 
     def binarise(self, img: Image.Image) -> Image.Image:
         """Applies adaptive/local thresholding using a blurred mask."""
