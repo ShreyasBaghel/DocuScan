@@ -17,10 +17,15 @@ FEATURE_NAMES = [
     "ocr_max_conf",
     "ocr_std_conf",
     "ocr_pct_low_conf",
+    "ocr_median_conf",
     # Text summaries
     "word_count",
     "char_count",
     "avg_word_len",
+    "valid_words_ratio",
+    "alphanumeric_ratio",
+    "dictionary_match_ratio",
+    "text_density",
     # Classifier Sub-scores
     "kw_score_aadhaar",
     "kw_score_pan",
@@ -47,6 +52,7 @@ FEATURE_NAMES = [
     "validation_warns",
     "checksum_failed",
     "missing_fields_count",
+    "field_extraction_success_rate",
     "overlapping_fields_count",
     "layout_anomaly_count",
     "exif_editor_detected",
@@ -85,12 +91,29 @@ class FeatureEngineering:
             img_w, img_h = packet.raw_image.size
         img_area = float(img_w * img_h)
 
+        valid_words_count = 0
+        matched_words = 0
+        common_keywords = {
+            "aadhaar", "adhar", "uidai", "unique", "identification", "authority", "india", "government", 
+            "sarkar", "income", "tax", "permanent", "account", "number", "pan", "father", "passport", 
+            "republic", "nationality", "birth", "surname", "name", "driving", "licence", "license", 
+            "transport", "vehicle", "lmv", "mcwg", "husband", "dob", "address", "gender", "male", "female"
+        }
+
         for w in packet.ocr_word_map:
             conf = w.get("conf", 0.0)
             confidences.append(conf)
             text = w.get("text", "")
             if text:
                 word_lengths.append(len(text))
+                # Check for alphanumeric character
+                if re.search(r"[a-zA-Z0-9]", text):
+                    valid_words_count += 1
+                
+                # Check dictionary match (cleaned, lowercase)
+                clean_w = re.sub(r"[^\w]", "", text.lower())
+                if clean_w in common_keywords:
+                    matched_words += 1
             
             w_h = w.get("height", 0)
             w_w = w.get("width", 0)
@@ -104,16 +127,29 @@ class FeatureEngineering:
             features["ocr_max_conf"] = float(np.max(confidences))
             features["ocr_std_conf"] = float(np.std(confidences))
             features["ocr_pct_low_conf"] = float(sum(1 for c in confidences if c < 0.6) / len(confidences))
+            features["ocr_median_conf"] = float(np.median(confidences))
         else:
             features["ocr_mean_conf"] = float(packet.ocr_confidence)
             features["ocr_min_conf"] = float(packet.ocr_confidence)
             features["ocr_max_conf"] = float(packet.ocr_confidence)
             features["ocr_std_conf"] = 0.0
             features["ocr_pct_low_conf"] = 1.0 if packet.ocr_confidence < 0.6 else 0.0
+            features["ocr_median_conf"] = float(packet.ocr_confidence)
 
-        features["word_count"] = float(len(packet.ocr_word_map))
+        total_words = len(packet.ocr_word_map)
+        features["word_count"] = float(total_words)
         features["char_count"] = float(len(packet.ocr_raw_text))
         features["avg_word_len"] = float(np.mean(word_lengths)) if word_lengths else 0.0
+
+        # Ratios & density features
+        features["valid_words_ratio"] = float(valid_words_count / total_words) if total_words > 0 else 0.0
+        
+        total_chars = len(packet.ocr_raw_text)
+        alnum_chars = sum(1 for c in packet.ocr_raw_text if c.isalnum())
+        features["alphanumeric_ratio"] = float(alnum_chars / total_chars) if total_chars > 0 else 0.0
+        
+        features["dictionary_match_ratio"] = float(matched_words / total_words) if total_words > 0 else 0.0
+        features["text_density"] = float(features["char_count"] / img_area) if img_area > 0.0 else 0.0
 
         # 2. Classifier Sub-scores
         # Keyword scores
@@ -174,6 +210,13 @@ class FeatureEngineering:
         features["checksum_failed"] = float(val_summary["checksum_failed"])
 
         features["missing_fields_count"] = float(ValidationHelpers.get_missing_fields_count(packet.extracted_fields))
+
+        total_fields = len(packet.extracted_fields)
+        success_fields = 0
+        for val in packet.extracted_fields.values():
+            if val and val.value != "NOT_FOUND" and val.value.strip():
+                success_fields += 1
+        features["field_extraction_success_rate"] = float(success_fields / total_fields) if total_fields > 0 else 0.0
 
         # Check fraud signals count
         overlaps = 0

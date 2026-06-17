@@ -1,0 +1,814 @@
+{
+    "image_path": "D:/test doc/indianpp1.jpg",
+    "ocr_raw_text": "N.Woese,\n\n_ KUMAR 6\n, S TPR / Date of Birth Ram / Sex\n~~ 24/05/1985 M\n\nWT IF/ Place of Birth\n\n_ MUMBAI, MAHARASHTRA\n\nBIS -/ Code wat / Nationality grade 4. / Passport No,\n\nZF / Surname\n_ SPECIMEN\n\nGH FRA BW eI / Place of issue\n\nBANGALORE hee ee ae\narf ae Bt Prftr/ Date of tssue $1 Pfr / Date of Expiry\n01/01/2013 01/01/2023\n\nP<<SPECIMEN<<KUMAR<G<<<<< <<< <<< S66 SK SSE\nZ9999999<0IND8505246M2 30000 0<<<<<<<<<<<<<<s4\n\nIND uda/iInnAN \u00a7=606ZOOOOOOO\n",
+    "ocr_confidence": 0.17,
+    "ocr_word_map": [
+        {
+            "text": "N.Woese,",
+            "left": 132,
+            "top": 1410,
+            "width": 445,
+            "height": 166,
+            "conf": 0.15
+        },
+        {
+            "text": "_",
+            "left": 1023,
+            "top": 810,
+            "width": 2,
+            "height": 2,
+            "conf": 0.58
+        },
+        {
+            "text": "KUMAR",
+            "left": 1130,
+            "top": 723,
+            "width": 265,
+            "height": 63,
+            "conf": 0.95
+        },
+        {
+            "text": "6",
+            "left": 1460,
+            "top": 721,
+            "width": 45,
+            "height": 61,
+            "conf": 0.86
+        },
+        {
+            "text": ",",
+            "left": 860,
+            "top": 883,
+            "width": 4,
+            "height": 6,
+            "conf": 0.0
+        },
+        {
+            "text": "S",
+            "left": 932,
+            "top": 815,
+            "width": 133,
+            "height": 114,
+            "conf": 0.0
+        },
+        {
+            "text": "TPR",
+            "left": 1120,
+            "top": 822,
+            "width": 177,
+            "height": 92,
+            "conf": 0.28
+        },
+        {
+            "text": "/",
+            "left": 1327,
+            "top": 850,
+            "width": 15,
+            "height": 40,
+            "conf": 0.92
+        },
+        {
+            "text": "Date",
+            "left": 1365,
+            "top": 822,
+            "width": 85,
+            "height": 92,
+            "conf": 0.95
+        },
+        {
+            "text": "of",
+            "left": 1472,
+            "top": 822,
+            "width": 39,
+            "height": 92,
+            "conf": 0.95
+        },
+        {
+            "text": "Birth",
+            "left": 1534,
+            "top": 822,
+            "width": 100,
+            "height": 92,
+            "conf": 0.95
+        },
+        {
+            "text": "Ram",
+            "left": 1971,
+            "top": 837,
+            "width": 204,
+            "height": 53,
+            "conf": 0.48
+        },
+        {
+            "text": "/",
+            "left": 2066,
+            "top": 820,
+            "width": 24,
+            "height": 92,
+            "conf": 0.8
+        },
+        {
+            "text": "Sex",
+            "left": 2105,
+            "top": 837,
+            "width": 69,
+            "height": 53,
+            "conf": 0.95
+        },
+        {
+            "text": "~~",
+            "left": 936,
+            "top": 923,
+            "width": 128,
+            "height": 104,
+            "conf": 0.66
+        },
+        {
+            "text": "24/05/1985",
+            "left": 1131,
+            "top": 935,
+            "width": 541,
+            "height": 68,
+            "conf": 0.8
+        },
+        {
+            "text": "M",
+            "left": 2036,
+            "top": 940,
+            "width": 47,
+            "height": 60,
+            "conf": 0.81
+        },
+        {
+            "text": "WT",
+            "left": 859,
+            "top": 1054,
+            "width": 193,
+            "height": 74,
+            "conf": 0.0
+        },
+        {
+            "text": "IF/",
+            "left": 1247,
+            "top": 1050,
+            "width": 105,
+            "height": 84,
+            "conf": 0.0
+        },
+        {
+            "text": "Place",
+            "left": 1373,
+            "top": 1050,
+            "width": 105,
+            "height": 84,
+            "conf": 0.91
+        },
+        {
+            "text": "of",
+            "left": 1499,
+            "top": 1068,
+            "width": 49,
+            "height": 40,
+            "conf": 0.93
+        },
+        {
+            "text": "Birth",
+            "left": 1569,
+            "top": 1050,
+            "width": 98,
+            "height": 84,
+            "conf": 0.62
+        },
+        {
+            "text": "_",
+            "left": 1039,
+            "top": 1152,
+            "width": 25,
+            "height": 38,
+            "conf": 0.38
+        },
+        {
+            "text": "MUMBAI,",
+            "left": 1134,
+            "top": 1160,
+            "width": 373,
+            "height": 74,
+            "conf": 0.94
+        },
+        {
+            "text": "MAHARASHTRA",
+            "left": 1576,
+            "top": 1125,
+            "width": 745,
+            "height": 115,
+            "conf": 0.03
+        },
+        {
+            "text": "BIS",
+            "left": 1433,
+            "top": 210,
+            "width": 82,
+            "height": 70,
+            "conf": 0.0
+        },
+        {
+            "text": "-/",
+            "left": 1527,
+            "top": 229,
+            "width": 27,
+            "height": 36,
+            "conf": 0.0
+        },
+        {
+            "text": "Code",
+            "left": 1584,
+            "top": 210,
+            "width": 106,
+            "height": 70,
+            "conf": 0.96
+        },
+        {
+            "text": "wat",
+            "left": 1886,
+            "top": 211,
+            "width": 178,
+            "height": 71,
+            "conf": 0.39
+        },
+        {
+            "text": "/",
+            "left": 2081,
+            "top": 230,
+            "width": 12,
+            "height": 36,
+            "conf": 0.89
+        },
+        {
+            "text": "Nationality",
+            "left": 2116,
+            "top": 211,
+            "width": 232,
+            "height": 71,
+            "conf": 0.96
+        },
+        {
+            "text": "grade",
+            "left": 2543,
+            "top": 216,
+            "width": 545,
+            "height": 60,
+            "conf": 0.0
+        },
+        {
+            "text": "4.",
+            "left": 2716,
+            "top": 212,
+            "width": 42,
+            "height": 71,
+            "conf": 0.69
+        },
+        {
+            "text": "/",
+            "left": 2775,
+            "top": 212,
+            "width": 19,
+            "height": 71,
+            "conf": 0.76
+        },
+        {
+            "text": "Passport",
+            "left": 2817,
+            "top": 216,
+            "width": 184,
+            "height": 60,
+            "conf": 0.93
+        },
+        {
+            "text": "No,",
+            "left": 3018,
+            "top": 212,
+            "width": 72,
+            "height": 71,
+            "conf": 0.85
+        },
+        {
+            "text": "ZF",
+            "left": 1121,
+            "top": 411,
+            "width": 377,
+            "height": 43,
+            "conf": 0.23
+        },
+        {
+            "text": "/",
+            "left": 1268,
+            "top": 394,
+            "width": 18,
+            "height": 69,
+            "conf": 0.23
+        },
+        {
+            "text": "Surname",
+            "left": 1302,
+            "top": 411,
+            "width": 196,
+            "height": 43,
+            "conf": 0.84
+        },
+        {
+            "text": "_",
+            "left": 955,
+            "top": 484,
+            "width": 108,
+            "height": 97,
+            "conf": 0.0
+        },
+        {
+            "text": "SPECIMEN",
+            "left": 1132,
+            "top": 502,
+            "width": 423,
+            "height": 65,
+            "conf": 0.51
+        },
+        {
+            "text": "GH",
+            "left": 1131,
+            "top": 1280,
+            "width": 89,
+            "height": 51,
+            "conf": 0.36
+        },
+        {
+            "text": "FRA",
+            "left": 1239,
+            "top": 1279,
+            "width": 95,
+            "height": 52,
+            "conf": 0.57
+        },
+        {
+            "text": "BW",
+            "left": 1353,
+            "top": 1292,
+            "width": 52,
+            "height": 38,
+            "conf": 0.5
+        },
+        {
+            "text": "eI",
+            "left": 1435,
+            "top": 1274,
+            "width": 72,
+            "height": 65,
+            "conf": 0.32
+        },
+        {
+            "text": "/",
+            "left": 1540,
+            "top": 1290,
+            "width": 15,
+            "height": 36,
+            "conf": 0.82
+        },
+        {
+            "text": "Place",
+            "left": 1571,
+            "top": 1274,
+            "width": 98,
+            "height": 65,
+            "conf": 0.96
+        },
+        {
+            "text": "of",
+            "left": 1690,
+            "top": 1285,
+            "width": 44,
+            "height": 41,
+            "conf": 0.96
+        },
+        {
+            "text": "issue",
+            "left": 1749,
+            "top": 1285,
+            "width": 114,
+            "height": 45,
+            "conf": 0.91
+        },
+        {
+            "text": "BANGALORE",
+            "left": 1137,
+            "top": 1380,
+            "width": 484,
+            "height": 61,
+            "conf": 0.96
+        },
+        {
+            "text": "hee",
+            "left": 2206,
+            "top": 1334,
+            "width": 255,
+            "height": 135,
+            "conf": 0.21
+        },
+        {
+            "text": "ee",
+            "left": 2508,
+            "top": 1332,
+            "width": 106,
+            "height": 131,
+            "conf": 0.3
+        },
+        {
+            "text": "ae",
+            "left": 2616,
+            "top": 1332,
+            "width": 252,
+            "height": 126,
+            "conf": 0.27
+        },
+        {
+            "text": "arf",
+            "left": 1126,
+            "top": 1471,
+            "width": 93,
+            "height": 93,
+            "conf": 0.0
+        },
+        {
+            "text": "ae",
+            "left": 1250,
+            "top": 1471,
+            "width": 78,
+            "height": 93,
+            "conf": 0.34
+        },
+        {
+            "text": "Bt",
+            "left": 1358,
+            "top": 1471,
+            "width": 47,
+            "height": 93,
+            "conf": 0.77
+        },
+        {
+            "text": "Prftr/",
+            "left": 1428,
+            "top": 1471,
+            "width": 119,
+            "height": 93,
+            "conf": 0.0
+        },
+        {
+            "text": "Date",
+            "left": 1567,
+            "top": 1471,
+            "width": 86,
+            "height": 93,
+            "conf": 0.95
+        },
+        {
+            "text": "of",
+            "left": 1676,
+            "top": 1505,
+            "width": 39,
+            "height": 41,
+            "conf": 0.93
+        },
+        {
+            "text": "tssue",
+            "left": 1738,
+            "top": 1471,
+            "width": 109,
+            "height": 93,
+            "conf": 0.81
+        },
+        {
+            "text": "$1",
+            "left": 2576,
+            "top": 1466,
+            "width": 55,
+            "height": 93,
+            "conf": 0.44
+        },
+        {
+            "text": "Pfr",
+            "left": 2653,
+            "top": 1466,
+            "width": 102,
+            "height": 93,
+            "conf": 0.0
+        },
+        {
+            "text": "/",
+            "left": 2769,
+            "top": 1505,
+            "width": 11,
+            "height": 36,
+            "conf": 0.84
+        },
+        {
+            "text": "Date",
+            "left": 2800,
+            "top": 1466,
+            "width": 94,
+            "height": 93,
+            "conf": 0.89
+        },
+        {
+            "text": "of",
+            "left": 2917,
+            "top": 1466,
+            "width": 39,
+            "height": 93,
+            "conf": 0.94
+        },
+        {
+            "text": "Expiry",
+            "left": 2971,
+            "top": 1466,
+            "width": 132,
+            "height": 93,
+            "conf": 0.95
+        },
+        {
+            "text": "01/01/2013",
+            "left": 1140,
+            "top": 1594,
+            "width": 539,
+            "height": 67,
+            "conf": 0.95
+        },
+        {
+            "text": "01/01/2023",
+            "left": 2487,
+            "top": 1589,
+            "width": 541,
+            "height": 68,
+            "conf": 0.95
+        },
+        {
+            "text": "P<<SPECIMEN<<KUMAR<G<<<<<",
+            "left": 105,
+            "top": 1885,
+            "width": 3053,
+            "height": 84,
+            "conf": 0.0
+        },
+        {
+            "text": "<<<",
+            "left": 1854,
+            "top": 1881,
+            "width": 182,
+            "height": 109,
+            "conf": 0.0
+        },
+        {
+            "text": "<<<",
+            "left": 2062,
+            "top": 1881,
+            "width": 210,
+            "height": 109,
+            "conf": 0.0
+        },
+        {
+            "text": "S66",
+            "left": 2353,
+            "top": 1881,
+            "width": 165,
+            "height": 109,
+            "conf": 0.3
+        },
+        {
+            "text": "SK",
+            "left": 2562,
+            "top": 1881,
+            "width": 101,
+            "height": 109,
+            "conf": 0.25
+        },
+        {
+            "text": "SSE",
+            "left": 2707,
+            "top": 1881,
+            "width": 456,
+            "height": 109,
+            "conf": 0.0
+        },
+        {
+            "text": "Z9999999<0IND8505246M2",
+            "left": 108,
+            "top": 2049,
+            "width": 3052,
+            "height": 89,
+            "conf": 0.44
+        },
+        {
+            "text": "30000",
+            "left": 1647,
+            "top": 2045,
+            "width": 326,
+            "height": 118,
+            "conf": 0.89
+        },
+        {
+            "text": "0<<<<<<<<<<<<<<s4",
+            "left": 2011,
+            "top": 2049,
+            "width": 1149,
+            "height": 89,
+            "conf": 0.0
+        },
+        {
+            "text": "IND",
+            "left": 1507,
+            "top": 304,
+            "width": 110,
+            "height": 52,
+            "conf": 0.96
+        },
+        {
+            "text": "uda/iInnAN",
+            "left": 1864,
+            "top": 281,
+            "width": 508,
+            "height": 79,
+            "conf": 0.0
+        },
+        {
+            "text": "\u00a7=606ZOOOOOOO",
+            "left": 2529,
+            "top": 299,
+            "width": 681,
+            "height": 82,
+            "conf": 0.12
+        }
+    ],
+    "document_type": "PASSPORT",
+    "classification_confidence": 1.0,
+    "extracted_fields": {
+        "passport_number": {
+            "value": "Z9999999",
+            "raw_text": "Z9999999<",
+            "confidence": 0.99,
+            "bounding_box": null
+        },
+        "name": {
+            "value": "KUMAR G SPECIMEN",
+            "raw_text": "SPECIMEN<<KUMAR<G<<<<<<<<<<<S66SKSSE<<<<<",
+            "confidence": 0.73,
+            "bounding_box": {
+                "x": 1130,
+                "y": 723,
+                "w": 265,
+                "h": 63
+            }
+        },
+        "nationality": {
+            "value": "IND",
+            "raw_text": "IND",
+            "confidence": 0.96,
+            "bounding_box": null
+        },
+        "dob": {
+            "value": "1985-05-24",
+            "raw_text": "850524",
+            "confidence": 0.99,
+            "bounding_box": null
+        },
+        "expiry": {
+            "value": "2023-01-01",
+            "raw_text": "01/01/2023",
+            "confidence": 0.5375,
+            "bounding_box": {
+                "x": 2487,
+                "y": 1589,
+                "w": 541,
+                "h": 68
+            }
+        },
+        "sex": {
+            "value": "M",
+            "raw_text": "M",
+            "confidence": 0.81,
+            "bounding_box": null
+        },
+        "place_of_birth": {
+            "value": "MUMBAI, MAHARASHTRA",
+            "raw_text": "_ MUMBAI, MAHARASHTRA",
+            "confidence": 0.03,
+            "bounding_box": {
+                "x": 1576,
+                "y": 1125,
+                "w": 745,
+                "h": 115
+            }
+        },
+        "place_of_issue": {
+            "value": "BANGALORE",
+            "raw_text": "BANGALORE hee ee ae",
+            "confidence": 0.96,
+            "bounding_box": {
+                "x": 1137,
+                "y": 1332,
+                "w": 1731,
+                "h": 137
+            }
+        },
+        "mrz_line1": {
+            "value": "P<<SPECIMEN<<KUMAR<G<<<<<<<<<<<S66SKSSE<<<<<",
+            "raw_text": "P<<SPECIMEN<<KUMAR<G<<<<<<<<<<<S66SKSSE<<<<<",
+            "confidence": 0.99,
+            "bounding_box": null
+        },
+        "mrz_line2": {
+            "value": "Z9999999<0IND8505246M2300000<<<<<<<<<<<<<<S4",
+            "raw_text": "Z9999999<0IND8505246M2300000<<<<<<<<<<<<<<S4",
+            "confidence": 0.99,
+            "bounding_box": null
+        }
+    },
+    "validation_results": [
+        {
+            "status": "PASS",
+            "field_name": "passport_format",
+            "expected": "1 Letter, 7 Digits",
+            "actual": "Z9999999"
+        },
+        {
+            "status": "PASS",
+            "field_name": "dob",
+            "expected": "YYYY-MM-DD",
+            "actual": "1985-05-24"
+        },
+        {
+            "status": "PASS",
+            "field_name": "expiry",
+            "expected": "YYYY-MM-DD",
+            "actual": "2023-01-01"
+        },
+        {
+            "status": "PASS",
+            "field_name": "name",
+            "expected": "Uppercase Alphabetic",
+            "actual": "KUMAR G SPECIMEN"
+        },
+        {
+            "status": "PASS",
+            "field_name": "dob_range",
+            "expected": "DOB is in the past",
+            "actual": "DOB is valid, age: 41"
+        },
+        {
+            "status": "WARN",
+            "field_name": "expiry_range",
+            "expected": "Document must not be expired",
+            "actual": "Expired on 2023-01-01"
+        },
+        {
+            "status": "PASS",
+            "field_name": "cross_passport_number",
+            "expected": "Visual Passport No == MRZ Passport No",
+            "actual": "Visual: Z9999999, MRZ: Z9999999"
+        },
+        {
+            "status": "PASS",
+            "field_name": "cross_dob",
+            "expected": "Visual DOB matches MRZ DOB",
+            "actual": "Visual: 1985-05-24, MRZ: 850524"
+        },
+        {
+            "status": "PASS",
+            "field_name": "mrz_passport_checksum",
+            "expected": "Check digit 0 matches",
+            "actual": "Passport: Z9999999<, Check digit: 0"
+        },
+        {
+            "status": "PASS",
+            "field_name": "mrz_dob_checksum",
+            "expected": "Check digit 6 matches",
+            "actual": "DOB: 850524, Check digit: 6"
+        },
+        {
+            "status": "FAIL",
+            "field_name": "mrz_expiry_checksum",
+            "expected": "Check digit 0 matches",
+            "actual": "Expiry: 230000, Check digit: 0"
+        },
+        {
+            "status": "FAIL",
+            "field_name": "mrz_composite_checksum",
+            "expected": "Composite check digit 4 matches",
+            "actual": "Composite data: Z9999999<085052..., Check: 4"
+        }
+    ],
+    "fraud_signals": [],
+    "fraud_risk_score": 0,
+    "authenticity_score": 94,
+    "extraction_reliability": 94,
+    "final_decision": "Genuine",
+    "report_path": "",
+    "pipeline_metadata": {
+        "extracted_doc_type": "PASSPORT"
+    }
+}

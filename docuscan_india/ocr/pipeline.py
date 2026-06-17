@@ -51,7 +51,14 @@ class VerificationPipeline:
 
         logger.info(f"Running field extraction for document type: {packet.document_type.value}")
         extractor = ExtractorRegistry.get_extractor(packet.document_type)
-        packet.extracted_fields = extractor.extract(packet.ocr_raw_text, packet.ocr_word_map)
+        
+        if packet.document_type == DocumentType.PASSPORT:
+            from ocr.passport_splitter import PassportSplitter
+            split_occurred = PassportSplitter.split_and_extract(packet, self.ocr_engine, extractor)
+            if not split_occurred:
+                packet.extracted_fields = extractor.extract(packet.ocr_raw_text, packet.ocr_word_map)
+        else:
+            packet.extracted_fields = extractor.extract(packet.ocr_raw_text, packet.ocr_word_map)
         
         # Fallback OCR pass for Aadhaar or PAN if the primary ID number or essential fields were not found
         # (Very useful for low-res photos/scans where PSM 3 misses the separate blocks)

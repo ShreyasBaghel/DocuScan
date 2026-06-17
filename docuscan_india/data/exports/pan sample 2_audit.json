@@ -1,0 +1,131 @@
+{
+    "image_path": "D:/test doc/pan sample 2.jpg",
+    "ocr_raw_text": "SAMPLE NAME\nSAMPLE FATHER\n01/01/1990\n",
+    "ocr_confidence": 0.91,
+    "ocr_word_map": [
+        {
+            "text": "SAMPLE",
+            "left": 224,
+            "top": 689,
+            "width": 459,
+            "height": 100,
+            "conf": 0.95
+        },
+        {
+            "text": "NAME",
+            "left": 729,
+            "top": 699,
+            "width": 315,
+            "height": 97,
+            "conf": 0.95
+        },
+        {
+            "text": "SAMPLE",
+            "left": 220,
+            "top": 946,
+            "width": 459,
+            "height": 100,
+            "conf": 0.96
+        },
+        {
+            "text": "FATHER",
+            "left": 724,
+            "top": 956,
+            "width": 436,
+            "height": 99,
+            "conf": 0.96
+        },
+        {
+            "text": "01/01/1990",
+            "left": 221,
+            "top": 1211,
+            "width": 532,
+            "height": 96,
+            "conf": 0.96
+        }
+    ],
+    "document_type": "PAN",
+    "classification_confidence": 1.0,
+    "extracted_fields": {
+        "pan_number": {
+            "value": "NOT_FOUND",
+            "raw_text": "",
+            "confidence": 0.0,
+            "bounding_box": null
+        },
+        "name": {
+            "value": "RARE",
+            "raw_text": "RARE",
+            "confidence": 0.51,
+            "bounding_box": {
+                "x": 1814,
+                "y": 1180,
+                "w": 21,
+                "h": 11
+            }
+        },
+        "father_name": {
+            "value": "AVES",
+            "raw_text": "AVES",
+            "confidence": 0.29,
+            "bounding_box": {
+                "x": 1823,
+                "y": 1190,
+                "w": 44,
+                "h": 14
+            }
+        },
+        "dob": {
+            "value": "1990-01-01",
+            "raw_text": "01/01/1990",
+            "confidence": 0.9559999999999998,
+            "bounding_box": {
+                "x": 221,
+                "y": 1211,
+                "w": 532,
+                "h": 96
+            }
+        }
+    },
+    "validation_results": [
+        {
+            "status": "FAIL",
+            "field_name": "pan_format",
+            "expected": "5 Letters, 4 Digits, 1 Letter",
+            "actual": "Missing field"
+        },
+        {
+            "status": "PASS",
+            "field_name": "dob",
+            "expected": "YYYY-MM-DD",
+            "actual": "1990-01-01"
+        },
+        {
+            "status": "PASS",
+            "field_name": "name",
+            "expected": "Uppercase Alphabetic",
+            "actual": "RARE"
+        },
+        {
+            "status": "PASS",
+            "field_name": "father_name",
+            "expected": "Uppercase Alphabetic",
+            "actual": "AVES"
+        },
+        {
+            "status": "PASS",
+            "field_name": "dob_range",
+            "expected": "DOB is in the past",
+            "actual": "DOB is valid, age: 36"
+        }
+    ],
+    "fraud_signals": [],
+    "fraud_risk_score": 0,
+    "authenticity_score": 0,
+    "extraction_reliability": 0,
+    "final_decision": "Suspicious",
+    "report_path": "",
+    "pipeline_metadata": {
+        "extracted_doc_type": "PAN"
+    }
+}

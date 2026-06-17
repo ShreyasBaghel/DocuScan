@@ -1,7 +1,7 @@
 {
-    "image_path": "C:/Users/shrey/Downloads/Aadhaar and PAN/Aadhaar Front.jpg",
+    "image_path": "D:/test doc/Aadhaar Front.jpg",
     "ocr_raw_text": "x\n\nare ata\nSHREYAS BAGHEL\nae fafa / DOB : 01/01/2006\n\nqT / Male\nAY)\n\nHON Upua HT GATT F, sent or afi |\n\nAadhaar is a of\n\n",
-    "ocr_confidence": 0.02,
+    "ocr_confidence": 0.18,
     "ocr_word_map": [
         {
             "text": "x",
@@ -316,9 +316,9 @@
     ],
     "fraud_signals": [],
     "fraud_risk_score": 0,
-    "authenticity_score": 34,
-    "extraction_reliability": 34,
-    "final_decision": "Suspicious",
+    "authenticity_score": 100,
+    "extraction_reliability": 100,
+    "final_decision": "Genuine",
     "report_path": "",
     "pipeline_metadata": {
         "extracted_doc_type": "AADHAAR"

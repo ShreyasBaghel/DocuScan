@@ -64,16 +64,16 @@ class KeywordClassifier(BaseClassifier):
 
         scores: Dict[DocumentType, float] = {}
 
+        from ml.calibration import Calibrator
+
         for doc_type, regex_list in self.keywords.items():
             matches = 0
             for regex in regex_list:
                 if re.search(regex, clean_text, re.IGNORECASE):
                     matches += 1
-            # Calculate absolute score based on number of keyword matches
-            if matches >= 2:
-                scores[doc_type] = 0.90
-            elif matches == 1:
-                scores[doc_type] = 0.75
+            # Calculate score dynamically using sigmoid calibration
+            if matches > 0:
+                scores[doc_type] = Calibrator.sigmoid_calibrate(float(matches), center=0.6, temperature=0.3)
             else:
                 scores[doc_type] = 0.0
 
@@ -86,7 +86,7 @@ class KeywordClassifier(BaseClassifier):
                 best_score = score
                 best_doc = doc_type
 
-        # If best score is negligible, classify as UNKNOWN
+        # Use model-calibrated threshold boundary (0.50)
         if best_score < 0.50:
             return DocumentType.UNKNOWN, 0.0
 

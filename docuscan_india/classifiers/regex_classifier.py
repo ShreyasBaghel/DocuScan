@@ -43,6 +43,35 @@ class RegexClassifier(BaseClassifier):
             ]
         }
 
+    def get_match_confidence(self, matched_str: str, word_map: List[Dict[str, Any]]) -> float:
+        """Calculates dynamic OCR confidence for matched regex string from word_map."""
+        if not matched_str or not word_map:
+            return 0.85 # sensible default
+        
+        # Clean and split matched string into tokens
+        import numpy as np
+        tokens = [t.lower() for t in matched_str.split() if re.match(r"^[a-zA-Z0-9/<]+$", t)]
+        if not tokens:
+            all_confs = [w['conf'] for w in word_map if 'conf' in w]
+            return float(np.mean(all_confs)) if all_confs else 0.85
+
+        matched_confs = []
+        for token in tokens:
+            clean_token = re.sub(r'[^a-z0-9/<]', '', token)
+            if not clean_token:
+                continue
+            for w in word_map:
+                w_text = w.get('text', '').lower()
+                clean_w_text = re.sub(r'[^a-z0-9/<]', '', w_text)
+                if clean_token == clean_w_text and 'conf' in w:
+                    matched_confs.append(w['conf'])
+
+        if matched_confs:
+            return float(np.mean(matched_confs))
+
+        all_confs = [w['conf'] for w in word_map if 'conf' in w]
+        return float(np.mean(all_confs)) if all_confs else 0.85
+
     def classify(self, raw_text: str, word_map: List[Dict[str, Any]]) -> Tuple[DocumentType, float]:
         if not raw_text:
             return DocumentType.UNKNOWN, 0.0
@@ -58,17 +87,21 @@ class RegexClassifier(BaseClassifier):
             for pattern in regex_list:
                 m = re.search(pattern, flat_text, re.IGNORECASE)
                 if m:
+                    matched_str = m.group(1)
+                    ocr_conf = self.get_match_confidence(matched_str, word_map)
+                    
                     # Special validation for Aadhaar strict matches
                     if doc_type == DocumentType.AADHAAR:
-                        cleaned = re.sub(r"\s+", "", m.group(1))
+                        cleaned = re.sub(r"\s+", "", matched_str)
                         if ChecksumValidator.validate_verhoeff(cleaned):
-                            return DocumentType.AADHAAR, 1.0
+                            score = 0.90 + 0.10 * ocr_conf
                         else:
                             # Strict match failed Verhoeff (might be a false match)
-                            # We still score it but with lower confidence
-                            score = 0.70
+                            score = 0.60 + 0.10 * ocr_conf
                     else:
-                        score = 0.95 if doc_type != DocumentType.PASSPORT or "p<ind" in flat_text.lower() else 0.90
+                        is_passport = doc_type == DocumentType.PASSPORT and "p<ind" in flat_text.lower()
+                        score_base = 0.90 if (doc_type != DocumentType.PASSPORT or is_passport) else 0.80
+                        score = score_base + 0.10 * ocr_conf
                     
                     if score > best_score:
                         best_score = score
@@ -76,7 +109,8 @@ class RegexClassifier(BaseClassifier):
 
         # Passport MRZ check
         if "p<ind" in flat_text.lower() and best_score < 0.95:
-            best_score = 0.98
+            ocr_conf = self.get_match_confidence("p<ind", word_map)
+            best_score = 0.88 + 0.10 * ocr_conf
             best_doc = DocumentType.PASSPORT
 
         # 2. Second Pass: Check soft matches if no confident strict match was found
@@ -86,27 +120,29 @@ class RegexClassifier(BaseClassifier):
                     m = re.search(pattern, flat_text, re.IGNORECASE)
                     if m:
                         matched_str = m.group(1)
+                        ocr_conf = self.get_match_confidence(matched_str, word_map)
+                        
                         if doc_type == DocumentType.AADHAAR:
                             # Autocorrect substitutions and check Verhoeff
                             cleaned = re.sub(r"\s+", "", matched_str)
                             corrected = ocr_correct_digits(cleaned)
                             if ChecksumValidator.validate_verhoeff(corrected):
-                                return DocumentType.AADHAAR, 0.95
+                                score = 0.85 + 0.10 * ocr_conf
+                                if score > best_score:
+                                    best_score = score
+                                    best_doc = doc_type
                         elif doc_type == DocumentType.PAN:
-                            # Soft PAN match
-                            score = 0.85
+                            score = 0.75 + 0.10 * ocr_conf
                             if score > best_score:
                                 best_score = score
                                 best_doc = doc_type
                         elif doc_type == DocumentType.PASSPORT:
-                            # Soft Passport match
-                            score = 0.80
+                            score = 0.70 + 0.10 * ocr_conf
                             if score > best_score:
                                 best_score = score
                                 best_doc = doc_type
                         elif doc_type == DocumentType.DRIVING_LICENCE:
-                            # Soft DL match
-                            score = 0.80
+                            score = 0.70 + 0.10 * ocr_conf
                             if score > best_score:
                                 best_score = score
                                 best_doc = doc_type

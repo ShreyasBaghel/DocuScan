@@ -1,390 +1,198 @@
 {
     "image_path": "C:/Users/shrey/Downloads/ADHAR .pdf",
-    "ocr_raw_text": "Issue Date: 23/09/2011\n\n- Governmentopindiamims\u2014\u2014\n\nSHREYAS BAGHEL\naieA fatal / DOB : 01/01/2006\nWes/ Male\n\nHU eae FT WAT B, area Fr at!\nAadhaar is a proof of identity, not of citizenship.\n\n2086 8322 2522\n\nTare\n\n=)\n-\n\n2086 6322 2522\n\n\u2018\n\n",
-    "ocr_confidence": 0.6404444444444445,
+    "ocr_raw_text": "Issue Date: 23/09/2011\n\ntie 7] JIA Teel\n\n| SHREYAS BAGHEL\n\nseat fafa / DOB : 01/01/2006\nTeT/ Male\n\n",
+    "ocr_confidence": 0.46,
     "ocr_word_map": [
         {
             "text": "Issue",
-            "left": 26,
-            "top": 451,
-            "width": 20,
-            "height": 59,
-            "conf": 0.95
+            "left": 53,
+            "top": 903,
+            "width": 39,
+            "height": 118,
+            "conf": 0.93
         },
         {
             "text": "Date:",
-            "left": 26,
-            "top": 384,
-            "width": 20,
-            "height": 58,
+            "left": 52,
+            "top": 768,
+            "width": 40,
+            "height": 116,
             "conf": 0.96
         },
         {
             "text": "23/09/2011",
-            "left": 26,
-            "top": 251,
-            "width": 20,
-            "height": 123,
-            "conf": 0.96
+            "left": 53,
+            "top": 501,
+            "width": 38,
+            "height": 247,
+            "conf": 0.92
         },
         {
-            "text": "-",
-            "left": 281,
-            "top": 72,
-            "width": 33,
-            "height": 56,
-            "conf": 0.0
+            "text": "tie",
+            "left": 205,
+            "top": 372,
+            "width": 481,
+            "height": 9,
+            "conf": 0.09
         },
         {
-            "text": "Governmentopindiamims\u2014\u2014",
-            "left": 285,
-            "top": 77,
-            "width": 663,
-            "height": 47,
-            "conf": 0.0
+            "text": "7]",
+            "left": 690,
+            "top": 375,
+            "width": 68,
+            "height": 113,
+            "conf": 0.8
+        },
+        {
+            "text": "JIA",
+            "left": 798,
+            "top": 372,
+            "width": 149,
+            "height": 67,
+            "conf": 0.45
+        },
+        {
+            "text": "Teel",
+            "left": 979,
+            "top": 372,
+            "width": 144,
+            "height": 65,
+            "conf": 0.43
+        },
+        {
+            "text": "|",
+            "left": 751,
+            "top": 489,
+            "width": 8,
+            "height": 68,
+            "conf": 0.92
         },
         {
             "text": "SHREYAS",
-            "left": 400,
-            "top": 242,
-            "width": 164,
-            "height": 27,
+            "left": 799,
+            "top": 484,
+            "width": 329,
+            "height": 54,
             "conf": 0.91
         },
         {
             "text": "BAGHEL",
-            "left": 578,
-            "top": 243,
-            "width": 138,
-            "height": 26,
-            "conf": 0.91
-        },
-        {
-            "text": "aieA",
-            "left": 398,
-            "top": 297,
-            "width": 78,
-            "height": 26,
-            "conf": 0.13
-        },
-        {
-            "text": "fatal",
-            "left": 493,
-            "top": 288,
-            "width": 94,
-            "height": 36,
-            "conf": 0.0
-        },
-        {
-            "text": "/",
-            "left": 581,
-            "top": 284,
-            "width": 9,
-            "height": 50,
-            "conf": 0.63
-        },
-        {
-            "text": "DOB",
-            "left": 600,
-            "top": 297,
-            "width": 71,
-            "height": 26,
+            "left": 1155,
+            "top": 485,
+            "width": 277,
+            "height": 53,
             "conf": 0.92
         },
         {
+            "text": "seat",
+            "left": 796,
+            "top": 594,
+            "width": 157,
+            "height": 51,
+            "conf": 0.59
+        },
+        {
+            "text": "fafa",
+            "left": 986,
+            "top": 575,
+            "width": 188,
+            "height": 73,
+            "conf": 0.5
+        },
+        {
+            "text": "/",
+            "left": 1152,
+            "top": 569,
+            "width": 30,
+            "height": 90,
+            "conf": 0.5
+        },
+        {
+            "text": "DOB",
+            "left": 1199,
+            "top": 594,
+            "width": 179,
+            "height": 52,
+            "conf": 0.89
+        },
+        {
             "text": ":",
-            "left": 686,
-            "top": 304,
-            "width": 3,
-            "height": 19,
-            "conf": 0.78
+            "left": 1354,
+            "top": 569,
+            "width": 23,
+            "height": 90,
+            "conf": 0.87
         },
         {
             "text": "01/01/2006",
-            "left": 703,
-            "top": 297,
-            "width": 173,
-            "height": 27,
+            "left": 1407,
+            "top": 594,
+            "width": 345,
+            "height": 54,
             "conf": 0.96
         },
         {
-            "text": "Wes/",
-            "left": 394,
-            "top": 344,
-            "width": 90,
-            "height": 49,
+            "text": "TeT/",
+            "left": 793,
+            "top": 691,
+            "width": 175,
+            "height": 91,
             "conf": 0.0
         },
         {
             "text": "Male",
-            "left": 497,
-            "top": 343,
-            "width": 72,
-            "height": 39,
+            "left": 993,
+            "top": 690,
+            "width": 144,
+            "height": 67,
             "conf": 0.96
-        },
-        {
-            "text": "HU",
-            "left": 411,
-            "top": 512,
-            "width": 63,
-            "height": 20,
-            "conf": 0.71
-        },
-        {
-            "text": "eae",
-            "left": 486,
-            "top": 514,
-            "width": 71,
-            "height": 21,
-            "conf": 0.0
-        },
-        {
-            "text": "FT",
-            "left": 568,
-            "top": 514,
-            "width": 28,
-            "height": 17,
-            "conf": 0.35
-        },
-        {
-            "text": "WAT",
-            "left": 606,
-            "top": 514,
-            "width": 62,
-            "height": 17,
-            "conf": 0.46
-        },
-        {
-            "text": "B,",
-            "left": 678,
-            "top": 507,
-            "width": 21,
-            "height": 28,
-            "conf": 0.0
-        },
-        {
-            "text": "area",
-            "left": 712,
-            "top": 508,
-            "width": 106,
-            "height": 25,
-            "conf": 0.35
-        },
-        {
-            "text": "Fr",
-            "left": 829,
-            "top": 514,
-            "width": 27,
-            "height": 18,
-            "conf": 0.31
-        },
-        {
-            "text": "at!",
-            "left": 867,
-            "top": 508,
-            "width": 46,
-            "height": 28,
-            "conf": 0.0
-        },
-        {
-            "text": "Aadhaar",
-            "left": 399,
-            "top": 546,
-            "width": 96,
-            "height": 20,
-            "conf": 0.9
-        },
-        {
-            "text": "is",
-            "left": 502,
-            "top": 547,
-            "width": 17,
-            "height": 18,
-            "conf": 0.96
-        },
-        {
-            "text": "a",
-            "left": 527,
-            "top": 551,
-            "width": 13,
-            "height": 15,
-            "conf": 0.96
-        },
-        {
-            "text": "proof",
-            "left": 552,
-            "top": 546,
-            "width": 146,
-            "height": 20,
-            "conf": 0.96
-        },
-        {
-            "text": "of",
-            "left": 609,
-            "top": 542,
-            "width": 20,
-            "height": 33,
-            "conf": 0.96
-        },
-        {
-            "text": "identity,",
-            "left": 639,
-            "top": 546,
-            "width": 59,
-            "height": 20,
-            "conf": 0.96
-        },
-        {
-            "text": "not",
-            "left": 720,
-            "top": 547,
-            "width": 48,
-            "height": 22,
-            "conf": 0.96
-        },
-        {
-            "text": "of",
-            "left": 775,
-            "top": 546,
-            "width": 22,
-            "height": 20,
-            "conf": 0.96
-        },
-        {
-            "text": "citizenship.",
-            "left": 803,
-            "top": 547,
-            "width": 122,
-            "height": 24,
-            "conf": 0.96
-        },
-        {
-            "text": "2086",
-            "left": 377,
-            "top": 594,
-            "width": 140,
-            "height": 47,
-            "conf": 0.96
-        },
-        {
-            "text": "8322",
-            "left": 543,
-            "top": 594,
-            "width": 138,
-            "height": 46,
-            "conf": 0.96
-        },
-        {
-            "text": "2522",
-            "left": 707,
-            "top": 595,
-            "width": 138,
-            "height": 46,
-            "conf": 0.96
-        },
-        {
-            "text": "Tare",
-            "left": 1047,
-            "top": 99,
-            "width": 101,
-            "height": 23,
-            "conf": 0.28
-        },
-        {
-            "text": "=)",
-            "left": 1070,
-            "top": 197,
-            "width": 49,
-            "height": 38,
-            "conf": 0.46
-        },
-        {
-            "text": "-",
-            "left": 1083,
-            "top": 245,
-            "width": 28,
-            "height": 32,
-            "conf": 0.0
-        },
-        {
-            "text": "2086",
-            "left": 1045,
-            "top": 306,
-            "width": 31,
-            "height": 28,
-            "conf": 0.9
-        },
-        {
-            "text": "6322",
-            "left": 1082,
-            "top": 306,
-            "width": 29,
-            "height": 28,
-            "conf": 0.66
-        },
-        {
-            "text": "2522",
-            "left": 1117,
-            "top": 306,
-            "width": 33,
-            "height": 28,
-            "conf": 0.96
-        },
-        {
-            "text": "\u2018",
-            "left": 1207,
-            "top": 0,
-            "width": 17,
-            "height": 31,
-            "conf": 0.0
         }
     ],
     "document_type": "AADHAAR",
-    "classification_confidence": 0.95,
+    "classification_confidence": 1.0,
     "extracted_fields": {
         "aadhaar_number": {
             "value": "208683222522",
             "raw_text": "2086 8322 2522",
-            "confidence": 0.95,
+            "confidence": 0.5616666666666668,
             "bounding_box": {
-                "x": 377,
-                "y": 594,
-                "w": 468,
-                "h": 47
+                "x": 754,
+                "y": 1188,
+                "w": 937,
+                "h": 94
             }
         },
         "dob": {
             "value": "2006-01-01",
             "raw_text": "DOB : 01/01/2006",
-            "confidence": 0.9,
+            "confidence": 0.7000000000000001,
             "bounding_box": {
-                "x": 600,
-                "y": 297,
-                "w": 276,
-                "h": 27
+                "x": 1199,
+                "y": 594,
+                "w": 553,
+                "h": 54
             }
         },
         "gender": {
             "value": "MALE",
             "raw_text": "Male",
-            "confidence": 0.95,
+            "confidence": 0.96,
             "bounding_box": {
-                "x": 497,
-                "y": 343,
-                "w": 72,
-                "h": 39
+                "x": 993,
+                "y": 690,
+                "w": 144,
+                "h": 67
             }
         },
         "name": {
             "value": "SHREYAS BAGHEL",
-            "raw_text": "SHREYAS BAGHEL",
-            "confidence": 0.85,
+            "raw_text": "| SHREYAS BAGHEL",
+            "confidence": 0.915,
             "bounding_box": {
-                "x": 400,
-                "y": 242,
-                "w": 316,
-                "h": 27
+                "x": 799,
+                "y": 484,
+                "w": 633,
+                "h": 54
             }
         }
     },
@@ -428,6 +236,11 @@
     ],
     "fraud_signals": [],
     "fraud_risk_score": 0,
+    "authenticity_score": 100,
+    "extraction_reliability": 100,
+    "final_decision": "Genuine",
     "report_path": "",
-    "pipeline_metadata": {}
+    "pipeline_metadata": {
+        "extracted_doc_type": "AADHAAR"
+    }
 }

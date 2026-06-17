@@ -652,14 +652,14 @@
             }
         },
         "vehicle_class": {
-            "value": "MCWG, COV, LMV",
-            "raw_text": "MCWG, COV, LMV",
-            "confidence": 0.92,
+            "value": "LMV, COV, MCWG",
+            "raw_text": "LMV, COV, MCWG",
+            "confidence": 0.63,
             "bounding_box": {
                 "x": 482,
-                "y": 408,
-                "w": 115,
-                "h": 29
+                "y": 443,
+                "w": 77,
+                "h": 42
             }
         }
     },
@@ -717,7 +717,7 @@
     "fraud_risk_score": 0,
     "authenticity_score": 67,
     "extraction_reliability": 67,
-    "final_decision": "Needs Manual Review",
+    "final_decision": "Genuine",
     "report_path": "",
     "pipeline_metadata": {
         "extracted_doc_type": "DRIVING_LICENCE"

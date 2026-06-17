@@ -20,10 +20,15 @@ class ClassifierEnsemble(BaseClassifier):
         self.layout_classifier = LayoutClassifier()
 
     def classify(self, raw_text: str, word_map: List[Dict[str, Any]]) -> Tuple[DocumentType, float]:
-        # 1. Fetch parameters from config
-        class_config = self.config.get("classification", {})
-        threshold = class_config.get("confidence_threshold", 0.70)
-        weights = class_config.get("weights", {"keyword": 0.40, "regex": 0.40, "layout": 0.20})
+        # 1. Fetch parameters dynamically from ScoringInference
+        from ml.inference import ScoringInference
+        
+        # Ensure models are loaded to get the latest dynamic configuration
+        ScoringInference.load_models()
+        
+        thresholds = ScoringInference.get_thresholds()
+        threshold = thresholds.get("classification_threshold", 0.70)
+        weights = ScoringInference.get_ensemble_weights()
 
         w_keyword = weights.get("keyword", 0.40)
         w_regex = weights.get("regex", 0.40)
@@ -37,9 +42,9 @@ class ClassifierEnsemble(BaseClassifier):
         logger.info(f"Classifier individual results: Keyword={kw_doc.value}({kw_score:.2f}), "
                     f"Regex={rg_doc.value}({rg_score:.2f}), Layout={ly_doc.value}({ly_score:.2f})")
 
-        # If a strict or soft ID number regex matched with confidence >= 0.70, trust it directly.
+        # If a strict or soft ID number regex matched with confidence >= threshold, trust it directly.
         # This prevents diluting reliable regex matches (like Aadhaar/PAN formats) when other classifiers are silent.
-        if rg_score >= 0.70 and rg_doc != DocumentType.UNKNOWN:
+        if rg_score >= threshold and rg_doc != DocumentType.UNKNOWN:
             logger.info(f"Ensemble bypassed: Reliable regex match for {rg_doc.value} ({rg_score:.2f})")
             return rg_doc, rg_score
 

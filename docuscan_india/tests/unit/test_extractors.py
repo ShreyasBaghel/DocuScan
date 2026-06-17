@@ -104,6 +104,46 @@ def test_passport_extractor():
     assert res["mrz_line1"].value == "P<INDSHARMA<<RAJESH<<<<<<<<<<<<<<<<<<<<<<<<<"
     assert res["mrz_line2"].value == "Z1234567<8IND9012312M3012315<<<<<<<<<<<<<<02"
 
+def test_passport_extractor_fallback_and_cleaning():
+    ext = PassportExtractor()
+    # Mock text similar to indianpp1 with:
+    # - MRZ line 1 having P<<SPECIMEN (missing country code) and trailing noise (S66SKSSE)
+    # - MRZ line 2 having invalid expiry 230000 (meaning invalid month/day 00)
+    # - Visual text having:
+    #   * Place of Birth: MUMBAI, MAHARASHTRA
+    #   * Place of Issue: BANGALORE
+    #   * Date of Expiry: 01/01/2023 (valid expiry fallback)
+    text = (
+        "Place of Birth\n"
+        "MUMBAI, MAHARASHTRA\n"
+        "Place of issue\n"
+        "BANGALORE\n"
+        "Date of Expiry\n"
+        "01/01/2023\n"
+        "P<<SPECIMEN<<KUMAR<G<<<<<<<<<<<S66SKSSE<<<<<\n"
+        "Z9999999<0IND8505246M2300000<<<<<<<<<<<<<<S4\n"
+    )
+    res = ext.extract(text, [])
+    
+    # Assert MRZ prefix robust skip + noise filtering works
+    assert res["name"].value == "KUMAR G SPECIMEN"
+    
+    # Assert passport number is extracted
+    assert res["passport_number"].value == "Z9999999"
+    
+    # Assert DOB is correct
+    assert res["dob"].value == "1985-05-24"
+    
+    # Assert Sex is correct
+    assert res["sex"].value == "M"
+    
+    # Assert Expiry falls back to visual date because 230000 in MRZ is invalid
+    assert res["expiry"].value == "2023-01-01"
+    
+    # Assert Places are extracted from visual zone
+    assert res["place_of_birth"].value == "MUMBAI, MAHARASHTRA"
+    assert res["place_of_issue"].value == "BANGALORE"
+
 def test_dl_extractor():
     ext = DLExtractor()
     text = (

@@ -174,7 +174,7 @@ class FraudAnalysisScreen(tk.Frame):
             lbl_name = tk.Label(header, text=f"Rule Failure: {f_val.field_name.replace('_', ' ').title()}", fg="#ef4444", bg="#1e1e24", font=("Segoe UI Bold", 10))
             lbl_name.pack(side="left")
 
-            lbl_score = tk.Label(header, text="+20 Risk", fg="#ef4444", bg="#1e1e24", font=("Segoe UI Bold", 10))
+            lbl_score = tk.Label(header, text=f"+{f_val.score} Risk", fg="#ef4444", bg="#1e1e24", font=("Segoe UI Bold", 10))
             lbl_score.pack(side="right")
 
             lbl_desc = tk.Label(item, text=f"Expected: {f_val.expected} | Actual: {f_val.actual}", fg="#a0aec0", bg="#1e1e24", font=("Segoe UI", 9), justify="left", wraplength=400)

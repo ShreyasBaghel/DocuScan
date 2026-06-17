@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>DocuScan India - Audit Report</title>
+    <style>
+        body { font-family: 'Segoe UI', Arial, sans-serif; margin: 40px; background-color: #f8f9fa; color: #212529; }
+        .container { max-width: 900px; margin: 0 auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .header { border-bottom: 2px solid #0056b3; padding-bottom: 20px; margin-bottom: 30px; display: flex; justify-content: space-between; align-items: center; }
+        .header h1 { margin: 0; color: #0056b3; }
+        .status-badge { padding: 8px 16px; border-radius: 20px; font-weight: bold; color: white; display: inline-block; }
+        .status-pass { background-color: #28a745; }
+        .status-warn { background-color: #ffc107; color: #212529; }
+        .status-fail { background-color: #dc3545; }
+        table { width: 100%; border-collapse: collapse; margin-bottom: 30px; }
+        th, td { padding: 12px; border: 1px solid #dee2e6; text-align: left; }
+        th { background-color: #f1f3f5; }
+        .section-title { font-size: 20px; color: #343a40; margin-bottom: 15px; border-left: 4px solid #0056b3; padding-left: 10px; }
+        .risk-score { font-size: 32px; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div>
+                <h1>DocuScan India</h1>
+                <p>Intelligent OCR & Verification System</p>
+            </div>
+            <div>
+                <span class="status-badge status-genuine">Genuine</span>
+            </div>
+        </div>
+
+        <div class="section-title">Document Summary</div>
+        <table>
+            <tr>
+                <th>Document Type</th>
+                <td>PASSPORT</td>
+                <th>Fraud Risk Score</th>
+                <td class="risk-score" style="color: #28a745">0/100</td>
+            </tr>
+            <tr>
+                <th>Source File</th>
+                <td>indianpp1.jpg</td>
+                <th>Timestamp</th>
+                <td>2026-06-17 11:22:01</td>
+            </tr>
+        </table>
+
+        <div class="section-title">Extracted Fields</div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Field Name</th>
+                    <th>Extracted Value</th>
+                    <th>Confidence</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+                <tr>
+                    <td><strong>Passport Number</strong></td>
+                    <td>Z9999999</td>
+                    <td>99.0%</td>
+                </tr>
+                
+                <tr>
+                    <td><strong>Name</strong></td>
+                    <td>KUMAR G SPECIMEN</td>
+                    <td>73.0%</td>
+                </tr>
+                
+                <tr>
+                    <td><strong>Nationality</strong></td>
+                    <td>IND</td>
+                    <td>96.0%</td>
+                </tr>
+                
+                <tr>
+                    <td><strong>Dob</strong></td>
+                    <td>1985-05-24</td>
+                    <td>99.0%</td>
+                </tr>
+                
+                <tr>
+                    <td><strong>Expiry</strong></td>
+                    <td>2023-01-01</td>
+                    <td>53.8%</td>
+                </tr>
+                
+                <tr>
+                    <td><strong>Sex</strong></td>
+                    <td>M</td>
+                    <td>81.0%</td>
+                </tr>
+                
+                <tr>
+                    <td><strong>Place Of Birth</strong></td>
+                    <td>MUMBAI, MAHARASHTRA</td>
+                    <td>3.0%</td>
+                </tr>
+                
+                <tr>
+                    <td><strong>Place Of Issue</strong></td>
+                    <td>BANGALORE</td>
+                    <td>96.0%</td>
+                </tr>
+                
+                <tr>
+                    <td><strong>Mrz Line1</strong></td>
+                    <td>P<<SPECIMEN<<KUMAR<G<<<<<<<<<<<S66SKSSE<<<<<</td>
+                    <td>99.0%</td>
+                </tr>
+                
+                <tr>
+                    <td><strong>Mrz Line2</strong></td>
+                    <td>Z9999999<0IND8505246M2300000<<<<<<<<<<<<<<S4</td>
+                    <td>99.0%</td>
+                </tr>
+                
+            </tbody>
+        </table>
+
+        <div class="section-title">Validation Checks</div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Check Name</th>
+                    <th>Status</th>
+                    <th>Details</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+                <tr>
+                    <td>Passport Format</td>
+                    <td style="color: #28a745; font-weight: bold;">
+                        PASS
+                    </td>
+                    <td>Expected: 1 Letter, 7 Digits | Actual: Z9999999</td>
+                </tr>
+                
+                <tr>
+                    <td>Dob</td>
+                    <td style="color: #28a745; font-weight: bold;">
+                        PASS
+                    </td>
+                    <td>Expected: YYYY-MM-DD | Actual: 1985-05-24</td>
+                </tr>
+                
+                <tr>
+                    <td>Expiry</td>
+                    <td style="color: #28a745; font-weight: bold;">
+                        PASS
+                    </td>
+                    <td>Expected: YYYY-MM-DD | Actual: 2023-01-01</td>
+                </tr>
+                
+                <tr>
+                    <td>Name</td>
+                    <td style="color: #28a745; font-weight: bold;">
+                        PASS
+                    </td>
+                    <td>Expected: Uppercase Alphabetic | Actual: KUMAR G SPECIMEN</td>
+                </tr>
+                
+                <tr>
+                    <td>Dob Range</td>
+                    <td style="color: #28a745; font-weight: bold;">
+                        PASS
+                    </td>
+                    <td>Expected: DOB is in the past | Actual: DOB is valid, age: 41</td>
+                </tr>
+                
+                <tr>
+                    <td>Expiry Range</td>
+                    <td style="color: #ffc107; font-weight: bold;">
+                        WARN
+                    </td>
+                    <td>Expected: Document must not be expired | Actual: Expired on 2023-01-01</td>
+                </tr>
+                
+                <tr>
+                    <td>Cross Passport Number</td>
+                    <td style="color: #28a745; font-weight: bold;">
+                        PASS
+                    </td>
+                    <td>Expected: Visual Passport No == MRZ Passport No | Actual: Visual: Z9999999, MRZ: Z9999999</td>
+                </tr>
+                
+                <tr>
+                    <td>Cross Dob</td>
+                    <td style="color: #28a745; font-weight: bold;">
+                        PASS
+                    </td>
+                    <td>Expected: Visual DOB matches MRZ DOB | Actual: Visual: 1985-05-24, MRZ: 850524</td>
+                </tr>
+                
+                <tr>
+                    <td>Mrz Passport Checksum</td>
+                    <td style="color: #28a745; font-weight: bold;">
+                        PASS
+                    </td>
+                    <td>Expected: Check digit 0 matches | Actual: Passport: Z9999999<, Check digit: 0</td>
+                </tr>
+                
+                <tr>
+                    <td>Mrz Dob Checksum</td>
+                    <td style="color: #28a745; font-weight: bold;">
+                        PASS
+                    </td>
+                    <td>Expected: Check digit 6 matches | Actual: DOB: 850524, Check digit: 6</td>
+                </tr>
+                
+                <tr>
+                    <td>Mrz Expiry Checksum</td>
+                    <td style="color: #dc3545; font-weight: bold;">
+                        FAIL
+                    </td>
+                    <td>Expected: Check digit 0 matches | Actual: Expiry: 230000, Check digit: 0</td>
+                </tr>
+                
+                <tr>
+                    <td>Mrz Composite Checksum</td>
+                    <td style="color: #dc3545; font-weight: bold;">
+                        FAIL
+                    </td>
+                    <td>Expected: Composite check digit 4 matches | Actual: Composite data: Z9999999<085052..., Check: 4</td>
+                </tr>
+                
+            </tbody>
+        </table>
+
+        
+    </div>
+</body>
+</html>

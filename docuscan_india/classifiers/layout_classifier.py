@@ -4,8 +4,20 @@ from utils.document_packet import DocumentType
 import re
 
 class LayoutClassifier(BaseClassifier):
+    def get_words_confidence(self, words: List[Dict[str, Any]]) -> float:
+        """Calculates dynamic average OCR confidence for a list of words."""
+        if not words:
+            return 0.85
+        confs = [w['conf'] for w in words if 'conf' in w]
+        import numpy as np
+        return float(np.mean(confs)) if confs else 0.85
     def classify(self, raw_text: str, word_map: List[Dict[str, Any]]) -> Tuple[DocumentType, float]:
-        if not word_map:
+        # Ensure all words have required layout keys
+        valid_words = [
+            w for w in word_map 
+            if isinstance(w, dict) and all(k in w for k in ('top', 'left', 'width', 'height', 'text'))
+        ]
+        if not valid_words:
             # Fallback to checking raw text for Passport MRZ `<` characters
             if raw_text:
                 count_brackets = raw_text.count("<")
@@ -15,7 +27,7 @@ class LayoutClassifier(BaseClassifier):
 
         # Sort the word map: first top-to-bottom, then left-to-right on similar lines (vertical tolerance 15px)
         sorted_words = []
-        unsorted = list(word_map)
+        unsorted = list(valid_words)
         
         while unsorted:
             # Pick first word
@@ -66,11 +78,13 @@ class LayoutClassifier(BaseClassifier):
         # B. Density of `<` character in general
         brackets_count = raw_text.count("<")
         if mrz_like_lines >= 1 or brackets_count >= 15:
-            passport_score = 0.90 if mrz_like_lines == 1 or brackets_count < 20 else 1.0
+            ocr_conf = self.get_words_confidence(bottom_words)
+            passport_score = (0.85 + 0.10 * ocr_conf) if mrz_like_lines == 1 or brackets_count < 20 else (0.90 + 0.10 * ocr_conf)
 
         # 2. AADHAAR check: Look for 12-digit Aadhaar number horizontally aligned in lower 40%
         # Use our sorted word list to reliably locate three consecutive 4-digit groups on the same line
         aadhaar_number_found = False
+        matched_aadhaar_words = []
         for i in range(len(sorted_words) - 2):
             w1, w2, w3 = sorted_words[i], sorted_words[i+1], sorted_words[i+2]
             # Check if they are on the same line
@@ -80,35 +94,45 @@ class LayoutClassifier(BaseClassifier):
                     # Check if they flow left-to-right
                     if w1['left'] < w2['left'] < w3['left']:
                         aadhaar_number_found = True
+                        matched_aadhaar_words = [w1, w2, w3]
                         break
         
         if aadhaar_number_found:
-            aadhaar_score = 0.85
+            ocr_conf = self.get_words_confidence(matched_aadhaar_words)
+            aadhaar_score = 0.75 + 0.10 * ocr_conf
 
         # 3. PAN check: Name and Father's Name labels
         father_name_label = False
         name_label = False
+        matched_pan_words = []
         for w in sorted_words:
             text = w['text'].lower()
             if "father" in text or "पिता" in text:
                 father_name_label = True
+                matched_pan_words.append(w)
             if "name" in text or "नाम" in text:
                 name_label = True
+                matched_pan_words.append(w)
 
         if father_name_label and name_label and not aadhaar_number_found:
-            pan_score = 0.60
+            ocr_conf = self.get_words_confidence(matched_pan_words)
+            pan_score = 0.50 + 0.10 * ocr_conf
 
         # 4. DRIVING LICENCE check: MCWG / LMV keywords
         vehicle_classes = 0
+        matched_dl_words = []
         for w in sorted_words:
             text = w['text'].upper()
             if text in ["LMV", "MCWG", "MCWOG", "HMV", "TRANS"]:
                 vehicle_classes += 1
+                matched_dl_words.append(w)
         
         if vehicle_classes >= 2:
-            dl_score = 0.80
+            ocr_conf = self.get_words_confidence(matched_dl_words)
+            dl_score = 0.70 + 0.10 * ocr_conf
         elif vehicle_classes == 1:
-            dl_score = 0.40
+            ocr_conf = self.get_words_confidence(matched_dl_words)
+            dl_score = 0.30 + 0.10 * ocr_conf
 
         scores = {
             DocumentType.PASSPORT: passport_score,

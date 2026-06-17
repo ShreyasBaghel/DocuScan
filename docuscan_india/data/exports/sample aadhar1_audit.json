@@ -1,0 +1,654 @@
+{
+    "image_path": "D:/test doc/sample aadhar1.png",
+    "ocr_raw_text": "Sea OA SAT Ska\n\nwrA faf&/DOB: 25/02/1997\n| Afget/ FEMALE\n\nMobile No: 9798864224\n\n8938 3111 6226\n\nVID : 9187 6470 1640 8093\n\nDarakhshan Parween Zeeshan Shaikh\n\n\u00a9 Scanned with OKEN Scanner\n\n4 UniqUelIdentificationAuthority of india = AD).\n\u2014 AADHAAR\noer\n\nERS, ani, fe we, Fad, Had a,\n\nERTS - 400017\nAddr\n\nau wee, BuiV seven\n\n8938 3111 6226\nVID : 9187\n\nSS 1947 | Re help@uidai.gov.in | & www.uidai.gov.in\n",
+    "ocr_confidence": 0.42,
+    "ocr_word_map": [
+        {
+            "text": "Sea",
+            "left": 521,
+            "top": 245,
+            "width": 135,
+            "height": 77,
+            "conf": 0.36
+        },
+        {
+            "text": "OA",
+            "left": 694,
+            "top": 245,
+            "width": 97,
+            "height": 77,
+            "conf": 0.44
+        },
+        {
+            "text": "SAT",
+            "left": 835,
+            "top": 245,
+            "width": 123,
+            "height": 77,
+            "conf": 0.48
+        },
+        {
+            "text": "Ska",
+            "left": 983,
+            "top": 245,
+            "width": 84,
+            "height": 77,
+            "conf": 0.72
+        },
+        {
+            "text": "wrA",
+            "left": 525,
+            "top": 416,
+            "width": 97,
+            "height": 40,
+            "conf": 0.0
+        },
+        {
+            "text": "faf&/DOB:",
+            "left": 638,
+            "top": 400,
+            "width": 255,
+            "height": 65,
+            "conf": 0.0
+        },
+        {
+            "text": "25/02/1997",
+            "left": 920,
+            "top": 406,
+            "width": 306,
+            "height": 58,
+            "conf": 0.96
+        },
+        {
+            "text": "|",
+            "left": 488,
+            "top": 472,
+            "width": 2,
+            "height": 12,
+            "conf": 0.36
+        },
+        {
+            "text": "Afget/",
+            "left": 526,
+            "top": 475,
+            "width": 155,
+            "height": 65,
+            "conf": 0.34
+        },
+        {
+            "text": "FEMALE",
+            "left": 703,
+            "top": 483,
+            "width": 208,
+            "height": 48,
+            "conf": 0.96
+        },
+        {
+            "text": "Mobile",
+            "left": 537,
+            "top": 580,
+            "width": 171,
+            "height": 46,
+            "conf": 0.96
+        },
+        {
+            "text": "No:",
+            "left": 729,
+            "top": 579,
+            "width": 85,
+            "height": 46,
+            "conf": 0.96
+        },
+        {
+            "text": "9798864224",
+            "left": 837,
+            "top": 578,
+            "width": 328,
+            "height": 47,
+            "conf": 0.96
+        },
+        {
+            "text": "8938",
+            "left": 537,
+            "top": 726,
+            "width": 197,
+            "height": 70,
+            "conf": 0.96
+        },
+        {
+            "text": "3111",
+            "left": 765,
+            "top": 724,
+            "width": 186,
+            "height": 71,
+            "conf": 0.96
+        },
+        {
+            "text": "6226",
+            "left": 991,
+            "top": 724,
+            "width": 198,
+            "height": 70,
+            "conf": 0.96
+        },
+        {
+            "text": "VID",
+            "left": 535,
+            "top": 819,
+            "width": 85,
+            "height": 41,
+            "conf": 0.92
+        },
+        {
+            "text": ":",
+            "left": 639,
+            "top": 830,
+            "width": 8,
+            "height": 29,
+            "conf": 0.91
+        },
+        {
+            "text": "9187",
+            "left": 666,
+            "top": 819,
+            "width": 113,
+            "height": 41,
+            "conf": 0.96
+        },
+        {
+            "text": "6470",
+            "left": 796,
+            "top": 819,
+            "width": 113,
+            "height": 41,
+            "conf": 0.95
+        },
+        {
+            "text": "1640",
+            "left": 929,
+            "top": 818,
+            "width": 110,
+            "height": 41,
+            "conf": 0.95
+        },
+        {
+            "text": "8093",
+            "left": 1056,
+            "top": 818,
+            "width": 113,
+            "height": 41,
+            "conf": 0.96
+        },
+        {
+            "text": "Darakhshan",
+            "left": 529,
+            "top": 332,
+            "width": 309,
+            "height": 50,
+            "conf": 0.9
+        },
+        {
+            "text": "Parween",
+            "left": 860,
+            "top": 334,
+            "width": 229,
+            "height": 63,
+            "conf": 0.9
+        },
+        {
+            "text": "Zeeshan",
+            "left": 1109,
+            "top": 331,
+            "width": 222,
+            "height": 50,
+            "conf": 0.91
+        },
+        {
+            "text": "Shaikh",
+            "left": 1351,
+            "top": 331,
+            "width": 174,
+            "height": 50,
+            "conf": 0.96
+        },
+        {
+            "text": "\u00a9",
+            "left": 1180,
+            "top": 1037,
+            "width": 32,
+            "height": 29,
+            "conf": 0.71
+        },
+        {
+            "text": "Scanned",
+            "left": 1232,
+            "top": 1043,
+            "width": 86,
+            "height": 18,
+            "conf": 0.8
+        },
+        {
+            "text": "with",
+            "left": 1324,
+            "top": 1043,
+            "width": 44,
+            "height": 17,
+            "conf": 0.93
+        },
+        {
+            "text": "OKEN",
+            "left": 1374,
+            "top": 1043,
+            "width": 56,
+            "height": 18,
+            "conf": 0.93
+        },
+        {
+            "text": "Scanner",
+            "left": 1437,
+            "top": 1043,
+            "width": 81,
+            "height": 18,
+            "conf": 0.96
+        },
+        {
+            "text": "4",
+            "left": 50,
+            "top": 1139,
+            "width": 86,
+            "height": 137,
+            "conf": 0.14
+        },
+        {
+            "text": "UniqUelIdentificationAuthority",
+            "left": 296,
+            "top": 1224,
+            "width": 871,
+            "height": 59,
+            "conf": 0.0
+        },
+        {
+            "text": "of",
+            "left": 1012,
+            "top": 1203,
+            "width": 46,
+            "height": 91,
+            "conf": 0.13
+        },
+        {
+            "text": "india",
+            "left": 1065,
+            "top": 1203,
+            "width": 130,
+            "height": 91,
+            "conf": 0.13
+        },
+        {
+            "text": "=",
+            "left": 1224,
+            "top": 1203,
+            "width": 47,
+            "height": 91,
+            "conf": 0.33
+        },
+        {
+            "text": "AD).",
+            "left": 1284,
+            "top": 1208,
+            "width": 156,
+            "height": 50,
+            "conf": 0.5
+        },
+        {
+            "text": "\u2014",
+            "left": 58,
+            "top": 1280,
+            "width": 75,
+            "height": 10,
+            "conf": 0.37
+        },
+        {
+            "text": "AADHAAR",
+            "left": 1283,
+            "top": 1266,
+            "width": 151,
+            "height": 20,
+            "conf": 0.88
+        },
+        {
+            "text": "oer",
+            "left": 28,
+            "top": 1324,
+            "width": 70,
+            "height": 29,
+            "conf": 0.48
+        },
+        {
+            "text": "ERS,",
+            "left": 26,
+            "top": 1392,
+            "width": 107,
+            "height": 61,
+            "conf": 0.25
+        },
+        {
+            "text": "ani,",
+            "left": 153,
+            "top": 1392,
+            "width": 98,
+            "height": 61,
+            "conf": 0.42
+        },
+        {
+            "text": "fe",
+            "left": 269,
+            "top": 1392,
+            "width": 57,
+            "height": 61,
+            "conf": 0.65
+        },
+        {
+            "text": "we,",
+            "left": 356,
+            "top": 1392,
+            "width": 60,
+            "height": 61,
+            "conf": 0.5
+        },
+        {
+            "text": "Fad,",
+            "left": 437,
+            "top": 1392,
+            "width": 67,
+            "height": 61,
+            "conf": 0.15
+        },
+        {
+            "text": "Had",
+            "left": 524,
+            "top": 1392,
+            "width": 51,
+            "height": 61,
+            "conf": 0.16
+        },
+        {
+            "text": "a,",
+            "left": 615,
+            "top": 1401,
+            "width": 57,
+            "height": 46,
+            "conf": 0.66
+        },
+        {
+            "text": "ERTS",
+            "left": 28,
+            "top": 1445,
+            "width": 290,
+            "height": 41,
+            "conf": 0.0
+        },
+        {
+            "text": "-",
+            "left": 152,
+            "top": 1431,
+            "width": 22,
+            "height": 64,
+            "conf": 0.92
+        },
+        {
+            "text": "400017",
+            "left": 189,
+            "top": 1445,
+            "width": 129,
+            "height": 41,
+            "conf": 0.96
+        },
+        {
+            "text": "Addr",
+            "left": 26,
+            "top": 1517,
+            "width": 100,
+            "height": 35,
+            "conf": 0.95
+        },
+        {
+            "text": "au",
+            "left": 9,
+            "top": 1654,
+            "width": 11,
+            "height": 35,
+            "conf": 0.78
+        },
+        {
+            "text": "wee,",
+            "left": 9,
+            "top": 1565,
+            "width": 12,
+            "height": 76,
+            "conf": 0.37
+        },
+        {
+            "text": "BuiV",
+            "left": 9,
+            "top": 1476,
+            "width": 12,
+            "height": 76,
+            "conf": 0.0
+        },
+        {
+            "text": "seven",
+            "left": 10,
+            "top": 1384,
+            "width": 11,
+            "height": 82,
+            "conf": 0.0
+        },
+        {
+            "text": "8938",
+            "left": 99,
+            "top": 1810,
+            "width": 121,
+            "height": 65,
+            "conf": 0.95
+        },
+        {
+            "text": "3111",
+            "left": 246,
+            "top": 1815,
+            "width": 108,
+            "height": 42,
+            "conf": 0.96
+        },
+        {
+            "text": "6226",
+            "left": 380,
+            "top": 1816,
+            "width": 122,
+            "height": 43,
+            "conf": 0.96
+        },
+        {
+            "text": "VID",
+            "left": 53,
+            "top": 1881,
+            "width": 43,
+            "height": 36,
+            "conf": 0.79
+        },
+        {
+            "text": ":",
+            "left": 153,
+            "top": 1891,
+            "width": 7,
+            "height": 5,
+            "conf": 0.53
+        },
+        {
+            "text": "9187",
+            "left": 210,
+            "top": 1882,
+            "width": 76,
+            "height": 37,
+            "conf": 0.96
+        },
+        {
+            "text": "SS",
+            "left": 74,
+            "top": 1945,
+            "width": 68,
+            "height": 74,
+            "conf": 0.19
+        },
+        {
+            "text": "1947",
+            "left": 172,
+            "top": 1949,
+            "width": 94,
+            "height": 66,
+            "conf": 0.68
+        },
+        {
+            "text": "|",
+            "left": 334,
+            "top": 1950,
+            "width": 7,
+            "height": 65,
+            "conf": 0.82
+        },
+        {
+            "text": "Re",
+            "left": 421,
+            "top": 1957,
+            "width": 81,
+            "height": 57,
+            "conf": 0.05
+        },
+        {
+            "text": "help@uidai.gov.in",
+            "left": 523,
+            "top": 1964,
+            "width": 369,
+            "height": 45,
+            "conf": 0.64
+        },
+        {
+            "text": "|",
+            "left": 940,
+            "top": 1955,
+            "width": 7,
+            "height": 65,
+            "conf": 0.71
+        },
+        {
+            "text": "&",
+            "left": 1006,
+            "top": 1956,
+            "width": 40,
+            "height": 68,
+            "conf": 0.0
+        },
+        {
+            "text": "www.uidai.gov.in",
+            "left": 1079,
+            "top": 1956,
+            "width": 355,
+            "height": 68,
+            "conf": 0.84
+        }
+    ],
+    "document_type": "AADHAAR",
+    "classification_confidence": 1.0,
+    "extracted_fields": {
+        "aadhaar_number": {
+            "value": "893831116226",
+            "raw_text": "8938 3111 6226",
+            "confidence": 0.6208695652173912,
+            "bounding_box": {
+                "x": 537,
+                "y": 724,
+                "w": 652,
+                "h": 72
+            }
+        },
+        "dob": {
+            "value": "1997-02-25",
+            "raw_text": "DOB: 25/02/1997",
+            "confidence": 0.6208695652173912,
+            "bounding_box": {
+                "x": 920,
+                "y": 406,
+                "w": 306,
+                "h": 58
+            }
+        },
+        "gender": {
+            "value": "FEMALE",
+            "raw_text": "FEMALE",
+            "confidence": 0.96,
+            "bounding_box": {
+                "x": 703,
+                "y": 483,
+                "w": 208,
+                "h": 48
+            }
+        },
+        "name": {
+            "value": "OA SAT",
+            "raw_text": "Sea OA SAT Ska",
+            "confidence": 0.45999999999999996,
+            "bounding_box": {
+                "x": 521,
+                "y": 245,
+                "w": 546,
+                "h": 77
+            }
+        }
+    },
+    "validation_results": [
+        {
+            "status": "PASS",
+            "field_name": "aadhaar_number_format",
+            "expected": "12 digits",
+            "actual": "893831116226"
+        },
+        {
+            "status": "PASS",
+            "field_name": "dob",
+            "expected": "YYYY-MM-DD",
+            "actual": "1997-02-25"
+        },
+        {
+            "status": "PASS",
+            "field_name": "gender_format",
+            "expected": "MALE/FEMALE/OTHER",
+            "actual": "FEMALE"
+        },
+        {
+            "status": "PASS",
+            "field_name": "name",
+            "expected": "Uppercase Alphabetic",
+            "actual": "OA SAT"
+        },
+        {
+            "status": "PASS",
+            "field_name": "dob_range",
+            "expected": "DOB is in the past",
+            "actual": "DOB is valid, age: 29"
+        },
+        {
+            "status": "PASS",
+            "field_name": "aadhaar_checksum_verhoeff",
+            "expected": "Verhoeff check digit matches",
+            "actual": "Aadhaar Number: 893831116226 (Valid: True)"
+        }
+    ],
+    "fraud_signals": [],
+    "fraud_risk_score": 0,
+    "authenticity_score": 100,
+    "extraction_reliability": 100,
+    "final_decision": "Genuine",
+    "report_path": "",
+    "pipeline_metadata": {
+        "extracted_doc_type": "AADHAAR"
+    }
+}

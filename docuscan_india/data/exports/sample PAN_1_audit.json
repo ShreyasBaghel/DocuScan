@@ -1,0 +1,79 @@
+{
+    "image_path": "D:/test doc/sample PAN_1.jpg",
+    "ocr_raw_text": "",
+    "ocr_confidence": 0.88,
+    "ocr_word_map": [],
+    "document_type": "PAN",
+    "classification_confidence": 0.12,
+    "extracted_fields": {
+        "pan_number": {
+            "value": "NOT_FOUND",
+            "raw_text": "",
+            "confidence": 0.0,
+            "bounding_box": null
+        },
+        "name": {
+            "value": "JASIM UDDIN",
+            "raw_text": "JASIM UDDIN",
+            "confidence": 0.76,
+            "bounding_box": {
+                "x": 26,
+                "y": 90,
+                "w": 128,
+                "h": 30
+            }
+        },
+        "father_name": {
+            "value": "LEDU MIAH",
+            "raw_text": "LEDU MIAH",
+            "confidence": 0.40499999999999997,
+            "bounding_box": {
+                "x": 26,
+                "y": 139,
+                "w": 108,
+                "h": 28
+            }
+        },
+        "dob": {
+            "value": "NOT_FOUND",
+            "raw_text": "",
+            "confidence": 0.0,
+            "bounding_box": null
+        }
+    },
+    "validation_results": [
+        {
+            "status": "FAIL",
+            "field_name": "pan_format",
+            "expected": "5 Letters, 4 Digits, 1 Letter",
+            "actual": "Missing field"
+        },
+        {
+            "status": "FAIL",
+            "field_name": "dob",
+            "expected": "YYYY-MM-DD",
+            "actual": "Missing field"
+        },
+        {
+            "status": "PASS",
+            "field_name": "name",
+            "expected": "Uppercase Alphabetic",
+            "actual": "JASIM UDDIN"
+        },
+        {
+            "status": "PASS",
+            "field_name": "father_name",
+            "expected": "Uppercase Alphabetic",
+            "actual": "LEDU MIAH"
+        }
+    ],
+    "fraud_signals": [],
+    "fraud_risk_score": 0,
+    "authenticity_score": 0,
+    "extraction_reliability": 0,
+    "final_decision": "Suspicious",
+    "report_path": "",
+    "pipeline_metadata": {
+        "extracted_doc_type": "PAN"
+    }
+}

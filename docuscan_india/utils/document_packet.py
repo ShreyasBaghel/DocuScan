@@ -23,6 +23,8 @@ class ValidationResult:
     field_name: str
     expected: str
     actual: str
+    score: int = 0  # Dynamic model-driven risk contribution
+
 
 @dataclass
 class FraudSignal:

@@ -32,6 +32,11 @@ class RiskScoreEngine:
             )
 
         res = ScoringInference.predict(packet)
+        
+        # Calculate dynamic model-driven attributions
+        fraud_prob = res.get("fraud_prob", float(res["fraud_risk_score"]) / 100.0)
+        val_scores, sig_scores = ScoringInference.explain_fraud_risk(packet, fraud_prob)
+        
         # Update packet if it's a real DocumentPacket
         if isinstance(packet_or_conf, DocumentPacket):
             packet.fraud_risk_score = res["fraud_risk_score"]
@@ -42,6 +47,21 @@ class RiskScoreEngine:
             packet.ocr_confidence = res["ocr_confidence"] / 100.0
             if packet.document_type != DocumentType.UNKNOWN:
                 packet.classification_confidence = res["classification_confidence"] / 100.0
+                
+            # Assign dynamic model-driven scores back to validation results and fraud signals
+            for v, score in zip(packet.validation_results, val_scores):
+                v.score = score
+            for s, score in zip(packet.fraud_signals, sig_scores):
+                s.score = score
+
+        else:
+            # For backward compatibility, update the input lists if present
+            if validation_results:
+                for v, score in zip(validation_results, val_scores):
+                    v.score = score
+            if fraud_signals:
+                for s, score in zip(fraud_signals, sig_scores):
+                    s.score = score
 
         return res["fraud_risk_score"]
 

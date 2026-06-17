@@ -1,0 +1,262 @@
+{
+    "image_path": "C:/Users/shrey/Downloads/adhar.pdf",
+    "ocr_raw_text": "\u00bb |\n\nissue Date: 23/09/2011\n\n| SHREYAS BAGHEL\nseat fafa / DOB : 01/01/2006\n\nbe RO Male\n\n2086 8322 2522\n",
+    "ocr_confidence": 0.61,
+    "ocr_word_map": [
+        {
+            "text": "\u00bb",
+            "left": 0,
+            "top": 55,
+            "width": 25,
+            "height": 15,
+            "conf": 0.64
+        },
+        {
+            "text": "|",
+            "left": 0,
+            "top": 43,
+            "width": 21,
+            "height": 5,
+            "conf": 0.7
+        },
+        {
+            "text": "issue",
+            "left": 72,
+            "top": 902,
+            "width": 36,
+            "height": 110,
+            "conf": 0.93
+        },
+        {
+            "text": "Date:",
+            "left": 68,
+            "top": 777,
+            "width": 36,
+            "height": 106,
+            "conf": 0.96
+        },
+        {
+            "text": "23/09/2011",
+            "left": 59,
+            "top": 524,
+            "width": 42,
+            "height": 231,
+            "conf": 0.8
+        },
+        {
+            "text": "|",
+            "left": 755,
+            "top": 480,
+            "width": 10,
+            "height": 156,
+            "conf": 0.89
+        },
+        {
+            "text": "SHREYAS",
+            "left": 805,
+            "top": 494,
+            "width": 330,
+            "height": 55,
+            "conf": 0.9
+        },
+        {
+            "text": "BAGHEL",
+            "left": 1161,
+            "top": 491,
+            "width": 280,
+            "height": 53,
+            "conf": 0.92
+        },
+        {
+            "text": "seat",
+            "left": 804,
+            "top": 601,
+            "width": 156,
+            "height": 49,
+            "conf": 0.45
+        },
+        {
+            "text": "fafa",
+            "left": 994,
+            "top": 581,
+            "width": 360,
+            "height": 70,
+            "conf": 0.64
+        },
+        {
+            "text": "/",
+            "left": 1164,
+            "top": 575,
+            "width": 28,
+            "height": 84,
+            "conf": 0.64
+        },
+        {
+            "text": "DOB",
+            "left": 1227,
+            "top": 581,
+            "width": 105,
+            "height": 70,
+            "conf": 0.93
+        },
+        {
+            "text": ":",
+            "left": 1382,
+            "top": 609,
+            "width": 9,
+            "height": 36,
+            "conf": 0.55
+        },
+        {
+            "text": "01/01/2006",
+            "left": 1417,
+            "top": 590,
+            "width": 348,
+            "height": 55,
+            "conf": 0.96
+        },
+        {
+            "text": "be",
+            "left": 802,
+            "top": 692,
+            "width": 30,
+            "height": 88,
+            "conf": 0.61
+        },
+        {
+            "text": "RO",
+            "left": 853,
+            "top": 692,
+            "width": 52,
+            "height": 88,
+            "conf": 0.14
+        },
+        {
+            "text": "Male",
+            "left": 1003,
+            "top": 690,
+            "width": 146,
+            "height": 66,
+            "conf": 0.96
+        },
+        {
+            "text": "2086",
+            "left": 778,
+            "top": 1161,
+            "width": 280,
+            "height": 89,
+            "conf": 0.96
+        },
+        {
+            "text": "8322",
+            "left": 1109,
+            "top": 1157,
+            "width": 277,
+            "height": 89,
+            "conf": 0.96
+        },
+        {
+            "text": "2522",
+            "left": 1437,
+            "top": 1153,
+            "width": 278,
+            "height": 90,
+            "conf": 0.96
+        }
+    ],
+    "document_type": "AADHAAR",
+    "classification_confidence": 1.0,
+    "extracted_fields": {
+        "aadhaar_number": {
+            "value": "208683222522",
+            "raw_text": "2086 8322 2522",
+            "confidence": 0.7750000000000001,
+            "bounding_box": {
+                "x": 778,
+                "y": 1153,
+                "w": 937,
+                "h": 97
+            }
+        },
+        "dob": {
+            "value": "2006-01-01",
+            "raw_text": "DOB : 01/01/2006",
+            "confidence": 0.7750000000000001,
+            "bounding_box": {
+                "x": 1227,
+                "y": 581,
+                "w": 538,
+                "h": 70
+            }
+        },
+        "gender": {
+            "value": "MALE",
+            "raw_text": "Male",
+            "confidence": 0.96,
+            "bounding_box": {
+                "x": 1003,
+                "y": 690,
+                "w": 146,
+                "h": 66
+            }
+        },
+        "name": {
+            "value": "SHREYAS BAGHEL",
+            "raw_text": "| SHREYAS BAGHEL",
+            "confidence": 0.91,
+            "bounding_box": {
+                "x": 805,
+                "y": 491,
+                "w": 636,
+                "h": 58
+            }
+        }
+    },
+    "validation_results": [
+        {
+            "status": "PASS",
+            "field_name": "aadhaar_number_format",
+            "expected": "12 digits",
+            "actual": "208683222522"
+        },
+        {
+            "status": "PASS",
+            "field_name": "dob",
+            "expected": "YYYY-MM-DD",
+            "actual": "2006-01-01"
+        },
+        {
+            "status": "PASS",
+            "field_name": "gender_format",
+            "expected": "MALE/FEMALE/OTHER",
+            "actual": "MALE"
+        },
+        {
+            "status": "PASS",
+            "field_name": "name",
+            "expected": "Uppercase Alphabetic",
+            "actual": "SHREYAS BAGHEL"
+        },
+        {
+            "status": "PASS",
+            "field_name": "dob_range",
+            "expected": "DOB is in the past",
+            "actual": "DOB is valid, age: 20"
+        },
+        {
+            "status": "PASS",
+            "field_name": "aadhaar_checksum_verhoeff",
+            "expected": "Verhoeff check digit matches",
+            "actual": "Aadhaar Number: 208683222522 (Valid: True)"
+        }
+    ],
+    "fraud_signals": [],
+    "fraud_risk_score": 0,
+    "authenticity_score": 100,
+    "extraction_reliability": 100,
+    "final_decision": "Genuine",
+    "report_path": "",
+    "pipeline_metadata": {
+        "extracted_doc_type": "AADHAAR"
+    }
+}
