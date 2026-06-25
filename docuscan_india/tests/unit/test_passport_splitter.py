@@ -164,9 +164,8 @@ def test_split_and_extract_flow(mock_extract):
     assert packet.pipeline_metadata["split_occurred"] is True
     assert packet.pipeline_metadata["split_type"] == "vertical"
     
-    # Check that coordinate mapping shifted Region B field bounding boxes correctly
-    # Region B offset was (400, 0). So place_of_issue x should be 100 + 400 = 500
-    assert packet.extracted_fields["place_of_issue"].bounding_box["x"] == 500
+    # Region B offset was (390, 0) due to hybrid split at x=390. So place_of_issue x should be 100 + 390 = 490
+    assert packet.extracted_fields["place_of_issue"].bounding_box["x"] == 490
     assert packet.extracted_fields["place_of_issue"].bounding_box["y"] == 50
     
     # Region A offset was (0, 0), so name x remains 50
@@ -176,3 +175,86 @@ def test_split_and_extract_flow(mock_extract):
     assert packet.extracted_fields["passport_number"].value == "Z1234567"
     assert packet.extracted_fields["place_of_birth"].value == "NEW DELHI"
     assert packet.extracted_fields["place_of_issue"].value == "DELHI"
+
+@patch("pytesseract.image_to_data")
+def test_detect_hybrid_split_single_page(mock_image_to_data):
+    # Single page layout (400x300), no distinct gaps
+    img = Image.new("RGB", (400, 300), (255, 255, 255))
+    from PIL import ImageDraw
+    draw = ImageDraw.Draw(img)
+    # Draw text-like blocks crossing the middle
+    draw.rectangle([50, 50, 350, 70], fill=(0, 0, 0))
+    draw.rectangle([50, 100, 350, 120], fill=(0, 0, 0))
+    draw.rectangle([50, 150, 350, 170], fill=(0, 0, 0))
+    
+    # Mock image_to_data output
+    mock_data = {
+        'level': [1, 2, 3, 4, 5, 5, 5],
+        'left': [0, 0, 0, 50, 50, 150, 250],
+        'top': [0, 0, 0, 50, 50, 50, 50],
+        'width': [400, 400, 400, 300, 80, 80, 80],
+        'height': [300, 300, 300, 20, 20, 20, 20],
+        'conf': [-1, -1, -1, -1, 90, 90, 90],
+        'text': ["", "", "", "", "REPUBLIC", "OF", "INDIA"]
+    }
+    mock_image_to_data.return_value = mock_data
+    
+    split_type, split_coord = PassportSplitter.detect_hybrid_split(img)
+    assert split_type is None
+    assert split_coord is None
+
+@patch("pytesseract.image_to_data")
+def test_detect_hybrid_split_side_by_side(mock_image_to_data):
+    # Two pages side-by-side (800x400), vertical gap around center (400)
+    img = Image.new("RGB", (800, 400), (255, 255, 255))
+    from PIL import ImageDraw
+    draw = ImageDraw.Draw(img)
+    # Draw text-like blocks on Left page (Region A) up to 300
+    draw.rectangle([50, 50, 300, 350], fill=(0, 0, 0))
+    # Draw text-like blocks on Right page (Region B) from 450
+    draw.rectangle([450, 50, 750, 350], fill=(0, 0, 0))
+    
+    # Mock image_to_data output
+    mock_data = {
+        'level': [1, 2, 3, 4, 5, 5, 5, 5],
+        'left': [0, 0, 0, 50, 200, 200, 450, 600],
+        'top': [0, 0, 0, 50, 50, 50, 50, 50],
+        'width': [800, 800, 800, 700, 100, 100, 100, 100],
+        'height': [400, 400, 400, 20, 20, 20, 20, 20],
+        'conf': [-1, -1, -1, -1, 90, 90, 90, 90],
+        'text': ["", "", "", "", "PAGE", "ONE", "PAGE", "TWO"]
+    }
+    mock_image_to_data.return_value = mock_data
+    
+    split_type, split_coord = PassportSplitter.detect_hybrid_split(img)
+    assert split_type == "vertical"
+    # Vertical gap is [300, 450]. Center is 375.
+    assert 370 <= split_coord <= 380
+
+@patch("pytesseract.image_to_data")
+def test_detect_hybrid_split_stacked(mock_image_to_data):
+    # Two pages stacked or MRZ separated (600x800), horizontal gap around 450
+    img = Image.new("RGB", (600, 800), (255, 255, 255))
+    from PIL import ImageDraw
+    draw = ImageDraw.Draw(img)
+    # Draw text-like blocks on Top page (Region A)
+    draw.rectangle([50, 290, 550, 400], fill=(0, 0, 0))
+    # Draw text-like blocks on Bottom page / MRZ (Region B)
+    draw.rectangle([50, 500, 550, 670], fill=(0, 0, 0))
+    
+    # Mock image_to_data output aligned with drawing:
+    mock_data = {
+        'level': [1, 2, 3, 4, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5],
+        'left': [0, 0, 0, 50, 50, 200, 50, 200, 50, 200, 50, 200, 50, 200],
+        'top': [0, 0, 0, 50, 290, 290, 380, 380, 500, 500, 590, 590, 650, 650],
+        'width': [600, 600, 600, 500, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100],
+        'height': [800, 800, 800, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20],
+        'conf': [-1, -1, -1, -1, 90, 90, 90, 90, 90, 90, 90, 90, 90, 90],
+        'text': ["", "", "", "", "TOP1", "TOP2", "INFO", "PAGE", "MRZ1", "MRZ2", "BOT1", "BOT2", "END1", "END2"]
+    }
+    mock_image_to_data.return_value = mock_data
+    
+    split_type, split_coord = PassportSplitter.detect_hybrid_split(img)
+    assert split_type == "horizontal"
+    # Horizontal gap is [400, 500]. Center is 450.
+    assert 440 <= split_coord <= 460

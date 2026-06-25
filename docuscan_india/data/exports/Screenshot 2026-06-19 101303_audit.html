@@ -26,7 +26,7 @@
                 <p>Intelligent OCR & Verification System</p>
             </div>
             <div>
-                <span class="status-badge status-genuine">Genuine</span>
+                <span class="status-badge status-suspicious">Suspicious</span>
             </div>
         </div>
 
@@ -34,15 +34,15 @@
         <table>
             <tr>
                 <th>Document Type</th>
-                <td>PAN</td>
+                <td>AADHAAR</td>
                 <th>Fraud Risk Score</th>
                 <td class="risk-score" style="color: #28a745">0/100</td>
             </tr>
             <tr>
                 <th>Source File</th>
-                <td>dummy_path.jpg</td>
+                <td>Screenshot 2026-06-19 101303.png</td>
                 <th>Timestamp</th>
-                <td>2026-06-25 11:40:31</td>
+                <td>2026-06-19 10:13:45</td>
             </tr>
         </table>
 
@@ -58,27 +58,27 @@
             <tbody>
                 
                 <tr>
-                    <td><strong>Pan Number</strong></td>
-                    <td>HXDPB8430A</td>
-                    <td>95.0%</td>
-                </tr>
-                
-                <tr>
-                    <td><strong>Name</strong></td>
-                    <td>MERA AADHAAR MERI PEHCHAN</td>
-                    <td>95.0%</td>
-                </tr>
-                
-                <tr>
-                    <td><strong>Father Name</strong></td>
-                    <td>KARTIK KAPOOR</td>
-                    <td>90.0%</td>
+                    <td><strong>Aadhaar Number</strong></td>
+                    <td>NOT_FOUND</td>
+                    <td>0.0%</td>
                 </tr>
                 
                 <tr>
                     <td><strong>Dob</strong></td>
-                    <td>1990-08-15</td>
-                    <td>93.3%</td>
+                    <td>NOT_FOUND</td>
+                    <td>0.0%</td>
+                </tr>
+                
+                <tr>
+                    <td><strong>Gender</strong></td>
+                    <td>NOT_FOUND</td>
+                    <td>0.0%</td>
+                </tr>
+                
+                <tr>
+                    <td><strong>Name</strong></td>
+                    <td>NOT_FOUND</td>
+                    <td>0.0%</td>
                 </tr>
                 
             </tbody>
@@ -96,51 +96,35 @@
             <tbody>
                 
                 <tr>
-                    <td>Pan Format</td>
-                    <td style="color: #28a745; font-weight: bold;">
-                        PASS
+                    <td>Aadhaar Number Format</td>
+                    <td style="color: #dc3545; font-weight: bold;">
+                        FAIL
                     </td>
-                    <td>Expected: 5 Letters, 4 Digits, 1 Letter | Actual: HXDPB8430A</td>
+                    <td>Expected: 12 digits | Actual: Missing field</td>
                 </tr>
                 
                 <tr>
                     <td>Dob</td>
-                    <td style="color: #28a745; font-weight: bold;">
-                        PASS
+                    <td style="color: #dc3545; font-weight: bold;">
+                        FAIL
                     </td>
-                    <td>Expected: YYYY-MM-DD | Actual: 1990-08-15</td>
+                    <td>Expected: YYYY-MM-DD | Actual: Missing field</td>
+                </tr>
+                
+                <tr>
+                    <td>Gender Format</td>
+                    <td style="color: #dc3545; font-weight: bold;">
+                        FAIL
+                    </td>
+                    <td>Expected: MALE/FEMALE/OTHER | Actual: Missing field</td>
                 </tr>
                 
                 <tr>
                     <td>Name</td>
-                    <td style="color: #28a745; font-weight: bold;">
-                        PASS
-                    </td>
-                    <td>Expected: Uppercase Alphabetic | Actual: MERA AADHAAR MERI PEHCHAN</td>
-                </tr>
-                
-                <tr>
-                    <td>Father Name</td>
-                    <td style="color: #28a745; font-weight: bold;">
-                        PASS
-                    </td>
-                    <td>Expected: Uppercase Alphabetic | Actual: KARTIK KAPOOR</td>
-                </tr>
-                
-                <tr>
-                    <td>Dob Range</td>
-                    <td style="color: #28a745; font-weight: bold;">
-                        PASS
-                    </td>
-                    <td>Expected: DOB is in the past | Actual: DOB is valid, age: 35</td>
-                </tr>
-                
-                <tr>
-                    <td>Pan Name Consistency</td>
                     <td style="color: #dc3545; font-weight: bold;">
                         FAIL
                     </td>
-                    <td>Expected: 5th character of PAN 'B' matches surname first letter 'P' | Actual: PAN: HXDPB8430A, Name: MERA AADHAAR MERI PEHCHAN (Mismatch)</td>
+                    <td>Expected: Uppercase Alphabetic | Actual: Missing field</td>
                 </tr>
                 
             </tbody>

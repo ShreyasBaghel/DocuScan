@@ -1,0 +1,659 @@
+{
+    "image_path": "D:/test doc/pan sample 3.png",
+    "ocr_raw_text": "CS a Tf\nsree TART ARa aeeew\n\u00a9 INCOME TAXDEPARIMENT > GOVT. OFINDIA\n\n\u00a2 eure Sean Ban BTS\nPermanent Account Number Card\nEEXPR8234G\n| gt * ee)\n\u2014 te ne i\n\nected doer\n\n10052019\npoe Wak\nta an pet, ae oom\n\n\u201c* 4d@tiifan, wh een,\nwile 4. 341, a4 4. 997/8,\naige erat, 25 aren ars % 774,\nGF - 411 016 :\n\n| icant ists.\ninform / return\n\neat om\n",
+    "ocr_confidence": 0.17,
+    "ocr_word_map": [
+        {
+            "text": "CS",
+            "left": 0,
+            "top": 0,
+            "width": 164,
+            "height": 70,
+            "conf": 0.01
+        },
+        {
+            "text": "a",
+            "left": 320,
+            "top": 20,
+            "width": 152,
+            "height": 46,
+            "conf": 0.25
+        },
+        {
+            "text": "Tf",
+            "left": 584,
+            "top": 14,
+            "width": 213,
+            "height": 9,
+            "conf": 0.14
+        },
+        {
+            "text": "sree",
+            "left": 4,
+            "top": 82,
+            "width": 368,
+            "height": 72,
+            "conf": 0.04
+        },
+        {
+            "text": "TART",
+            "left": 429,
+            "top": 59,
+            "width": 228,
+            "height": 76,
+            "conf": 0.12
+        },
+        {
+            "text": "ARa",
+            "left": 993,
+            "top": 72,
+            "width": 194,
+            "height": 56,
+            "conf": 0.43
+        },
+        {
+            "text": "aeeew",
+            "left": 1242,
+            "top": 73,
+            "width": 242,
+            "height": 56,
+            "conf": 0.0
+        },
+        {
+            "text": "\u00a9",
+            "left": 5,
+            "top": 189,
+            "width": 41,
+            "height": 20,
+            "conf": 0.72
+        },
+        {
+            "text": "INCOME",
+            "left": 72,
+            "top": 132,
+            "width": 188,
+            "height": 107,
+            "conf": 0.1
+        },
+        {
+            "text": "TAXDEPARIMENT",
+            "left": 268,
+            "top": 132,
+            "width": 411,
+            "height": 107,
+            "conf": 0.1
+        },
+        {
+            "text": ">",
+            "left": 781,
+            "top": 221,
+            "width": 92,
+            "height": 14,
+            "conf": 0.66
+        },
+        {
+            "text": "GOVT.",
+            "left": 1005,
+            "top": 155,
+            "width": 184,
+            "height": 53,
+            "conf": 0.0
+        },
+        {
+            "text": "OFINDIA",
+            "left": 1207,
+            "top": 154,
+            "width": 274,
+            "height": 53,
+            "conf": 0.0
+        },
+        {
+            "text": "\u00a2",
+            "left": 6,
+            "top": 239,
+            "width": 40,
+            "height": 124,
+            "conf": 0.0
+        },
+        {
+            "text": "eure",
+            "left": 450,
+            "top": 254,
+            "width": 110,
+            "height": 69,
+            "conf": 0.05
+        },
+        {
+            "text": "Sean",
+            "left": 593,
+            "top": 254,
+            "width": 87,
+            "height": 69,
+            "conf": 0.3
+        },
+        {
+            "text": "Ban",
+            "left": 708,
+            "top": 254,
+            "width": 93,
+            "height": 69,
+            "conf": 0.57
+        },
+        {
+            "text": "BTS",
+            "left": 835,
+            "top": 254,
+            "width": 87,
+            "height": 69,
+            "conf": 0.71
+        },
+        {
+            "text": "Permanent",
+            "left": 400,
+            "top": 328,
+            "width": 612,
+            "height": 46,
+            "conf": 0.96
+        },
+        {
+            "text": "Account",
+            "left": 614,
+            "top": 324,
+            "width": 148,
+            "height": 57,
+            "conf": 0.96
+        },
+        {
+            "text": "Number",
+            "left": 780,
+            "top": 324,
+            "width": 125,
+            "height": 57,
+            "conf": 0.96
+        },
+        {
+            "text": "Card",
+            "left": 928,
+            "top": 324,
+            "width": 86,
+            "height": 57,
+            "conf": 0.96
+        },
+        {
+            "text": "EEXPR8234G",
+            "left": 532,
+            "top": 402,
+            "width": 348,
+            "height": 48,
+            "conf": 0.91
+        },
+        {
+            "text": "|",
+            "left": 574,
+            "top": 475,
+            "width": 14,
+            "height": 17,
+            "conf": 0.36
+        },
+        {
+            "text": "gt",
+            "left": 606,
+            "top": 474,
+            "width": 33,
+            "height": 34,
+            "conf": 0.3
+        },
+        {
+            "text": "*",
+            "left": 827,
+            "top": 499,
+            "width": 82,
+            "height": 13,
+            "conf": 0.09
+        },
+        {
+            "text": "ee)",
+            "left": 984,
+            "top": 478,
+            "width": 53,
+            "height": 34,
+            "conf": 0.2
+        },
+        {
+            "text": "\u2014",
+            "left": 11,
+            "top": 516,
+            "width": 136,
+            "height": 46,
+            "conf": 0.4
+        },
+        {
+            "text": "te",
+            "left": 702,
+            "top": 532,
+            "width": 29,
+            "height": 59,
+            "conf": 0.39
+        },
+        {
+            "text": "ne",
+            "left": 805,
+            "top": 509,
+            "width": 61,
+            "height": 19,
+            "conf": 0.4
+        },
+        {
+            "text": "i",
+            "left": 945,
+            "top": 508,
+            "width": 93,
+            "height": 67,
+            "conf": 0.18
+        },
+        {
+            "text": "ected",
+            "left": 86,
+            "top": 634,
+            "width": 234,
+            "height": 96,
+            "conf": 0.18
+        },
+        {
+            "text": "doer",
+            "left": 418,
+            "top": 634,
+            "width": 123,
+            "height": 96,
+            "conf": 0.3
+        },
+        {
+            "text": "10052019",
+            "left": 1354,
+            "top": 739,
+            "width": 141,
+            "height": 31,
+            "conf": 0.96
+        },
+        {
+            "text": "poe",
+            "left": 12,
+            "top": 905,
+            "width": 457,
+            "height": 166,
+            "conf": 0.01
+        },
+        {
+            "text": "Wak",
+            "left": 523,
+            "top": 905,
+            "width": 153,
+            "height": 166,
+            "conf": 0.4
+        },
+        {
+            "text": "ta",
+            "left": 215,
+            "top": 1068,
+            "width": 42,
+            "height": 61,
+            "conf": 0.67
+        },
+        {
+            "text": "an",
+            "left": 271,
+            "top": 1068,
+            "width": 47,
+            "height": 61,
+            "conf": 0.26
+        },
+        {
+            "text": "pet,",
+            "left": 343,
+            "top": 1068,
+            "width": 87,
+            "height": 61,
+            "conf": 0.49
+        },
+        {
+            "text": "ae",
+            "left": 454,
+            "top": 1068,
+            "width": 73,
+            "height": 61,
+            "conf": 0.41
+        },
+        {
+            "text": "oom",
+            "left": 551,
+            "top": 1068,
+            "width": 81,
+            "height": 61,
+            "conf": 0.14
+        },
+        {
+            "text": "\u201c*",
+            "left": 21,
+            "top": 1124,
+            "width": 43,
+            "height": 61,
+            "conf": 0.0
+        },
+        {
+            "text": "4d@tiifan,",
+            "left": 104,
+            "top": 1120,
+            "width": 361,
+            "height": 50,
+            "conf": 0.0
+        },
+        {
+            "text": "wh",
+            "left": 302,
+            "top": 1116,
+            "width": 38,
+            "height": 73,
+            "conf": 0.88
+        },
+        {
+            "text": "een,",
+            "left": 357,
+            "top": 1120,
+            "width": 108,
+            "height": 50,
+            "conf": 0.47
+        },
+        {
+            "text": "wile",
+            "left": 99,
+            "top": 1178,
+            "width": 114,
+            "height": 38,
+            "conf": 0.53
+        },
+        {
+            "text": "4.",
+            "left": 187,
+            "top": 1166,
+            "width": 33,
+            "height": 65,
+            "conf": 0.76
+        },
+        {
+            "text": "341,",
+            "left": 231,
+            "top": 1170,
+            "width": 180,
+            "height": 47,
+            "conf": 0.91
+        },
+        {
+            "text": "a4",
+            "left": 333,
+            "top": 1166,
+            "width": 33,
+            "height": 65,
+            "conf": 0.07
+        },
+        {
+            "text": "4.",
+            "left": 382,
+            "top": 1166,
+            "width": 33,
+            "height": 65,
+            "conf": 0.12
+        },
+        {
+            "text": "997/8,",
+            "left": 427,
+            "top": 1174,
+            "width": 144,
+            "height": 49,
+            "conf": 0.33
+        },
+        {
+            "text": "aige",
+            "left": 95,
+            "top": 1213,
+            "width": 83,
+            "height": 62,
+            "conf": 0.0
+        },
+        {
+            "text": "erat,",
+            "left": 203,
+            "top": 1213,
+            "width": 113,
+            "height": 62,
+            "conf": 0.43
+        },
+        {
+            "text": "25",
+            "left": 337,
+            "top": 1213,
+            "width": 38,
+            "height": 62,
+            "conf": 0.49
+        },
+        {
+            "text": "aren",
+            "left": 394,
+            "top": 1213,
+            "width": 79,
+            "height": 62,
+            "conf": 0.65
+        },
+        {
+            "text": "ars",
+            "left": 492,
+            "top": 1213,
+            "width": 58,
+            "height": 62,
+            "conf": 0.33
+        },
+        {
+            "text": "%",
+            "left": 570,
+            "top": 1227,
+            "width": 11,
+            "height": 24,
+            "conf": 0.24
+        },
+        {
+            "text": "774,",
+            "left": 601,
+            "top": 1213,
+            "width": 68,
+            "height": 62,
+            "conf": 0.31
+        },
+        {
+            "text": "GF",
+            "left": 99,
+            "top": 1273,
+            "width": 77,
+            "height": 51,
+            "conf": 0.36
+        },
+        {
+            "text": "-",
+            "left": 155,
+            "top": 1268,
+            "width": 20,
+            "height": 60,
+            "conf": 0.85
+        },
+        {
+            "text": "411",
+            "left": 195,
+            "top": 1283,
+            "width": 57,
+            "height": 29,
+            "conf": 0.92
+        },
+        {
+            "text": "016",
+            "left": 271,
+            "top": 1281,
+            "width": 67,
+            "height": 29,
+            "conf": 0.92
+        },
+        {
+            "text": ":",
+            "left": 678,
+            "top": 1278,
+            "width": 5,
+            "height": 5,
+            "conf": 0.33
+        },
+        {
+            "text": "|",
+            "left": 55,
+            "top": 1415,
+            "width": 32,
+            "height": 19,
+            "conf": 0.16
+        },
+        {
+            "text": "icant",
+            "left": 151,
+            "top": 1317,
+            "width": 142,
+            "height": 121,
+            "conf": 0.45
+        },
+        {
+            "text": "ists.",
+            "left": 303,
+            "top": 1317,
+            "width": 152,
+            "height": 121,
+            "conf": 0.0
+        },
+        {
+            "text": "inform",
+            "left": 226,
+            "top": 1405,
+            "width": 270,
+            "height": 49,
+            "conf": 0.93
+        },
+        {
+            "text": "/",
+            "left": 350,
+            "top": 1401,
+            "width": 20,
+            "height": 57,
+            "conf": 0.93
+        },
+        {
+            "text": "return",
+            "left": 388,
+            "top": 1405,
+            "width": 108,
+            "height": 49,
+            "conf": 0.96
+        },
+        {
+            "text": "eat",
+            "left": 102,
+            "top": 1513,
+            "width": 235,
+            "height": 193,
+            "conf": 0.17
+        },
+        {
+            "text": "om",
+            "left": 783,
+            "top": 1562,
+            "width": 381,
+            "height": 160,
+            "conf": 0.52
+        }
+    ],
+    "document_type": "PAN",
+    "classification_confidence": 1.0,
+    "extracted_fields": {
+        "pan_number": {
+            "value": "EEXPR8234G",
+            "raw_text": "\nEEXPR8234G\n",
+            "confidence": 0.91,
+            "bounding_box": {
+                "x": 532,
+                "y": 402,
+                "w": 348,
+                "h": 48
+            }
+        },
+        "name": {
+            "value": "TART",
+            "raw_text": "sree TART ARa aeeew",
+            "confidence": 0.12,
+            "bounding_box": {
+                "x": 4,
+                "y": 72,
+                "w": 1480,
+                "h": 82
+            }
+        },
+        "father_name": {
+            "value": "BTS",
+            "raw_text": "\u00a2 eure Sean Ban BTS",
+            "confidence": 0.71,
+            "bounding_box": {
+                "x": 450,
+                "y": 254,
+                "w": 472,
+                "h": 69
+            }
+        },
+        "dob": {
+            "value": "NOT_FOUND",
+            "raw_text": "",
+            "confidence": 0.0,
+            "bounding_box": null
+        }
+    },
+    "validation_results": [
+        {
+            "status": "PASS",
+            "field_name": "pan_format",
+            "expected": "5 Letters, 4 Digits, 1 Letter",
+            "actual": "EEXPR8234G"
+        },
+        {
+            "status": "FAIL",
+            "field_name": "dob",
+            "expected": "YYYY-MM-DD",
+            "actual": "Missing field"
+        },
+        {
+            "status": "PASS",
+            "field_name": "name",
+            "expected": "Uppercase Alphabetic",
+            "actual": "TART"
+        },
+        {
+            "status": "PASS",
+            "field_name": "father_name",
+            "expected": "Uppercase Alphabetic",
+            "actual": "BTS"
+        },
+        {
+            "status": "FAIL",
+            "field_name": "pan_name_consistency",
+            "expected": "5th character of PAN 'R' matches surname first letter 'T'",
+            "actual": "PAN: EEXPR8234G, Name: TART (Mismatch)"
+        }
+    ],
+    "fraud_signals": [],
+    "fraud_risk_score": 0,
+    "authenticity_score": 0,
+    "extraction_reliability": 0,
+    "final_decision": "Suspicious",
+    "report_path": "",
+    "pipeline_metadata": {
+        "extracted_doc_type": "PAN"
+    }
+}

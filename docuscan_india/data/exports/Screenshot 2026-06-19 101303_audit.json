@@ -1,0 +1,606 @@
+{
+    "image_path": "C:/Users/shrey/OneDrive/Pictures/Screenshots/Screenshot 2026-06-19 101303.png",
+    "ocr_raw_text": "what is microsoft sharepoint\n\nAll Images Videos Forums Shopping News More + Tools *\n\n+> AlOverview ft oO\n\nMicrosoft SharePoint is a secure, cloud-based collaboration and document management\nplatform. It acts as a central hub where organizations store files, build company intranet\nsites, and manage projects. Think of it as a smart, shared replacement for traditional\nOffice file servers. \u00a9 YouTube - Paul Keijzers | KbWorks +4\n",
+    "ocr_confidence": 0.63,
+    "ocr_word_map": [
+        {
+            "text": "what",
+            "left": 52,
+            "top": 63,
+            "width": 101,
+            "height": 36,
+            "conf": 0.96
+        },
+        {
+            "text": "is",
+            "left": 170,
+            "top": 64,
+            "width": 30,
+            "height": 35,
+            "conf": 0.96
+        },
+        {
+            "text": "microsoft",
+            "left": 217,
+            "top": 63,
+            "width": 192,
+            "height": 36,
+            "conf": 0.96
+        },
+        {
+            "text": "sharepoint",
+            "left": 424,
+            "top": 64,
+            "width": 223,
+            "height": 44,
+            "conf": 0.95
+        },
+        {
+            "text": "All",
+            "left": 46,
+            "top": 260,
+            "width": 48,
+            "height": 47,
+            "conf": 0.96
+        },
+        {
+            "text": "Images",
+            "left": 172,
+            "top": 264,
+            "width": 133,
+            "height": 38,
+            "conf": 0.68
+        },
+        {
+            "text": "Videos",
+            "left": 380,
+            "top": 264,
+            "width": 124,
+            "height": 30,
+            "conf": 0.68
+        },
+        {
+            "text": "Forums",
+            "left": 581,
+            "top": 264,
+            "width": 138,
+            "height": 30,
+            "conf": 0.68
+        },
+        {
+            "text": "Shopping",
+            "left": 795,
+            "top": 264,
+            "width": 173,
+            "height": 38,
+            "conf": 0.95
+        },
+        {
+            "text": "News",
+            "left": 1045,
+            "top": 264,
+            "width": 100,
+            "height": 30,
+            "conf": 0.96
+        },
+        {
+            "text": "More",
+            "left": 1222,
+            "top": 264,
+            "width": 91,
+            "height": 30,
+            "conf": 0.95
+        },
+        {
+            "text": "+",
+            "left": 1336,
+            "top": 274,
+            "width": 16,
+            "height": 9,
+            "conf": 0.4
+        },
+        {
+            "text": "Tools",
+            "left": 1442,
+            "top": 264,
+            "width": 95,
+            "height": 30,
+            "conf": 0.93
+        },
+        {
+            "text": "*",
+            "left": 1560,
+            "top": 274,
+            "width": 16,
+            "height": 9,
+            "conf": 0.0
+        },
+        {
+            "text": "+>",
+            "left": 58,
+            "top": 445,
+            "width": 56,
+            "height": 55,
+            "conf": 0.82
+        },
+        {
+            "text": "AlOverview",
+            "left": 140,
+            "top": 458,
+            "width": 226,
+            "height": 31,
+            "conf": 0.26
+        },
+        {
+            "text": "ft",
+            "left": 436,
+            "top": 449,
+            "width": 83,
+            "height": 45,
+            "conf": 0.68
+        },
+        {
+            "text": "oO",
+            "left": 595,
+            "top": 454,
+            "width": 37,
+            "height": 36,
+            "conf": 0.0
+        },
+        {
+            "text": "Microsoft",
+            "left": 53,
+            "top": 575,
+            "width": 191,
+            "height": 36,
+            "conf": 0.96
+        },
+        {
+            "text": "SharePoint",
+            "left": 260,
+            "top": 575,
+            "width": 235,
+            "height": 36,
+            "conf": 0.96
+        },
+        {
+            "text": "is",
+            "left": 511,
+            "top": 576,
+            "width": 31,
+            "height": 35,
+            "conf": 0.96
+        },
+        {
+            "text": "a",
+            "left": 563,
+            "top": 583,
+            "width": 25,
+            "height": 28,
+            "conf": 0.96
+        },
+        {
+            "text": "secure,",
+            "left": 604,
+            "top": 583,
+            "width": 153,
+            "height": 33,
+            "conf": 0.91
+        },
+        {
+            "text": "cloud-based",
+            "left": 774,
+            "top": 575,
+            "width": 259,
+            "height": 36,
+            "conf": 0.91
+        },
+        {
+            "text": "collaboration",
+            "left": 1049,
+            "top": 575,
+            "width": 269,
+            "height": 36,
+            "conf": 0.95
+        },
+        {
+            "text": "and",
+            "left": 1334,
+            "top": 575,
+            "width": 78,
+            "height": 36,
+            "conf": 0.95
+        },
+        {
+            "text": "document",
+            "left": 1428,
+            "top": 575,
+            "width": 210,
+            "height": 36,
+            "conf": 0.96
+        },
+        {
+            "text": "management",
+            "left": 1654,
+            "top": 576,
+            "width": 278,
+            "height": 45,
+            "conf": 0.96
+        },
+        {
+            "text": "platform.",
+            "left": 51,
+            "top": 647,
+            "width": 188,
+            "height": 45,
+            "conf": 0.65
+        },
+        {
+            "text": "It",
+            "left": 259,
+            "top": 647,
+            "width": 23,
+            "height": 36,
+            "conf": 0.92
+        },
+        {
+            "text": "acts",
+            "left": 297,
+            "top": 648,
+            "width": 86,
+            "height": 35,
+            "conf": 0.95
+        },
+        {
+            "text": "as",
+            "left": 398,
+            "top": 655,
+            "width": 49,
+            "height": 28,
+            "conf": 0.96
+        },
+        {
+            "text": "a",
+            "left": 462,
+            "top": 655,
+            "width": 24,
+            "height": 28,
+            "conf": 0.96
+        },
+        {
+            "text": "central",
+            "left": 502,
+            "top": 648,
+            "width": 141,
+            "height": 35,
+            "conf": 0.96
+        },
+        {
+            "text": "hub",
+            "left": 661,
+            "top": 648,
+            "width": 77,
+            "height": 35,
+            "conf": 0.95
+        },
+        {
+            "text": "where",
+            "left": 752,
+            "top": 648,
+            "width": 130,
+            "height": 35,
+            "conf": 0.96
+        },
+        {
+            "text": "organizations",
+            "left": 897,
+            "top": 648,
+            "width": 284,
+            "height": 45,
+            "conf": 0.96
+        },
+        {
+            "text": "store",
+            "left": 1196,
+            "top": 648,
+            "width": 105,
+            "height": 35,
+            "conf": 0.96
+        },
+        {
+            "text": "files,",
+            "left": 1315,
+            "top": 647,
+            "width": 96,
+            "height": 41,
+            "conf": 0.96
+        },
+        {
+            "text": "build",
+            "left": 1429,
+            "top": 648,
+            "width": 97,
+            "height": 35,
+            "conf": 0.96
+        },
+        {
+            "text": "company",
+            "left": 1543,
+            "top": 655,
+            "width": 193,
+            "height": 38,
+            "conf": 0.96
+        },
+        {
+            "text": "intranet",
+            "left": 1753,
+            "top": 648,
+            "width": 157,
+            "height": 35,
+            "conf": 0.96
+        },
+        {
+            "text": "sites,",
+            "left": 51,
+            "top": 720,
+            "width": 107,
+            "height": 40,
+            "conf": 0.96
+        },
+        {
+            "text": "and",
+            "left": 176,
+            "top": 720,
+            "width": 76,
+            "height": 35,
+            "conf": 0.96
+        },
+        {
+            "text": "manage",
+            "left": 270,
+            "top": 727,
+            "width": 171,
+            "height": 38,
+            "conf": 0.95
+        },
+        {
+            "text": "projects.",
+            "left": 457,
+            "top": 720,
+            "width": 176,
+            "height": 45,
+            "conf": 0.95
+        },
+        {
+            "text": "Think",
+            "left": 650,
+            "top": 719,
+            "width": 117,
+            "height": 36,
+            "conf": 0.96
+        },
+        {
+            "text": "of",
+            "left": 782,
+            "top": 719,
+            "width": 41,
+            "height": 36,
+            "conf": 0.96
+        },
+        {
+            "text": "it",
+            "left": 837,
+            "top": 720,
+            "width": 21,
+            "height": 35,
+            "conf": 0.96
+        },
+        {
+            "text": "as",
+            "left": 873,
+            "top": 727,
+            "width": 48,
+            "height": 28,
+            "conf": 0.96
+        },
+        {
+            "text": "a",
+            "left": 937,
+            "top": 727,
+            "width": 23,
+            "height": 28,
+            "conf": 0.96
+        },
+        {
+            "text": "smart,",
+            "left": 977,
+            "top": 720,
+            "width": 129,
+            "height": 40,
+            "conf": 0.96
+        },
+        {
+            "text": "shared",
+            "left": 1124,
+            "top": 720,
+            "width": 143,
+            "height": 35,
+            "conf": 0.96
+        },
+        {
+            "text": "replacement",
+            "left": 1285,
+            "top": 720,
+            "width": 261,
+            "height": 44,
+            "conf": 0.96
+        },
+        {
+            "text": "for",
+            "left": 1560,
+            "top": 719,
+            "width": 57,
+            "height": 36,
+            "conf": 0.96
+        },
+        {
+            "text": "traditional",
+            "left": 1630,
+            "top": 720,
+            "width": 205,
+            "height": 35,
+            "conf": 0.96
+        },
+        {
+            "text": "Office",
+            "left": 51,
+            "top": 791,
+            "width": 111,
+            "height": 36,
+            "conf": 0.77
+        },
+        {
+            "text": "file",
+            "left": 176,
+            "top": 791,
+            "width": 61,
+            "height": 36,
+            "conf": 0.96
+        },
+        {
+            "text": "servers.",
+            "left": 253,
+            "top": 799,
+            "width": 165,
+            "height": 28,
+            "conf": 0.95
+        },
+        {
+            "text": "\u00a9",
+            "left": 445,
+            "top": 799,
+            "width": 18,
+            "height": 26,
+            "conf": 0.75
+        },
+        {
+            "text": "YouTube",
+            "left": 493,
+            "top": 799,
+            "width": 129,
+            "height": 26,
+            "conf": 0.91
+        },
+        {
+            "text": "-",
+            "left": 633,
+            "top": 812,
+            "width": 2,
+            "height": 2,
+            "conf": 0.81
+        },
+        {
+            "text": "Paul",
+            "left": 647,
+            "top": 799,
+            "width": 63,
+            "height": 26,
+            "conf": 0.93
+        },
+        {
+            "text": "Keijzers",
+            "left": 723,
+            "top": 800,
+            "width": 114,
+            "height": 30,
+            "conf": 0.91
+        },
+        {
+            "text": "|",
+            "left": 852,
+            "top": 800,
+            "width": 2,
+            "height": 32,
+            "conf": 0.93
+        },
+        {
+            "text": "KbWorks",
+            "left": 867,
+            "top": 800,
+            "width": 131,
+            "height": 25,
+            "conf": 0.9
+        },
+        {
+            "text": "+4",
+            "left": 1010,
+            "top": 800,
+            "width": 33,
+            "height": 24,
+            "conf": 0.96
+        }
+    ],
+    "document_type": "AADHAAR",
+    "classification_confidence": 0.0,
+    "extracted_fields": {
+        "aadhaar_number": {
+            "value": "NOT_FOUND",
+            "raw_text": "",
+            "confidence": 0.0,
+            "bounding_box": null
+        },
+        "dob": {
+            "value": "NOT_FOUND",
+            "raw_text": "",
+            "confidence": 0.0,
+            "bounding_box": null
+        },
+        "gender": {
+            "value": "NOT_FOUND",
+            "raw_text": "",
+            "confidence": 0.0,
+            "bounding_box": null
+        },
+        "name": {
+            "value": "NOT_FOUND",
+            "raw_text": "",
+            "confidence": 0.0,
+            "bounding_box": null
+        }
+    },
+    "validation_results": [
+        {
+            "status": "FAIL",
+            "field_name": "aadhaar_number_format",
+            "expected": "12 digits",
+            "actual": "Missing field"
+        },
+        {
+            "status": "FAIL",
+            "field_name": "dob",
+            "expected": "YYYY-MM-DD",
+            "actual": "Missing field"
+        },
+        {
+            "status": "FAIL",
+            "field_name": "gender_format",
+            "expected": "MALE/FEMALE/OTHER",
+            "actual": "Missing field"
+        },
+        {
+            "status": "FAIL",
+            "field_name": "name",
+            "expected": "Uppercase Alphabetic",
+            "actual": "Missing field"
+        }
+    ],
+    "fraud_signals": [],
+    "fraud_risk_score": 0,
+    "authenticity_score": 0,
+    "extraction_reliability": 0,
+    "final_decision": "Suspicious",
+    "report_path": "",
+    "pipeline_metadata": {
+        "extracted_doc_type": "AADHAAR"
+    }
+}

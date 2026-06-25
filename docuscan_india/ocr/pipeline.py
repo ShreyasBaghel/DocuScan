@@ -143,12 +143,96 @@ class VerificationPipeline:
 
         # Stage 2: OCR Extraction
         try:
-            # Run OCR initially on raw text for classification
-            raw_text, ocr_conf, word_map = self.ocr_engine.extract(packet.preprocessed_image)
-            packet.ocr_raw_text = raw_text
-            packet.ocr_confidence = ocr_conf
-            packet.ocr_word_map = word_map
-            logger.info(f"Stage 2 (OCR) completed. Confidence: {ocr_conf:.2f}")
+            from ocr.passport_splitter import PassportSplitter
+            # 1. Perform lightweight hybrid split detection
+            split_type, split_coord = PassportSplitter.detect_hybrid_split(packet.preprocessed_image, self.ocr_engine)
+            
+            if split_type and split_coord is not None:
+                logger.info(f"Hybrid layout analysis accepted split. Type: {split_type}, Coord: {split_coord}")
+                W, H = packet.preprocessed_image.size
+                
+                # Split image into Region A and Region B
+                if split_type == "vertical":
+                    region_A = packet.preprocessed_image.crop((0, 0, split_coord, H))
+                    region_B = packet.preprocessed_image.crop((split_coord, 0, W, H))
+                    offset_A = (0, 0)
+                    offset_B = (split_coord, 0)
+                else:  # horizontal
+                    region_A = packet.preprocessed_image.crop((0, 0, W, split_coord))
+                    region_B = packet.preprocessed_image.crop((0, split_coord, W, H))
+                    offset_A = (0, 0)
+                    offset_B = (0, split_coord)
+                    
+                # Run OCR independently on each region
+                raw_text_A, conf_A, word_map_A = self.ocr_engine.extract(region_A, "PASSPORT")
+                raw_text_B, conf_B, word_map_B = self.ocr_engine.extract(region_B, "PASSPORT")
+                
+                # Map coordinates for merged OCR word map
+                word_map_A_mapped = []
+                for w in word_map_A:
+                    w_copy = w.copy()
+                    w_copy['left'] += offset_A[0]
+                    w_copy['top'] += offset_A[1]
+                    word_map_A_mapped.append(w_copy)
+                    
+                word_map_B_mapped = []
+                for w in word_map_B:
+                    w_copy = w.copy()
+                    w_copy['left'] += offset_B[0]
+                    w_copy['top'] += offset_B[1]
+                    word_map_B_mapped.append(w_copy)
+                    
+                # Merge OCR outputs (preserving text order, bounding boxes, metadata)
+                # Determine region order based on MRZ indicators or just standard order
+                score_A = PassportSplitter.count_mrz_indicators(raw_text_A)
+                score_B = PassportSplitter.count_mrz_indicators(raw_text_B)
+                
+                if score_A >= score_B:
+                    # Region A is Page 1, Region B is Page 2
+                    merged_text = raw_text_A + "\n" + raw_text_B
+                    merged_word_map = word_map_A_mapped + word_map_B_mapped
+                    page_1_raw = raw_text_A
+                    page_1_map = word_map_A
+                    page_2_raw = raw_text_B
+                    page_2_map = word_map_B
+                    p1_offset = offset_A
+                    p2_offset = offset_B
+                else:
+                    # Region B is Page 1, Region A is Page 2
+                    merged_text = raw_text_B + "\n" + raw_text_A
+                    merged_word_map = word_map_B_mapped + word_map_A_mapped
+                    page_1_raw = raw_text_B
+                    page_1_map = word_map_B
+                    page_2_raw = raw_text_A
+                    page_2_map = word_map_A
+                    p1_offset = offset_B
+                    p2_offset = offset_A
+                
+                packet.ocr_raw_text = merged_text
+                packet.ocr_word_map = merged_word_map
+                packet.ocr_confidence = (conf_A + conf_B) / 2.0
+                
+                # Cache split info in packet metadata so extractors can reuse it without re-running OCR
+                packet.pipeline_metadata["split_occurred"] = True
+                packet.pipeline_metadata["split_type"] = split_type
+                packet.pipeline_metadata["split_coordinate"] = split_coord
+                packet.pipeline_metadata["raw_text_A"] = page_1_raw
+                packet.pipeline_metadata["conf_A"] = conf_A
+                packet.pipeline_metadata["word_map_A"] = page_1_map
+                packet.pipeline_metadata["raw_text_B"] = page_2_raw
+                packet.pipeline_metadata["conf_B"] = conf_B
+                packet.pipeline_metadata["word_map_B"] = page_2_map
+                packet.pipeline_metadata["page_1_offset"] = p1_offset
+                packet.pipeline_metadata["page_2_offset"] = p2_offset
+                
+                logger.info(f"Stage 2 (OCR Split & Merge) completed. Confidence: {packet.ocr_confidence:.2f}")
+            else:
+                # Fallback to standard OCR on the entire image
+                raw_text, ocr_conf, word_map = self.ocr_engine.extract(packet.preprocessed_image)
+                packet.ocr_raw_text = raw_text
+                packet.ocr_confidence = ocr_conf
+                packet.ocr_word_map = word_map
+                logger.info(f"Stage 2 (Standard OCR) completed. Confidence: {ocr_conf:.2f}")
         except Exception as e:
             logger.error(f"Stage 2 failed: {e}")
             raise e

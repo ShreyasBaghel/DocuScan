@@ -1,23 +1,15 @@
 {
     "image_path": "D:/test doc/Aadhaar Front.jpg",
-    "ocr_raw_text": "x\n\nare ata\nSHREYAS BAGHEL\nae fafa / DOB : 01/01/2006\n\nqT / Male\nAY)\n\nHON Upua HT GATT F, sent or afi |\n\nAadhaar is a of\n\n",
-    "ocr_confidence": 0.18,
+    "ocr_raw_text": "area ata\nSHREYAS BAGHEL\nae fafa / DOB : 01/01/2006\n\nFFT / Male\n\n\\ ee oi cre |\n\n2086 8322 2522\n\nit\n\n",
+    "ocr_confidence": 0.36,
     "ocr_word_map": [
         {
-            "text": "x",
-            "left": 353,
-            "top": 544,
-            "width": 98,
-            "height": 123,
-            "conf": 0.55
-        },
-        {
-            "text": "are",
+            "text": "area",
             "left": 497,
             "top": 237,
             "width": 88,
             "height": 42,
-            "conf": 0.48
+            "conf": 0.45
         },
         {
             "text": "ata",
@@ -25,7 +17,7 @@
             "top": 243,
             "width": 82,
             "height": 37,
-            "conf": 0.71
+            "conf": 0.7
         },
         {
             "text": "SHREYAS",
@@ -49,7 +41,7 @@
             "top": 366,
             "width": 92,
             "height": 33,
-            "conf": 0.13
+            "conf": 0.0
         },
         {
             "text": "fafa",
@@ -57,7 +49,7 @@
             "top": 358,
             "width": 110,
             "height": 44,
-            "conf": 0.31
+            "conf": 0.33
         },
         {
             "text": "/",
@@ -65,7 +57,7 @@
             "top": 354,
             "width": 16,
             "height": 59,
-            "conf": 0.74
+            "conf": 0.8
         },
         {
             "text": "DOB",
@@ -73,119 +65,79 @@
             "top": 371,
             "width": 85,
             "height": 33,
-            "conf": 0.71
+            "conf": 0.52
         },
         {
             "text": ":",
-            "left": 828,
-            "top": 382,
-            "width": 6,
-            "height": 23,
-            "conf": 0.54
+            "left": 829,
+            "top": 383,
+            "width": 5,
+            "height": 22,
+            "conf": 0.65
         },
         {
             "text": "01/01/2006",
             "left": 848,
             "top": 374,
             "width": 202,
-            "height": 35,
-            "conf": 0.95
+            "height": 34,
+            "conf": 0.96
         },
         {
-            "text": "qT",
+            "text": "FFT",
             "left": 493,
             "top": 424,
             "width": 199,
             "height": 51,
-            "conf": 0.5
+            "conf": 0.42
         },
         {
             "text": "/",
-            "left": 581,
-            "top": 412,
-            "width": 18,
-            "height": 69,
-            "conf": 0.56
+            "left": 582,
+            "top": 406,
+            "width": 14,
+            "height": 75,
+            "conf": 0.43
         },
         {
             "text": "Male",
-            "left": 615,
+            "left": 614,
             "top": 424,
-            "width": 77,
-            "height": 51,
-            "conf": 0.91
-        },
-        {
-            "text": "AY)",
-            "left": 864,
-            "top": 497,
-            "width": 127,
-            "height": 81,
-            "conf": 0.3
-        },
-        {
-            "text": "HON",
-            "left": 500,
-            "top": 605,
             "width": 78,
-            "height": 49,
-            "conf": 0.39
+            "height": 51,
+            "conf": 0.83
         },
         {
-            "text": "Upua",
-            "left": 598,
-            "top": 605,
-            "width": 74,
-            "height": 49,
-            "conf": 0.0
+            "text": "\\",
+            "left": 407,
+            "top": 582,
+            "width": 43,
+            "height": 85,
+            "conf": 0.87
         },
         {
-            "text": "HT",
-            "left": 696,
-            "top": 605,
-            "width": 25,
-            "height": 49,
-            "conf": 0.25
+            "text": "ee",
+            "left": 504,
+            "top": 615,
+            "width": 171,
+            "height": 29,
+            "conf": 0.13
         },
         {
-            "text": "GATT",
-            "left": 732,
-            "top": 605,
-            "width": 67,
-            "height": 49,
-            "conf": 0.41
+            "text": "oi",
+            "left": 745,
+            "top": 548,
+            "width": 86,
+            "height": 134,
+            "conf": 0.16
         },
         {
-            "text": "F,",
-            "left": 817,
-            "top": 617,
-            "width": 23,
-            "height": 31,
-            "conf": 0.0
-        },
-        {
-            "text": "sent",
-            "left": 853,
-            "top": 598,
-            "width": 89,
-            "height": 93,
-            "conf": 0.17
-        },
-        {
-            "text": "or",
-            "left": 996,
-            "top": 598,
-            "width": 24,
-            "height": 93,
-            "conf": 0.71
-        },
-        {
-            "text": "afi",
-            "left": 1042,
-            "top": 598,
-            "width": 48,
-            "height": 93,
-            "conf": 0.4
+            "text": "cre",
+            "left": 850,
+            "top": 594,
+            "width": 132,
+            "height": 96,
+            "conf": 0.51
         },
         {
             "text": "|",
@@ -196,36 +148,36 @@
             "conf": 0.9
         },
         {
-            "text": "Aadhaar",
-            "left": 486,
-            "top": 649,
-            "width": 107,
-            "height": 40,
-            "conf": 0.89
-        },
-        {
-            "text": "is",
-            "left": 602,
-            "top": 649,
-            "width": 28,
-            "height": 40,
-            "conf": 0.95
-        },
-        {
-            "text": "a",
-            "left": 639,
-            "top": 662,
-            "width": 15,
-            "height": 18,
-            "conf": 0.95
-        },
-        {
-            "text": "of",
-            "left": 737,
-            "top": 659,
-            "width": 27,
-            "height": 23,
+            "text": "2086",
+            "left": 462,
+            "top": 708,
+            "width": 166,
+            "height": 109,
             "conf": 0.96
+        },
+        {
+            "text": "8322",
+            "left": 655,
+            "top": 712,
+            "width": 163,
+            "height": 57,
+            "conf": 0.96
+        },
+        {
+            "text": "2522",
+            "left": 846,
+            "top": 663,
+            "width": 163,
+            "height": 110,
+            "conf": 0.95
+        },
+        {
+            "text": "it",
+            "left": 1126,
+            "top": 687,
+            "width": 3,
+            "height": 13,
+            "conf": 0.68
         }
     ],
     "document_type": "AADHAAR",
@@ -234,33 +186,33 @@
         "aadhaar_number": {
             "value": "208683222522",
             "raw_text": "2086 8322 2522",
-            "confidence": 0.5031818181818182,
+            "confidence": 0.6381818181818182,
             "bounding_box": {
                 "x": 462,
                 "y": 708,
-                "w": 547,
-                "h": 85
+                "w": 166,
+                "h": 109
             }
         },
         "dob": {
             "value": "2006-01-01",
             "raw_text": "DOB : 01/01/2006",
-            "confidence": 0.5785714285714285,
+            "confidence": 0.6381818181818182,
             "bounding_box": {
                 "x": 728,
                 "y": 371,
                 "w": 322,
-                "h": 38
+                "h": 37
             }
         },
         "gender": {
             "value": "MALE",
             "raw_text": "Male",
-            "confidence": 0.91,
+            "confidence": 0.83,
             "bounding_box": {
-                "x": 615,
+                "x": 614,
                 "y": 424,
-                "w": 77,
+                "w": 78,
                 "h": 51
             }
         },
