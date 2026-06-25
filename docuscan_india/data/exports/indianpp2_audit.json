@@ -1,31 +1,31 @@
 {
     "image_path": "D:/test doc/indianpp2.jpg",
-    "ocr_raw_text": "AIT TORASS / REPUBLIC OF INDIA\n\nmags \u00a2 Tee\n\n VERAVAL, GUJARAT\n\ncert\n\npreetha / wos ese,\nT= MOAN y 5401360\n\n= ete ees\n\nud IND 7\nPor ene\nSOLANKI\nor ow FF) Caan Meemets)\nABHISHEK JITENDRABHAI\n= we\n\"\n\nwth Date ot et\n21/11/2000\nam et Pane of Garey\n\nwie ea Mae feu\nAHMEDABAD\neh zt A Ph ete of eee ee ee ee of Expry\n27/06/2023 26/06/2033\n\nP<INDSOLANKI<<ABHISHEK<J I TENDRABHAI <<<<<<<<<\n\n\u00a55401360<51ND0011215M33062648068094162423<56\n\nQweyt Gas ew eeetae asa \u00a5YS401 360\nJITENDRABHAI LAVCHAND SOLANKI\ner ee ee 4 Mote\n\nSANGITA JITENDRABHAI SOLANKI\n\nercrwee fener (Te\n\nWEAR GEETA SCHOOL, JALARAM SOCIETY\nVERAVAL,GIR SOMNATH\n\nPIN: 362265 ,GUJARAT , INDIA\n\nPew es A ee rh i ae Pamper! Me een we ane | ee\n\neee\n\n\u201c+ om\n\nAH806809416242%\n",
-    "ocr_confidence": 0.02,
+    "ocr_raw_text": "SINT TRAE / REPUBLIC OF INDIA\n\n=a 6 Tye ory GS eee\n\ne IND wreellal / iINOIAN\n\nPer Sena\nSOLANKI\n\nor ow 2) Cawor Meets)\nABHISHEK JITENDRABHAI\nwat Date ot eth |e)\n21/11/2000 \"\n\ngem ST Pree of Gartn\nVERAVAL,GUJARAT\nwee = Mace fae\n\n4 AHMEDABAD\npe eer oe a ed\n27/06/2023\n\nP<INDSOLANKI<<ABHISHEK<JITENDRABHAL KKK <6 KKK\n\nVOMRGRSRAINNBINAIANENE5062645068006162 423<36\n\nYS401360\n\nos. oop? ews & er ere of f ee | oe\nJITENDRABHAI LAVCHAND SOLANKI\nar ee pte 6 Mote\n\nSANGITA JITENDRABHAIL SOLANKI\n\nSeta es were 1 oom\n\nHEAR GEETA SCHOOL, JALARAM SOCIETY\nVERAVAL,GIR SOMNATH\nPIN:362265,GUJARAT, INDIA\n\nCe ee eee of Excry\n\n\u2014\n\nys5401360\n\n26/06/2035\n\n(eww es ed te \u00a9 Ai ae et Pamper Neo een Dew are lee \u00a9\n\n\u201c+ tem\n\nAH8068094 162422\n\n\u2014\n",
+    "ocr_confidence": 0.13,
     "ocr_word_map": [
         {
-            "text": "AIT",
+            "text": "SINT",
             "left": 383,
             "top": 54,
             "width": 110,
             "height": 40,
-            "conf": 0.28
+            "conf": 0.41
         },
         {
-            "text": "TORASS",
+            "text": "TRAE",
             "left": 508,
             "top": 55,
-            "width": 144,
+            "width": 125,
             "height": 54,
-            "conf": 0.01
+            "conf": 0.0
         },
         {
             "text": "/",
-            "left": 672,
-            "top": 67,
-            "width": 12,
-            "height": 19,
-            "conf": 0.51
+            "left": 670,
+            "top": 63,
+            "width": 14,
+            "height": 23,
+            "conf": 0.56
         },
         {
             "text": "REPUBLIC",
@@ -39,7 +39,7 @@
             "text": "OF",
             "left": 929,
             "top": 68,
-            "width": 54,
+            "width": 53,
             "height": 22,
             "conf": 0.95
         },
@@ -49,183 +49,111 @@
             "top": 68,
             "width": 109,
             "height": 22,
-            "conf": 0.94
+            "conf": 0.95
         },
         {
-            "text": "mags",
+            "text": "=a",
             "left": 465,
             "top": 123,
             "width": 41,
             "height": 15,
-            "conf": 0.24
+            "conf": 0.0
         },
         {
-            "text": "\u00a2",
+            "text": "6",
             "left": 517,
             "top": 119,
             "width": 7,
-            "height": 28,
-            "conf": 0.43
+            "height": 31,
+            "conf": 0.19
         },
         {
-            "text": "Tee",
+            "text": "Tye",
             "left": 546,
             "top": 129,
             "width": 33,
             "height": 7,
+            "conf": 0.56
+        },
+        {
+            "text": "ory",
+            "left": 676,
+            "top": 125,
+            "width": 113,
+            "height": 12,
+            "conf": 0.2
+        },
+        {
+            "text": "GS",
+            "left": 890,
+            "top": 124,
+            "width": 74,
+            "height": 15,
+            "conf": 0.04
+        },
+        {
+            "text": "eee",
+            "left": 993,
+            "top": 130,
+            "width": 107,
+            "height": 7,
             "conf": 0.55
         },
         {
-            "text": "VERAVAL,",
-            "left": 455,
-            "top": 536,
-            "width": 242,
-            "height": 3,
-            "conf": 0.06
-        },
-        {
-            "text": "GUJARAT",
-            "left": 706,
-            "top": 535,
-            "width": 182,
-            "height": 32,
-            "conf": 0.96
-        },
-        {
-            "text": "cert",
-            "left": 1201,
-            "top": 126,
-            "width": 50,
-            "height": 11,
-            "conf": 0.46
-        },
-        {
-            "text": "preetha",
-            "left": 889,
-            "top": 145,
-            "width": 67,
-            "height": 21,
-            "conf": 0.0
-        },
-        {
-            "text": "/",
-            "left": 988,
-            "top": 129,
-            "width": 10,
-            "height": 52,
-            "conf": 0.5
-        },
-        {
-            "text": "wos",
-            "left": 1040,
-            "top": 155,
-            "width": 40,
-            "height": 14,
-            "conf": 0.0
-        },
-        {
-            "text": "ese,",
-            "left": 1322,
-            "top": 129,
-            "width": 114,
-            "height": 7,
-            "conf": 0.09
-        },
-        {
-            "text": "T=",
-            "left": 874,
-            "top": 152,
-            "width": 163,
-            "height": 17,
-            "conf": 0.41
-        },
-        {
-            "text": "MOAN",
-            "left": 1079,
-            "top": 154,
-            "width": 33,
-            "height": 15,
-            "conf": 0.18
-        },
-        {
-            "text": "y",
-            "left": 1174,
-            "top": 160,
-            "width": 30,
-            "height": 27,
-            "conf": 0.83
-        },
-        {
-            "text": "5401360",
-            "left": 1220,
-            "top": 159,
-            "width": 280,
-            "height": 27,
-            "conf": 0.94
-        },
-        {
-            "text": "=",
-            "left": 676,
-            "top": 125,
-            "width": 36,
-            "height": 13,
-            "conf": 0.67
-        },
-        {
-            "text": "ete",
-            "left": 890,
-            "top": 124,
-            "width": 147,
-            "height": 15,
-            "conf": 0.25
-        },
-        {
-            "text": "ees",
-            "left": 1047,
-            "top": 131,
-            "width": 53,
-            "height": 6,
-            "conf": 0.38
-        },
-        {
-            "text": "ud",
+            "text": "e",
             "left": 507,
             "top": 152,
             "width": 15,
             "height": 17,
-            "conf": 0.56
+            "conf": 0.23
         },
         {
             "text": "IND",
             "left": 702,
-            "top": 132,
-            "width": 58,
-            "height": 38,
-            "conf": 0.61
+            "top": 153,
+            "width": 51,
+            "height": 17,
+            "conf": 0.3
         },
         {
-            "text": "7",
-            "left": 773,
-            "top": 129,
-            "width": 16,
-            "height": 8,
-            "conf": 0.27
+            "text": "wreellal",
+            "left": 874,
+            "top": 145,
+            "width": 100,
+            "height": 23,
+            "conf": 0.2
         },
         {
-            "text": "Por",
+            "text": "/",
+            "left": 987,
+            "top": 141,
+            "width": 13,
+            "height": 37,
+            "conf": 0.58
+        },
+        {
+            "text": "iINOIAN",
+            "left": 1008,
+            "top": 154,
+            "width": 104,
+            "height": 15,
+            "conf": 0.0
+        },
+        {
+            "text": "Per",
             "left": 516,
             "top": 211,
             "width": 65,
             "height": 26,
-            "conf": 0.41
+            "conf": 0.36
         },
         {
-            "text": "ene",
-            "left": 615,
+            "text": "Sena",
+            "left": 606,
             "top": 211,
-            "width": 89,
+            "width": 98,
             "height": 26,
-            "conf": 0.42
+            "conf": 0.45
         },
         {
             "text": "SOLANKI",
@@ -233,47 +161,47 @@
             "top": 251,
             "width": 177,
             "height": 26,
-            "conf": 0.41
+            "conf": 0.52
         },
         {
             "text": "or",
             "left": 507,
-            "top": 301,
-            "width": 41,
-            "height": 19,
-            "conf": 0.56
+            "top": 297,
+            "width": 40,
+            "height": 31,
+            "conf": 0.36
         },
         {
             "text": "ow",
-            "left": 558,
-            "top": 305,
-            "width": 34,
-            "height": 15,
-            "conf": 0.25
-        },
-        {
-            "text": "FF)",
-            "left": 606,
+            "left": 562,
             "top": 297,
-            "width": 44,
+            "width": 24,
             "height": 31,
-            "conf": 0.24
+            "conf": 0.39
         },
         {
-            "text": "Caan",
+            "text": "2)",
+            "left": 606,
+            "top": 305,
+            "width": 44,
+            "height": 13,
+            "conf": 0.15
+        },
+        {
+            "text": "Cawor",
             "left": 660,
             "top": 297,
-            "width": 61,
+            "width": 63,
             "height": 31,
-            "conf": 0.0
+            "conf": 0.09
         },
         {
-            "text": "Meemets)",
-            "left": 735,
-            "top": 297,
+            "text": "Meets)",
+            "left": 732,
+            "top": 301,
             "width": 99,
-            "height": 31,
-            "conf": 0.0
+            "height": 19,
+            "conf": 0.06
         },
         {
             "text": "ABHISHEK",
@@ -281,7 +209,7 @@
             "top": 342,
             "width": 211,
             "height": 31,
-            "conf": 0.92
+            "conf": 0.93
         },
         {
             "text": "JITENDRABHAI",
@@ -289,39 +217,15 @@
             "top": 338,
             "width": 316,
             "height": 30,
-            "conf": 0.86
+            "conf": 0.9
         },
         {
-            "text": "=",
-            "left": 906,
-            "top": 390,
-            "width": 41,
-            "height": 23,
-            "conf": 0.26
-        },
-        {
-            "text": "we",
-            "left": 970,
-            "top": 394,
-            "width": 42,
-            "height": 15,
-            "conf": 0.48
-        },
-        {
-            "text": "\"",
-            "left": 936,
-            "top": 435,
-            "width": 24,
-            "height": 28,
-            "conf": 0.26
-        },
-        {
-            "text": "wth",
+            "text": "wat",
             "left": 498,
             "top": 396,
             "width": 86,
             "height": 23,
-            "conf": 0.26
+            "conf": 0.48
         },
         {
             "text": "Date",
@@ -329,23 +233,31 @@
             "top": 396,
             "width": 143,
             "height": 20,
-            "conf": 0.73
+            "conf": 0.65
         },
         {
             "text": "ot",
-            "left": 669,
-            "top": 391,
-            "width": 20,
-            "height": 37,
-            "conf": 0.67
+            "left": 668,
+            "top": 392,
+            "width": 19,
+            "height": 35,
+            "conf": 0.42
         },
         {
-            "text": "et",
+            "text": "eth",
             "left": 706,
             "top": 396,
             "width": 43,
             "height": 20,
-            "conf": 0.41
+            "conf": 0.48
+        },
+        {
+            "text": "|e)",
+            "left": 906,
+            "top": 390,
+            "width": 106,
+            "height": 23,
+            "conf": 0.34
         },
         {
             "text": "21/11/2000",
@@ -356,76 +268,100 @@
             "conf": 0.96
         },
         {
-            "text": "am",
-            "left": 488,
-            "top": 490,
-            "width": 39,
-            "height": 36,
-            "conf": 0.31
+            "text": "\"",
+            "left": 936,
+            "top": 435,
+            "width": 24,
+            "height": 28,
+            "conf": 0.14
         },
         {
-            "text": "et",
-            "left": 545,
-            "top": 490,
-            "width": 51,
-            "height": 36,
-            "conf": 0.36
+            "text": "gem",
+            "left": 442,
+            "top": 488,
+            "width": 15,
+            "height": 40,
+            "conf": 0.32
         },
         {
-            "text": "Pane",
-            "left": 614,
-            "top": 490,
-            "width": 54,
-            "height": 36,
-            "conf": 0.35
+            "text": "ST",
+            "left": 548,
+            "top": 481,
+            "width": 48,
+            "height": 51,
+            "conf": 0.22
+        },
+        {
+            "text": "Pree",
+            "left": 612,
+            "top": 481,
+            "width": 56,
+            "height": 51,
+            "conf": 0.28
         },
         {
             "text": "of",
             "left": 680,
-            "top": 490,
-            "width": 21,
-            "height": 36,
-            "conf": 0.91
+            "top": 481,
+            "width": 22,
+            "height": 51,
+            "conf": 0.85
         },
         {
-            "text": "Garey",
-            "left": 713,
-            "top": 490,
-            "width": 54,
-            "height": 36,
-            "conf": 0.44
+            "text": "Gartn",
+            "left": 714,
+            "top": 481,
+            "width": 52,
+            "height": 51,
+            "conf": 0.0
         },
         {
-            "text": "wie",
-            "left": 488,
-            "top": 589,
-            "width": 84,
+            "text": "VERAVAL,GUJARAT",
+            "left": 489,
+            "top": 535,
+            "width": 399,
             "height": 39,
-            "conf": 0.06
+            "conf": 0.88
         },
         {
-            "text": "ea",
-            "left": 597,
-            "top": 601,
-            "width": 66,
-            "height": 18,
-            "conf": 0.44
+            "text": "wee",
+            "left": 488,
+            "top": 598,
+            "width": 188,
+            "height": 24,
+            "conf": 0.25
         },
         {
-            "text": "Mae",
+            "text": "=",
+            "left": 636,
+            "top": 590,
+            "width": 30,
+            "height": 39,
+            "conf": 0.65
+        },
+        {
+            "text": "Mace",
             "left": 701,
-            "top": 589,
+            "top": 590,
             "width": 60,
             "height": 39,
-            "conf": 0.17
+            "conf": 0.36
         },
         {
-            "text": "feu",
-            "left": 779,
-            "top": 589,
-            "width": 83,
+            "text": "fae",
+            "left": 776,
+            "top": 590,
+            "width": 89,
             "height": 39,
-            "conf": 0.18
+            "conf": 0.33
+        },
+        {
+            "text": "4",
+            "left": 277,
+            "top": 646,
+            "width": 17,
+            "height": 16,
+            "conf": 0.66
         },
         {
             "text": "AHMEDABAD",
@@ -436,100 +372,44 @@
             "conf": 0.95
         },
         {
-            "text": "eh",
-            "left": 487,
-            "top": 694,
-            "width": 40,
-            "height": 40,
-            "conf": 0.43
-        },
-        {
-            "text": "zt",
-            "left": 549,
-            "top": 694,
-            "width": 31,
-            "height": 40,
-            "conf": 0.2
-        },
-        {
-            "text": "A",
-            "left": 596,
-            "top": 701,
-            "width": 14,
-            "height": 23,
-            "conf": 0.27
-        },
-        {
-            "text": "Ph",
-            "left": 626,
-            "top": 694,
-            "width": 44,
-            "height": 40,
+            "text": "pe",
+            "left": 122,
+            "top": 663,
+            "width": 214,
+            "height": 131,
             "conf": 0.41
         },
         {
-            "text": "ete",
-            "left": 688,
+            "text": "eer",
+            "left": 487,
+            "top": 704,
+            "width": 93,
+            "height": 23,
+            "conf": 0.29
+        },
+        {
+            "text": "oe",
+            "left": 608,
+            "top": 687,
+            "width": 32,
+            "height": 47,
+            "conf": 0.07
+        },
+        {
+            "text": "a",
+            "left": 674,
+            "top": 698,
+            "width": 1,
+            "height": 25,
+            "conf": 0.17
+        },
+        {
+            "text": "ed",
+            "left": 689,
             "top": 700,
-            "width": 155,
+            "width": 154,
             "height": 22,
-            "conf": 0.48
-        },
-        {
-            "text": "of",
-            "left": 753,
-            "top": 694,
-            "width": 20,
-            "height": 40,
-            "conf": 0.69
-        },
-        {
-            "text": "eee",
-            "left": 786,
-            "top": 700,
-            "width": 57,
-            "height": 22,
-            "conf": 0.25
-        },
-        {
-            "text": "ee",
-            "left": 1116,
-            "top": 680,
-            "width": 68,
-            "height": 39,
-            "conf": 0.32
-        },
-        {
-            "text": "ee",
-            "left": 1225,
-            "top": 680,
-            "width": 63,
-            "height": 39,
-            "conf": 0.23
-        },
-        {
-            "text": "ee",
-            "left": 1320,
-            "top": 680,
-            "width": 36,
-            "height": 39,
-            "conf": 0.54
-        },
-        {
-            "text": "of",
-            "left": 1372,
-            "top": 680,
-            "width": 26,
-            "height": 39,
-            "conf": 0.91
-        },
-        {
-            "text": "Expry",
-            "left": 1407,
-            "top": 680,
-            "width": 76,
-            "height": 39,
-            "conf": 0.16
+            "conf": 0.12
         },
         {
             "text": "27/06/2023",
@@ -537,111 +417,151 @@
             "top": 745,
             "width": 262,
             "height": 39,
-            "conf": 0.95
+            "conf": 0.96
         },
         {
-            "text": "26/06/2033",
-            "left": 1148,
-            "top": 731,
-            "width": 281,
+            "text": "P<INDSOLANKI<<ABHISHEK<JITENDRABHAL",
+            "left": 18,
+            "top": 879,
+            "width": 1139,
+            "height": 57,
+            "conf": 0.86
+        },
+        {
+            "text": "KKK",
+            "left": 1166,
+            "top": 875,
+            "width": 98,
+            "height": 39,
+            "conf": 0.0
+        },
+        {
+            "text": "<6",
+            "left": 1283,
+            "top": 875,
+            "width": 52,
             "height": 37,
+            "conf": 0.0
+        },
+        {
+            "text": "KKK",
+            "left": 1360,
+            "top": 872,
+            "width": 132,
+            "height": 39,
+            "conf": 0.0
+        },
+        {
+            "text": "VOMRGRSRAINNBINAIANENE5062645068006162",
+            "left": 25,
+            "top": 952,
+            "width": 1243,
+            "height": 122,
+            "conf": 0.0
+        },
+        {
+            "text": "423<36",
+            "left": 1276,
+            "top": 957,
+            "width": 217,
+            "height": 46,
             "conf": 0.92
         },
         {
-            "text": "P<INDSOLANKI<<ABHISHEK<J",
-            "left": 18,
-            "top": 885,
-            "width": 751,
-            "height": 51,
+            "text": "YS401360",
+            "left": 993,
+            "top": 1237,
+            "width": 248,
+            "height": 24,
+            "conf": 0.79
+        },
+        {
+            "text": "os.",
+            "left": 94,
+            "top": 1239,
+            "width": 47,
+            "height": 32,
             "conf": 0.48
         },
         {
-            "text": "I",
-            "left": 783,
-            "top": 885,
-            "width": 23,
-            "height": 39,
-            "conf": 0.93
+            "text": "oop?",
+            "left": 156,
+            "top": 1239,
+            "width": 51,
+            "height": 32,
+            "conf": 0.53
         },
         {
-            "text": "TENDRABHAI",
-            "left": 816,
-            "top": 879,
-            "width": 341,
-            "height": 42,
-            "conf": 0.64
+            "text": "ews",
+            "left": 234,
+            "top": 1239,
+            "width": 70,
+            "height": 32,
+            "conf": 0.34
         },
         {
-            "text": "<<<<<<<<<",
-            "left": 1166,
-            "top": 872,
-            "width": 326,
-            "height": 42,
-            "conf": 0.59
-        },
-        {
-            "text": "\u00a55401360<51ND0011215M33062648068094162423<56",
-            "left": 25,
-            "top": 957,
-            "width": 1468,
-            "height": 73,
-            "conf": 0.4
-        },
-        {
-            "text": "Qweyt",
-            "left": 94,
+            "text": "&",
+            "left": 322,
             "top": 1246,
-            "width": 113,
-            "height": 17,
-            "conf": 0.28
-        },
-        {
-            "text": "Gas",
-            "left": 235,
-            "top": 1236,
-            "width": 72,
-            "height": 50,
-            "conf": 0.61
-        },
-        {
-            "text": "ew",
-            "left": 358,
-            "top": 1246,
-            "width": 24,
-            "height": 9,
+            "width": 11,
+            "height": 12,
             "conf": 0.54
         },
         {
-            "text": "eeetae",
+            "text": "er",
+            "left": 358,
+            "top": 1246,
+            "width": 23,
+            "height": 9,
+            "conf": 0.33
+        },
+        {
+            "text": "ere",
             "left": 404,
             "top": 1243,
             "width": 163,
             "height": 15,
-            "conf": 0.0
+            "conf": 0.43
         },
         {
-            "text": "asa",
-            "left": 591,
-            "top": 1242,
-            "width": 159,
-            "height": 18,
-            "conf": 0.38
+            "text": "of",
+            "left": 476,
+            "top": 1239,
+            "width": 20,
+            "height": 32,
+            "conf": 0.6
         },
         {
-            "text": "\u00a5YS401",
-            "left": 989,
-            "top": 1225,
-            "width": 146,
-            "height": 50,
-            "conf": 0.09
+            "text": "f",
+            "left": 503,
+            "top": 1239,
+            "width": 9,
+            "height": 32,
+            "conf": 0.65
         },
         {
-            "text": "360",
-            "left": 1151,
-            "top": 1225,
-            "width": 93,
-            "height": 50,
-            "conf": 0.96
+            "text": "ee",
+            "left": 522,
+            "top": 1243,
+            "width": 45,
+            "height": 15,
+            "conf": 0.39
+        },
+        {
+            "text": "|",
+            "left": 586,
+            "top": 1239,
+            "width": 11,
+            "height": 32,
+            "conf": 0.4
+        },
+        {
+            "text": "oe",
+            "left": 605,
+            "top": 1245,
+            "width": 45,
+            "height": 15,
+            "conf": 0.44
         },
         {
             "text": "JITENDRABHAI",
@@ -649,7 +569,7 @@
             "top": 1284,
             "width": 287,
             "height": 35,
-            "conf": 0.78
+            "conf": 0.79
         },
         {
             "text": "LAVCHAND",
@@ -665,47 +585,47 @@
             "top": 1280,
             "width": 169,
             "height": 26,
-            "conf": 0.9
+            "conf": 0.89
         },
         {
-            "text": "er",
-            "left": 89,
-            "top": 1345,
-            "width": 107,
-            "height": 19,
-            "conf": 0.42
+            "text": "ar",
+            "left": 85,
+            "top": 1334,
+            "width": 38,
+            "height": 35,
+            "conf": 0.4
         },
         {
             "text": "ee",
             "left": 137,
-            "top": 1334,
-            "width": 21,
-            "height": 35,
-            "conf": 0.21
+            "top": 1345,
+            "width": 59,
+            "height": 18,
+            "conf": 0.17
         },
         {
-            "text": "ee",
+            "text": "pte",
             "left": 216,
             "top": 1338,
-            "width": 168,
+            "width": 167,
             "height": 22,
-            "conf": 0.39
+            "conf": 0.26
         },
         {
-            "text": "4",
-            "left": 289,
+            "text": "6",
+            "left": 292,
             "top": 1334,
-            "width": 15,
+            "width": 12,
             "height": 35,
-            "conf": 0.02
+            "conf": 0.0
         },
         {
             "text": "Mote",
             "left": 315,
             "top": 1338,
-            "width": 69,
+            "width": 68,
             "height": 22,
-            "conf": 0.53
+            "conf": 0.5
         },
         {
             "text": "SANGITA",
@@ -713,15 +633,15 @@
             "top": 1385,
             "width": 162,
             "height": 36,
-            "conf": 0.87
+            "conf": 0.88
         },
         {
-            "text": "JITENDRABHAI",
-            "left": 280,
+            "text": "JITENDRABHAIL",
+            "left": 281,
             "top": 1376,
-            "width": 295,
+            "width": 294,
             "height": 35,
-            "conf": 0.57
+            "conf": 0.37
         },
         {
             "text": "SOLANKI",
@@ -732,60 +652,76 @@
             "conf": 0.91
         },
         {
-            "text": "ercrwee",
+            "text": "Seta",
             "left": 89,
-            "top": 1439,
+            "top": 1443,
             "width": 171,
-            "height": 33,
-            "conf": 0.0
+            "height": 25,
+            "conf": 0.24
         },
         {
-            "text": "fener",
+            "text": "es",
+            "left": 236,
+            "top": 1435,
+            "width": 22,
+            "height": 37,
+            "conf": 0.24
+        },
+        {
+            "text": "were",
             "left": 282,
             "top": 1439,
             "width": 88,
             "height": 18,
-            "conf": 0.18
+            "conf": 0.41
         },
         {
-            "text": "(Te",
+            "text": "1",
+            "left": 356,
+            "top": 1435,
+            "width": 13,
+            "height": 37,
+            "conf": 0.2
+        },
+        {
+            "text": "oom",
             "left": 380,
             "top": 1441,
-            "width": 78,
+            "width": 77,
             "height": 15,
-            "conf": 0.11
+            "conf": 0.38
         },
         {
-            "text": "WEAR",
+            "text": "HEAR",
             "left": 89,
             "top": 1599,
             "width": 87,
             "height": 31,
-            "conf": 0.48
+            "conf": 0.61
         },
         {
             "text": "GEETA",
             "left": 202,
             "top": 1594,
             "width": 116,
-            "height": 33,
+            "height": 32,
             "conf": 0.92
         },
         {
             "text": "SCHOOL,",
-            "left": 351,
+            "left": 348,
             "top": 1589,
-            "width": 166,
+            "width": 169,
             "height": 35,
-            "conf": 0.11
+            "conf": 0.56
         },
         {
             "text": "JALARAM",
-            "left": 528,
+            "left": 531,
             "top": 1585,
-            "width": 178,
+            "width": 174,
             "height": 31,
-            "conf": 0.11
+            "conf": 0.56
         },
         {
             "text": "SOCIETY",
@@ -793,183 +729,223 @@
             "top": 1582,
             "width": 182,
             "height": 31,
-            "conf": 0.95
+            "conf": 0.93
         },
         {
             "text": "VERAVAL,GIR",
             "left": 91,
-            "top": 1686,
+            "top": 1687,
             "width": 251,
-            "height": 38,
-            "conf": 0.75
-        },
-        {
-            "text": "SOMNATH",
-            "left": 370,
-            "top": 1683,
-            "width": 173,
-            "height": 33,
+            "height": 37,
             "conf": 0.9
         },
         {
-            "text": "PIN:",
+            "text": "SOMNATH",
+            "left": 371,
+            "top": 1683,
+            "width": 172,
+            "height": 33,
+            "conf": 0.91
+        },
+        {
+            "text": "PIN:362265,GUJARAT,",
             "left": 95,
-            "top": 1781,
-            "width": 81,
-            "height": 30,
-            "conf": 0.78
-        },
-        {
-            "text": "362265",
-            "left": 183,
-            "top": 1778,
-            "width": 134,
-            "height": 34,
-            "conf": 0.78
-        },
-        {
-            "text": ",GUJARAT",
-            "left": 324,
-            "top": 1778,
-            "width": 191,
-            "height": 39,
-            "conf": 0.6
-        },
-        {
-            "text": ",",
-            "left": 532,
-            "top": 1799,
-            "width": 8,
-            "height": 18,
-            "conf": 0.16
+            "top": 1777,
+            "width": 579,
+            "height": 40,
+            "conf": 0.63
         },
         {
             "text": "INDIA",
-            "left": 548,
-            "top": 1777,
-            "width": 127,
-            "height": 33,
-            "conf": 0.16
+            "left": 556,
+            "top": 1760,
+            "width": 120,
+            "height": 65,
+            "conf": 0.96
         },
         {
-            "text": "Pew",
+            "text": "Ce",
+            "left": 1116,
+            "top": 679,
+            "width": 68,
+            "height": 39,
+            "conf": 0.29
+        },
+        {
+            "text": "ee",
+            "left": 1225,
+            "top": 679,
+            "width": 66,
+            "height": 39,
+            "conf": 0.3
+        },
+        {
+            "text": "eee",
+            "left": 1320,
+            "top": 679,
+            "width": 39,
+            "height": 39,
+            "conf": 0.43
+        },
+        {
+            "text": "of",
+            "left": 1372,
+            "top": 679,
+            "width": 23,
+            "height": 39,
+            "conf": 0.62
+        },
+        {
+            "text": "Excry",
+            "left": 1407,
+            "top": 679,
+            "width": 76,
+            "height": 39,
+            "conf": 0.0
+        },
+        {
+            "text": "\u2014",
+            "left": 1201,
+            "top": 127,
+            "width": 25,
+            "height": 10,
+            "conf": 0.3
+        },
+        {
+            "text": "ys5401360",
+            "left": 1174,
+            "top": 159,
+            "width": 326,
+            "height": 28,
+            "conf": 0.7
+        },
+        {
+            "text": "26/06/2035",
+            "left": 1148,
+            "top": 731,
+            "width": 281,
+            "height": 37,
+            "conf": 0.79
+        },
+        {
+            "text": "(eww",
             "left": 100,
             "top": 1859,
             "width": 147,
             "height": 24,
-            "conf": 0.11
-        },
-        {
-            "text": "es",
-            "left": 212,
-            "top": 1853,
-            "width": 41,
-            "height": 40,
-            "conf": 0.21
-        },
-        {
-            "text": "A",
-            "left": 272,
-            "top": 1858,
-            "width": 18,
-            "height": 23,
             "conf": 0.09
         },
         {
-            "text": "ee",
-            "left": 312,
-            "top": 1853,
-            "width": 35,
-            "height": 40,
-            "conf": 0.23
+            "text": "es",
+            "left": 213,
+            "top": 1854,
+            "width": 39,
+            "height": 39,
+            "conf": 0.42
         },
         {
-            "text": "rh",
-            "left": 366,
-            "top": 1853,
-            "width": 50,
-            "height": 40,
-            "conf": 0.26
-        },
-        {
-            "text": "i",
-            "left": 472,
-            "top": 1858,
+            "text": "ed",
+            "left": 294,
+            "top": 1854,
             "width": 49,
-            "height": 25,
-            "conf": 0.2
+            "height": 39,
+            "conf": 0.0
+        },
+        {
+            "text": "te",
+            "left": 372,
+            "top": 1859,
+            "width": 56,
+            "height": 24,
+            "conf": 0.42
+        },
+        {
+            "text": "\u00a9",
+            "left": 450,
+            "top": 1859,
+            "width": 14,
+            "height": 23,
+            "conf": 0.28
+        },
+        {
+            "text": "Ai",
+            "left": 479,
+            "top": 1854,
+            "width": 42,
+            "height": 39,
+            "conf": 0.18
         },
         {
             "text": "ae",
-            "left": 566,
+            "left": 567,
             "top": 1864,
-            "width": 46,
+            "width": 40,
             "height": 17,
-            "conf": 0.41
+            "conf": 0.52
         },
         {
-            "text": "Pamper!",
-            "left": 639,
+            "text": "et",
+            "left": 645,
+            "top": 1854,
+            "width": 33,
+            "height": 39,
+            "conf": 0.29
+        },
+        {
+            "text": "Pamper",
+            "left": 685,
             "top": 1862,
-            "width": 191,
+            "width": 145,
             "height": 24,
-            "conf": 0.27
+            "conf": 0.49
         },
         {
-            "text": "Me",
-            "left": 802,
-            "top": 1853,
-            "width": 28,
-            "height": 40,
-            "conf": 0.68
+            "text": "Neo",
+            "left": 801,
+            "top": 1854,
+            "width": 30,
+            "height": 39,
+            "conf": 0.71
         },
         {
             "text": "een",
-            "left": 846,
-            "top": 1853,
-            "width": 41,
-            "height": 40,
+            "left": 850,
+            "top": 1854,
+            "width": 39,
+            "height": 39,
             "conf": 0.48
         },
         {
-            "text": "we",
-            "left": 916,
-            "top": 1853,
-            "width": 37,
-            "height": 40,
-            "conf": 0.35
+            "text": "Dew",
+            "left": 902,
+            "top": 1854,
+            "width": 49,
+            "height": 39,
+            "conf": 0.61
         },
         {
-            "text": "ane",
-            "left": 966,
-            "top": 1853,
-            "width": 41,
-            "height": 40,
-            "conf": 0.31
+            "text": "are",
+            "left": 967,
+            "top": 1854,
+            "width": 39,
+            "height": 39,
+            "conf": 0.43
         },
         {
-            "text": "|",
+            "text": "lee",
             "left": 1021,
-            "top": 1866,
-            "width": 4,
-            "height": 15,
-            "conf": 0.77
+            "top": 1865,
+            "width": 66,
+            "height": 21,
+            "conf": 0.0
         },
         {
-            "text": "ee",
-            "left": 1042,
-            "top": 1853,
-            "width": 48,
-            "height": 40,
-            "conf": 0.45
-        },
-        {
-            "text": "eee",
-            "left": 1100,
+            "text": "\u00a9",
+            "left": 1101,
             "top": 1871,
-            "width": 92,
-            "height": 14,
-            "conf": 0.28
+            "width": 19,
+            "height": 13,
+            "conf": 0.45
         },
         {
             "text": "\u201c+",
@@ -977,50 +953,100 @@
             "top": 1963,
             "width": 62,
             "height": 21,
-            "conf": 0.1
+            "conf": 0.23
         },
         {
-            "text": "om",
-            "left": 184,
+            "text": "tem",
+            "left": 185,
             "top": 1967,
-            "width": 67,
+            "width": 66,
             "height": 20,
-            "conf": 0.29
+            "conf": 0.3
         },
         {
-            "text": "AH806809416242%",
-            "left": 99,
-            "top": 2006,
-            "width": 341,
-            "height": 42,
-            "conf": 0.6
+            "text": "AH8068094",
+            "left": 95,
+            "top": 2002,
+            "width": 196,
+            "height": 46,
+            "conf": 0.0
+        },
+        {
+            "text": "162422",
+            "left": 302,
+            "top": 2002,
+            "width": 138,
+            "height": 46,
+            "conf": 0.0
+        },
+        {
+            "text": "\u2014",
+            "left": 1143,
+            "top": 1876,
+            "width": 28,
+            "height": 8,
+            "conf": 0.13
         }
     ],
     "document_type": "PASSPORT",
-    "classification_confidence": 0.01,
+    "classification_confidence": 0.0,
     "extracted_fields": {
-        "place_of_birth": {
+        "passport_number": {
+            "value": "Y5401360",
+            "raw_text": "YS401360",
+            "confidence": 0.55,
+            "bounding_box": {
+                "x": 993,
+                "y": 1237,
+                "w": 248,
+                "h": 24
+            }
+        },
+        "name": {
+            "value": "IND SOLANKI",
+            "raw_text": "e IND wreellal / iINOIAN SOLANKI",
+            "confidence": 0.55,
+            "bounding_box": {
+                "x": 513,
+                "y": 153,
+                "w": 297,
+                "h": 1250
+            }
+        },
+        "nationality": {
+            "value": "IND",
+            "raw_text": "REPUBLIC OF INDIA",
+            "confidence": 0.55,
+            "bounding_box": {
+                "x": 702,
+                "y": 153,
+                "w": 51,
+                "h": 17
+            }
+        },
+        "dob": {
+            "value": "2000-11-21",
+            "raw_text": "21/11/2000",
+            "confidence": 0.55,
+            "bounding_box": null
+        },
+        "expiry": {
+            "value": "NOT_FOUND",
+            "raw_text": "21/11/2000",
+            "confidence": 0.0,
+            "bounding_box": null
+        },
+        "sex": {
             "value": "NOT_FOUND",
             "raw_text": "",
             "confidence": 0.0,
             "bounding_box": null
         },
-        "mrz_line1": {
-            "value": "P<INDSOLANKI<<ABHISHEK<JITENDRABHAI<<<<<<<<<",
-            "raw_text": "P<INDSOLANKI<<ABHISHEK<JITENDRABHAI<<<<<<<<<",
-            "confidence": 0.99,
+        "place_of_birth": {
+            "value": "NOT_FOUND",
+            "raw_text": "",
+            "confidence": 0.0,
             "bounding_box": null
-        },
-        "name": {
-            "value": "VERAVAL GUJARAT IND",
-            "raw_text": "VERAVAL, GUJARAT ud IND 7",
-            "confidence": 0.5433333333333333,
-            "bounding_box": {
-                "x": 507,
-                "y": 132,
-                "w": 253,
-                "h": 38
-            }
         },
         "place_of_issue": {
             "value": "NOT_FOUND",
@@ -1028,35 +1054,7 @@
             "confidence": 0.0,
             "bounding_box": null
         },
-        "nationality": {
-            "value": "IND",
-            "raw_text": "REPUBLIC OF INDIA",
-            "confidence": 0.61,
-            "bounding_box": null
-        },
-        "dob": {
-            "value": "2000-11-21",
-            "raw_text": "21/11/2000",
-            "confidence": 0.46819444444444447,
-            "bounding_box": {
-                "x": 494,
-                "y": 436,
-                "w": 265,
-                "h": 36
-            }
-        },
-        "expiry": {
-            "value": "2033-06-26",
-            "raw_text": "26/06/2033",
-            "confidence": 0.46819444444444447,
-            "bounding_box": {
-                "x": 1148,
-                "y": 731,
-                "w": 281,
-                "h": 37
-            }
-        },
-        "sex": {
+        "mrz_line1": {
             "value": "NOT_FOUND",
             "raw_text": "",
             "confidence": 0.0,
@@ -1067,20 +1065,14 @@
             "raw_text": "",
             "confidence": 0.0,
             "bounding_box": null
-        },
-        "passport_number": {
-            "value": "NOT_FOUND",
-            "raw_text": "",
-            "confidence": 0.0,
-            "bounding_box": null
         }
     },
     "validation_results": [
         {
-            "status": "FAIL",
+            "status": "PASS",
             "field_name": "passport_format",
             "expected": "1 Letter, 7 Digits",
-            "actual": "Missing field"
+            "actual": "Y5401360"
         },
         {
             "status": "PASS",
@@ -1089,48 +1081,38 @@
             "actual": "2000-11-21"
         },
         {
-            "status": "PASS",
+            "status": "FAIL",
             "field_name": "expiry",
             "expected": "YYYY-MM-DD",
-            "actual": "2033-06-26"
+            "actual": "Missing field"
         },
         {
             "status": "PASS",
             "field_name": "name",
             "expected": "Uppercase Alphabetic",
-            "actual": "VERAVAL GUJARAT IND"
+            "actual": "IND SOLANKI"
         },
         {
             "status": "PASS",
             "field_name": "dob_range",
             "expected": "DOB is in the past",
             "actual": "DOB is valid, age: 25"
-        },
-        {
-            "status": "PASS",
-            "field_name": "expiry_range",
-            "expected": "Document is valid",
-            "actual": "Active till 2033-06-26"
         }
     ],
-    "fraud_signals": [],
-    "fraud_risk_score": 0,
-    "authenticity_score": 1,
-    "extraction_reliability": 1,
+    "fraud_signals": [
+        {
+            "name": "overlapping_fields_detected",
+            "score": 100,
+            "description": "Extracted fields 'name' and 'nationality' overlap by 100.0%. Possible card forgery.",
+            "source": "FormatConsistencyChecker"
+        }
+    ],
+    "fraud_risk_score": 100,
+    "authenticity_score": 0,
+    "extraction_reliability": 0,
     "final_decision": "Suspicious",
     "report_path": "",
     "pipeline_metadata": {
-        "split_occurred": true,
-        "split_type": "horizontal",
-        "split_coordinate": 956,
-        "page_1_offset": [
-            0,
-            0
-        ],
-        "page_2_offset": [
-            0,
-            956
-        ],
         "extracted_doc_type": "PASSPORT"
     }
 }

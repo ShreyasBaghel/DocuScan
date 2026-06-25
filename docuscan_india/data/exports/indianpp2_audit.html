@@ -36,13 +36,13 @@
                 <th>Document Type</th>
                 <td>PASSPORT</td>
                 <th>Fraud Risk Score</th>
-                <td class="risk-score" style="color: #28a745">0/100</td>
+                <td class="risk-score" style="color: #dc3545">100/100</td>
             </tr>
             <tr>
                 <th>Source File</th>
                 <td>indianpp2.jpg</td>
                 <th>Timestamp</th>
-                <td>2026-06-12 14:57:01</td>
+                <td>2026-06-25 15:44:04</td>
             </tr>
         </table>
 
@@ -58,45 +58,33 @@
             <tbody>
                 
                 <tr>
-                    <td><strong>Place Of Birth</strong></td>
-                    <td>NOT_FOUND</td>
-                    <td>0.0%</td>
-                </tr>
-                
-                <tr>
-                    <td><strong>Mrz Line1</strong></td>
-                    <td>P<INDSOLANKI<<ABHISHEK<JITENDRABHAI<<<<<<<<<</td>
-                    <td>99.0%</td>
+                    <td><strong>Passport Number</strong></td>
+                    <td>Y5401360</td>
+                    <td>55.0%</td>
                 </tr>
                 
                 <tr>
                     <td><strong>Name</strong></td>
-                    <td>VERAVAL GUJARAT IND</td>
-                    <td>54.3%</td>
-                </tr>
-                
-                <tr>
-                    <td><strong>Place Of Issue</strong></td>
-                    <td>NOT_FOUND</td>
-                    <td>0.0%</td>
+                    <td>IND SOLANKI</td>
+                    <td>55.0%</td>
                 </tr>
                 
                 <tr>
                     <td><strong>Nationality</strong></td>
                     <td>IND</td>
-                    <td>61.0%</td>
+                    <td>55.0%</td>
                 </tr>
                 
                 <tr>
                     <td><strong>Dob</strong></td>
                     <td>2000-11-21</td>
-                    <td>46.8%</td>
+                    <td>55.0%</td>
                 </tr>
                 
                 <tr>
                     <td><strong>Expiry</strong></td>
-                    <td>2033-06-26</td>
-                    <td>46.8%</td>
+                    <td>NOT_FOUND</td>
+                    <td>0.0%</td>
                 </tr>
                 
                 <tr>
@@ -106,13 +94,25 @@
                 </tr>
                 
                 <tr>
-                    <td><strong>Mrz Line2</strong></td>
+                    <td><strong>Place Of Birth</strong></td>
                     <td>NOT_FOUND</td>
                     <td>0.0%</td>
                 </tr>
                 
                 <tr>
-                    <td><strong>Passport Number</strong></td>
+                    <td><strong>Place Of Issue</strong></td>
+                    <td>NOT_FOUND</td>
+                    <td>0.0%</td>
+                </tr>
+                
+                <tr>
+                    <td><strong>Mrz Line1</strong></td>
+                    <td>NOT_FOUND</td>
+                    <td>0.0%</td>
+                </tr>
+                
+                <tr>
+                    <td><strong>Mrz Line2</strong></td>
                     <td>NOT_FOUND</td>
                     <td>0.0%</td>
                 </tr>
@@ -133,10 +133,10 @@
                 
                 <tr>
                     <td>Passport Format</td>
-                    <td style="color: #dc3545; font-weight: bold;">
-                        FAIL
+                    <td style="color: #28a745; font-weight: bold;">
+                        PASS
                     </td>
-                    <td>Expected: 1 Letter, 7 Digits | Actual: Missing field</td>
+                    <td>Expected: 1 Letter, 7 Digits | Actual: Y5401360</td>
                 </tr>
                 
                 <tr>
@@ -149,10 +149,10 @@
                 
                 <tr>
                     <td>Expiry</td>
-                    <td style="color: #28a745; font-weight: bold;">
-                        PASS
+                    <td style="color: #dc3545; font-weight: bold;">
+                        FAIL
                     </td>
-                    <td>Expected: YYYY-MM-DD | Actual: 2033-06-26</td>
+                    <td>Expected: YYYY-MM-DD | Actual: Missing field</td>
                 </tr>
                 
                 <tr>
@@ -160,7 +160,7 @@
                     <td style="color: #28a745; font-weight: bold;">
                         PASS
                     </td>
-                    <td>Expected: Uppercase Alphabetic | Actual: VERAVAL GUJARAT IND</td>
+                    <td>Expected: Uppercase Alphabetic | Actual: IND SOLANKI</td>
                 </tr>
                 
                 <tr>
@@ -171,17 +171,29 @@
                     <td>Expected: DOB is in the past | Actual: DOB is valid, age: 25</td>
                 </tr>
                 
+            </tbody>
+        </table>
+
+        
+        <div class="section-title">Fraud Signals Flagged</div>
+        <table>
+            <thead>
                 <tr>
-                    <td>Expiry Range</td>
-                    <td style="color: #28a745; font-weight: bold;">
-                        PASS
-                    </td>
-                    <td>Expected: Document is valid | Actual: Active till 2033-06-26</td>
+                    <th>Detector</th>
+                    <th>Signal</th>
+                    <th>Risk Impact</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+                <tr>
+                    <td>FormatConsistencyChecker</td>
+                    <td><strong>overlapping_fields_detected</strong><br><small>Extracted fields 'name' and 'nationality' overlap by 100.0%. Possible card forgery.</small></td>
+                    <td style="color: #dc3545; font-weight: bold;">+100</td>
                 </tr>
                 
             </tbody>
         </table>
-
         
     </div>
 </body>

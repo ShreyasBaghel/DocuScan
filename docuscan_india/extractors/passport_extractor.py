@@ -1,9 +1,12 @@
 import re
-from typing import Dict, List, Any
+from typing import Dict, List, Any, Optional
 from extractors.base_extractor import BaseExtractor
 from utils.document_packet import FieldResult, DocumentType
 from utils.string_utils import normalize_date, clean_whitespace, extract_uppercase_name, is_valid_name, ocr_correct_digits
 from validators.checksum_validator import ChecksumValidator
+from utils.logger import get_logger
+
+logger = get_logger("passport_extractor")
 
 class PassportExtractor(BaseExtractor):
     @staticmethod
@@ -23,57 +26,197 @@ class PassportExtractor(BaseExtractor):
             return True
         return False
 
+    def correct_numeric_field(self, text: str) -> str:
+        mapping = {'O': '0', 'I': '1', 'B': '8', 'S': '5'}
+        return "".join(mapping.get(c, c) for c in text)
+
+    def correct_mrz_line2_digits(self, m2: str) -> str:
+        if len(m2) != 44:
+            return m2
+        m2_chars = list(m2)
+        numeric_indices = list(range(1, 8)) + [9] + list(range(13, 19)) + [19] + list(range(21, 27)) + [27] + list(range(28, 44))
+        for idx in numeric_indices:
+            c = m2_chars[idx]
+            if c == 'O':
+                m2_chars[idx] = '0'
+            elif c == 'I':
+                m2_chars[idx] = '1'
+            elif c == 'B':
+                m2_chars[idx] = '8'
+            elif c == 'S':
+                m2_chars[idx] = '5'
+        return "".join(m2_chars)
+
+    def validate_mrz_candidate(self, m1: str, m2: str) -> bool:
+        c1 = re.sub(r'\s+', '', m1).upper()
+        c2 = re.sub(r'\s+', '', m2).upper()
+        c1 = re.sub(r'[^A-Z0-9<]', '', c1)
+        c2 = re.sub(r'[^A-Z0-9<]', '', c2)
+
+        if not (40 <= len(c1) <= 44) or not (40 <= len(c2) <= 44):
+            return False
+
+        if not re.match(r"^[A-Z0-9<]+$", c1) or not re.match(r"^[A-Z0-9<]+$", c2):
+            return False
+
+        if c1.startswith("P") and not c1.startswith("P<"):
+            c1 = "P<" + c1[2:]
+        if not c1.startswith("P<"):
+            return False
+
+        country_code = c1[2:5]
+        if country_code in ["1ND", "IMD", "IUD", "1MD", "1UD", "INO", "1NO"]:
+            c1 = c1[:2] + "IND" + c1[5:]
+            country_code = "IND"
+        if not re.match(r"^[A-Z]{3}$", country_code):
+            return False
+
+        c2_corrected = self.correct_mrz_line2_digits(c2)
+
+        pass_part = c2_corrected[0:9]
+        pass_num = pass_part[0] + self.correct_numeric_field(pass_part[1:8]) + pass_part[8]
+        if not re.match(r"^[A-Z][0-9]{7}<*$", pass_num):
+            return False
+
+        return True
+
+    def has_forbidden_context(self, line_number: int) -> bool:
+        if not hasattr(self, 'raw_lines') or not self.raw_lines:
+            return False
+        forbidden_keywords = [
+            "father", "mother", "spouse", "wife", "husband", 
+            "son of", "daughter of", "address", "permanent address", 
+            "near", "village", "pin", "state"
+        ]
+        start_idx = max(0, line_number - 2)
+        end_idx = min(len(self.raw_lines) - 1, line_number + 2)
+        for idx in range(start_idx, end_idx + 1):
+            line_lower = self.raw_lines[idx].lower()
+            for kw in forbidden_keywords:
+                if kw in line_lower:
+                    return True
+        return False
+
+    def validate_candidate(self, field_name: str, text: str, doc_type: DocumentType, candidate: Dict[str, Any]) -> tuple[bool, str]:
+        is_valid, reason = super().validate_candidate(field_name, text, doc_type, candidate)
+        if not is_valid:
+            return False, reason
+
+        if field_name == "name":
+            page_source = candidate.get("page_source", "visual")
+            if page_source != "mrz":
+                line_number = candidate.get("line_number", -1)
+                if line_number != -1 and self.has_forbidden_context(line_number):
+                    return False, f"Name candidate '{text}' is near family/address keywords"
+
+                forbidden_labels = [
+                    "father", "mother", "spouse", "wife", "husband", 
+                    "son of", "daughter of", "address", "permanent", 
+                    "near", "village", "pin", "state", "given name", "surname", "nationality"
+                ]
+                text_lower = text.lower()
+                for label in forbidden_labels:
+                    if label in text_lower:
+                        return False, f"Name candidate contains forbidden label: {label}"
+
+        elif field_name == "nationality":
+            if not re.match(r"^[A-Z]{3}$", text.upper()):
+                return False, f"Nationality '{text}' must be exactly 3 uppercase letters"
+            if text.upper() in ["NNB", "NNBI", "NND", "III"]:
+                return False, f"Nationality '{text}' is a rejected invalid code"
+
+        return True, "PASS"
+
+    def score_candidate(
+        self,
+        field_name: str,
+        candidate: Dict[str, Any],
+        doc_type: DocumentType,
+        word_map: List[Dict[str, Any]],
+        raw_text: str
+    ) -> float:
+        score = super().score_candidate(field_name, candidate, doc_type, word_map, raw_text)
+
+        if field_name == "name":
+            line_number = candidate.get("line_number", -1)
+            if line_number != -1 and hasattr(self, 'raw_lines') and self.raw_lines:
+                for idx, line in enumerate(self.raw_lines):
+                    line_lower = line.lower()
+                    if "surname" in line_lower or "given name" in line_lower or "givenname" in line_lower or "given name(s)" in line_lower:
+                        dist = abs(line_number - idx)
+                        if dist == 1:
+                            score += 5.0
+                        elif dist <= 2:
+                            score += 3.0
+
+                bbox = candidate.get("bounding_box")
+                if bbox:
+                    img_h = 1000
+                    if word_map:
+                        max_b = max((w.get('top', 0) + w.get('height', 0) for w in word_map), default=1000)
+                        if max_b > 0:
+                            img_h = max_b
+                    cy = bbox['y'] + bbox['h'] / 2.0
+                    y_norm = cy / img_h
+                    if 0.15 < y_norm < 0.6:
+                        score += 3.0
+                    elif y_norm > 0.5:
+                        score -= 5.0
+
+                for idx, line in enumerate(self.raw_lines):
+                    cleaned = re.sub(r'\s+', '', line).upper()
+                    if re.match(r"^[A-Z][0-9]{7}$", cleaned):
+                        dist = abs(line_number - idx)
+                        if dist <= 4:
+                            score += 3.0
+
+            if candidate.get("constructed_from_labels"):
+                score += 10.0
+
+        return score
+
     def extract(self, raw_text: str, word_map: List[Dict[str, Any]]) -> Dict[str, FieldResult]:
+        self.raw_text = raw_text
+        self.raw_lines = [line.strip() for line in raw_text.split('\n') if line.strip()]
+        self.word_map = word_map
+
         results: Dict[str, FieldResult] = {}
+        raw_lines = self.raw_lines
 
-        # 1. Split raw text into lines
-        raw_lines = [line.strip() for line in raw_text.split('\n') if line.strip()]
-
-        # 2. Identify MRZ Lines (using sequential top-down and bottom-up search)
         mrz_line1 = ""
         mrz_line2 = ""
 
-        # Search for a line starting with P< or containing P<< (after cleaning)
-        for idx, line in enumerate(raw_lines):
+        cleaned_lines = []
+        for line in raw_lines:
             cleaned = re.sub(r'\s+', '', line).upper()
             cleaned = re.sub(r'[^A-Z0-9<]', '', cleaned)
-            # Line 1 usually starts with P< or P<< or is a P-line of length >= 30
-            if len(cleaned) >= 30 and (cleaned.startswith("P<") or (cleaned.startswith("P") and cleaned.count("<") >= 5)):
-                mrz_line1 = cleaned
-                # The next line is typically MRZ Line 2
-                if idx + 1 < len(raw_lines):
-                    next_cleaned = re.sub(r'\s+', '', raw_lines[idx + 1]).upper()
-                    next_cleaned = re.sub(r'[^A-Z0-9<]', '', next_cleaned)
-                    if len(next_cleaned) >= 30:
-                        mrz_line2 = next_cleaned
-                break
+            cleaned_lines.append((line, cleaned))
 
-        # Fallback: if we didn't find MRZ lines that way, try bottom-up matching
-        if not mrz_line1 or not mrz_line2:
-            mrz_candidates = []
-            for idx, line in enumerate(raw_lines):
-                cleaned = re.sub(r'\s+', '', line).upper()
-                cleaned = re.sub(r'[^A-Z0-9<]', '', cleaned)
-                if len(cleaned) >= 30 and cleaned.count('<') >= 4:
-                    mrz_candidates.append((idx, cleaned))
-            if len(mrz_candidates) >= 2:
-                selected = sorted(mrz_candidates[-2:], key=lambda x: x[0])
-                mrz_line1 = selected[0][1]
-                mrz_line2 = selected[1][1]
+        for idx in range(len(cleaned_lines)):
+            line, cleaned = cleaned_lines[idx]
+            if 40 <= len(cleaned) <= 44:
+                if cleaned.startswith("P") and not cleaned.startswith("P<"):
+                    cleaned = "P<" + cleaned[2:]
+                
+                if cleaned.startswith("P<") and re.match(r"^[A-Z]{3}$", cleaned[2:5]):
+                    for next_idx in range(idx + 1, min(idx + 3, len(cleaned_lines))):
+                        next_line, next_cleaned = cleaned_lines[next_idx]
+                        corrected_next = self.correct_mrz_line2_digits(next_cleaned)
+                        if 40 <= len(corrected_next) <= 44:
+                            pass_part = corrected_next[0:9]
+                            pass_num = pass_part[0] + self.correct_numeric_field(pass_part[1:8]) + pass_part[8]
+                            if re.match(r"^[A-Z][0-9]{7}<*$", pass_num):
+                                mrz_line1 = cleaned
+                                mrz_line2 = corrected_next
+                                break
+                    if mrz_line1 and mrz_line2:
+                        break
 
-        # Standardize MRZ length to 44
         if mrz_line1:
-            if len(mrz_line1) < 44:
-                mrz_line1 = mrz_line1.ljust(44, "<")
-            elif len(mrz_line1) > 44:
-                mrz_line1 = mrz_line1[:44]
+            mrz_line1 = mrz_line1.ljust(44, "<")[:44]
         if mrz_line2:
-            if len(mrz_line2) < 44:
-                mrz_line2 = mrz_line2.ljust(44, "<")
-            elif len(mrz_line2) > 44:
-                mrz_line2 = mrz_line2[:44]
+            mrz_line2 = mrz_line2.ljust(44, "<")[:44]
 
-        # 3. Separate MRZ text from normal visual text
         visual_lines = []
         for line in raw_lines:
             cleaned = re.sub(r'\s+', '', line).upper()
@@ -85,27 +228,33 @@ class PassportExtractor(BaseExtractor):
             visual_lines.append(line)
         visual_text = "\n".join(visual_lines)
 
-        # 4. Extract from Visual Zone
         visual_results = self._extract_from_visual(visual_text, visual_lines, word_map)
 
-        # 5. Extract from MRZ Zone if available
         mrz_results = {}
         if mrz_line1 and mrz_line2:
             mrz_results = self._extract_from_mrz(mrz_line1, mrz_line2, word_map)
 
-        # Validate MRZ check digits before accepting
         mrz_valid = False
         if mrz_line1 and mrz_line2:
             mrz_check_results = ChecksumValidator.validate_passport_mrz(mrz_line1, mrz_line2)
             mrz_valid = all(r.status == "PASS" for r in mrz_check_results)
 
-        # 6. Merge/Select best results prioritizing MRZ (falling back to visual)
         fields_to_merge = ["passport_number", "name", "nationality", "dob", "expiry", "sex"]
         for f in fields_to_merge:
             mrz_res = mrz_results.get(f)
             vis_res = visual_results.get(f)
             
             cands = []
+            if vis_res and vis_res.value != "NOT_FOUND":
+                cands.append({
+                    "text": vis_res.value,
+                    "raw_text": vis_res.raw_text,
+                    "bbox": vis_res.bounding_box,
+                    "ocr_confidence": vis_res.confidence,
+                    "page_source": "visual",
+                    "constructed_from_labels": True if (f == "name" and getattr(self, '_visual_name_line_idx', -1) != -1) else False,
+                    "line_number": getattr(self, '_visual_name_line_idx', -1) if f == "name" else -1
+                })
             if mrz_res and mrz_res.value != "NOT_FOUND":
                 cands.append({
                     "text": mrz_res.value,
@@ -114,20 +263,11 @@ class PassportExtractor(BaseExtractor):
                     "ocr_confidence": mrz_res.confidence,
                     "page_source": "mrz"
                 })
-            if vis_res and vis_res.value != "NOT_FOUND":
-                cands.append({
-                    "text": vis_res.value,
-                    "raw_text": vis_res.raw_text,
-                    "bbox": vis_res.bounding_box,
-                    "ocr_confidence": vis_res.confidence,
-                    "page_source": "visual"
-                })
                 
-            # Free text OCR candidates
             if f == "passport_number":
                 for m in re.finditer(r"\b([A-Z][0-9OISZB]{7})\b", raw_text):
                     val = m.group(1)
-                    corrected = val[0].upper() + ocr_correct_digits(val[1:])
+                    corrected = val[0].upper() + self.correct_numeric_field(val[1:])
                     cands.append({
                         "text": corrected,
                         "raw_text": m.group(0),
@@ -155,7 +295,6 @@ class PassportExtractor(BaseExtractor):
                                 "page_source": "free_text"
                             })
             elif f == "name":
-                # Add free text candidates (all uppercase lines and adjacent combinations)
                 for idx, line in enumerate(raw_lines):
                     if any(lbl in line.lower() for lbl in ["passport", "republic", "india", "nationality", "date", "birth", "sex", "expiry", "issue", "place"]):
                         continue
@@ -172,10 +311,8 @@ class PassportExtractor(BaseExtractor):
                             "line_number": idx
                         })
                     
-                    # Try combining adjacent uppercase lines (e.g., Given Name + Surname)
                     if idx + 1 < len(raw_lines):
                         next_line = raw_lines[idx+1]
-                        # Rule 5: Name extraction must stop at next field label
                         if not PassportExtractor.contains_field_label(next_line):
                             if sum(c.isdigit() for c in next_line) < 3:
                                 cand_next = extract_uppercase_name(next_line)
@@ -211,7 +348,6 @@ class PassportExtractor(BaseExtractor):
                             "page_source": "free_text"
                         })
 
-            # Deduplicate by text
             seen_texts = set()
             unique_cands = []
             for c in cands:
@@ -222,21 +358,23 @@ class PassportExtractor(BaseExtractor):
 
             results[f] = self.select_best_candidate(f, unique_cands, DocumentType.PASSPORT, word_map, raw_text)
 
-        # Non-MRZ visual fields
         results["place_of_birth"] = visual_results.get("place_of_birth", FieldResult(value="NOT_FOUND", raw_text="", confidence=0.0, bounding_box=None))
         results["place_of_issue"] = visual_results.get("place_of_issue", FieldResult(value="NOT_FOUND", raw_text="", confidence=0.0, bounding_box=None))
 
-        # Always include MRZ lines in results
         results["mrz_line1"] = FieldResult(value=mrz_line1 or "NOT_FOUND", raw_text=mrz_line1 or "", confidence=0.99 if mrz_line1 else 0.0, bounding_box=None)
         results["mrz_line2"] = FieldResult(value=mrz_line2 or "NOT_FOUND", raw_text=mrz_line2 or "", confidence=0.99 if mrz_line2 else 0.0, bounding_box=None)
 
-        # Ensure all required fields exist in results
+        mrz_nat = mrz_results.get("nationality")
+        if mrz_nat and mrz_nat.value != "NOT_FOUND" and re.match(r"^[A-Z]{3}$", mrz_nat.value):
+            if results["nationality"].value != mrz_nat.value:
+                results["nationality"].value = mrz_nat.value
+                results["nationality"].confidence = max(results["nationality"].confidence, mrz_nat.confidence)
+
         required_fields = ["name", "passport_number", "nationality", "dob", "expiry", "mrz_line1", "mrz_line2"]
         for f in required_fields:
             if f not in results:
                 results[f] = FieldResult(value="NOT_FOUND", raw_text="", confidence=0.0, bounding_box=None)
 
-        # Cross-Field Validations (Additional Requirement 5)
         dob_val = results.get("dob")
         exp_val = results.get("expiry")
         if dob_val and dob_val.value != "NOT_FOUND" and exp_val and exp_val.value != "NOT_FOUND":
@@ -252,119 +390,58 @@ class PassportExtractor(BaseExtractor):
             except Exception:
                 pass
 
-        # Field-to-BoundingBox Mapping (Single Source of Truth)
         for field_name, field_res in results.items():
             if field_res.value != "NOT_FOUND":
                 bbox, constituent = self.map_field_to_bbox(field_name, field_res.value, word_map)
                 field_res.bounding_box = bbox
                 field_res.constituent_boxes = constituent
 
-        return results
+        nationality_validated = False
+        mrz_nat_val = mrz_results.get("nationality")
+        if mrz_nat_val and mrz_nat_val.value != "NOT_FOUND" and mrz_nat_val.value == results["nationality"].value:
+            nationality_validated = True
 
-    def _extract_from_mrz(self, m1: str, m2: str, word_map: List[Dict[str, Any]]) -> Dict[str, FieldResult]:
-        res = {}
+        name_near_labels = False
+        name_res = results.get("name")
+        if name_res and name_res.value != "NOT_FOUND":
+            if getattr(self, '_visual_name_line_idx', -1) != -1:
+                name_near_labels = True
+            else:
+                for idx, line in enumerate(raw_lines):
+                    if name_res.value in line or any(part in line for part in name_res.value.split()):
+                        for s_idx, s_line in enumerate(raw_lines):
+                            s_lower = s_line.lower()
+                            if "surname" in s_lower or "given name" in s_lower or "givenname" in s_lower:
+                                if abs(idx - s_idx) <= 2:
+                                    name_near_labels = True
+                                    break
+                        if name_near_labels:
+                            break
+
+        is_high_conf = name_near_labels and nationality_validated and mrz_valid
         
-        # Passport Number: chars 0-9 of Line 2 (9 chars, usually ends in <)
-        pass_no_raw = m2[0:9].replace("<", "")
-        if len(pass_no_raw) >= 8:
-            letter_part = pass_no_raw[0].upper()
-            digit_to_letter = {'2': 'Z', '0': 'O', '1': 'I', '8': 'B', '5': 'S', '6': 'G'}
-            if letter_part.isdigit():
-                letter_part = digit_to_letter.get(letter_part, letter_part)
-            digit_part = ocr_correct_digits(pass_no_raw[1:])
-            passport_number = letter_part + digit_part
-        else:
-            passport_number = pass_no_raw
+        is_weak_name = False
+        if name_res and name_res.value != "NOT_FOUND":
+            if name_res.confidence < 0.65 or not name_near_labels:
+                is_weak_name = True
 
-        pass_chk_ok = ChecksumValidator.validate_mrz_checksum(m2[0:9], m2[9])
-        pass_conf = 0.99 if pass_chk_ok else self.get_field_confidence(passport_number, word_map)
-        pass_bbox = self.merge_bounding_boxes(passport_number, word_map)
-        res["passport_number"] = FieldResult(value=passport_number, raw_text=m2[0:9], confidence=pass_conf, bounding_box=pass_bbox)
+        is_low_conf = is_weak_name or not mrz_valid or not nationality_validated
 
-        # Nationality: chars 10-13 of Line 2
-        nationality = m2[10:13].upper().replace("<", "")
-        if nationality in ["IND", "1ND", "IMD", "1MD", "IUD", "1UD"]:
-            nationality = "IND"
-        nat_conf = self.get_field_confidence(nationality, word_map)
-        res["nationality"] = FieldResult(value=nationality, raw_text=m2[10:13], confidence=nat_conf, bounding_box=None)
+        for field_name in ["passport_number", "name", "nationality", "dob", "expiry"]:
+            if field_name in results and results[field_name].value != "NOT_FOUND":
+                if is_high_conf:
+                    results[field_name].confidence = max(results[field_name].confidence, 0.95)
+                    results[field_name].status = "ok"
+                elif is_low_conf:
+                    results[field_name].confidence = min(results[field_name].confidence, 0.55)
+                    results[field_name].status = "low_confidence"
 
-        # DOB: chars 13-19 of Line 2 (YYMMDD)
-        dob_raw = ocr_correct_digits(m2[13:19])
-        dob_yy = dob_raw[0:2]
-        dob_mm = dob_raw[2:4]
-        dob_dd = dob_raw[4:6]
-        curr_yy = 26
-        if dob_yy.isdigit():
-            prefix = "19" if int(dob_yy) > curr_yy else "20"
-            dob = f"{prefix}{dob_yy}-{dob_mm}-{dob_dd}"
-        else:
-            dob = f"19{dob_yy}-{dob_mm}-{dob_dd}"
-
-        dob_chk_ok = ChecksumValidator.validate_mrz_checksum(m2[13:19], m2[19])
-        dob_conf = 0.99 if dob_chk_ok else self.get_field_confidence(dob_raw, word_map)
-        res["dob"] = FieldResult(value=dob, raw_text=m2[13:19], confidence=dob_conf, bounding_box=None)
-
-        # Sex: char 20 of Line 2
-        sex_char = m2[20].upper()
-        if sex_char == "M":
-            sex = "M"
-        elif sex_char == "F":
-            sex = "F"
-        else:
-            sex = "M" if sex_char in ["N", "H"] else ("F" if sex_char in ["P", "R", "E"] else "M")
-        sex_conf = self.get_field_confidence(sex_char, word_map)
-        res["sex"] = FieldResult(value=sex, raw_text=m2[20], confidence=sex_conf, bounding_box=None)
-
-        # Expiry: chars 21-27 of Line 2 (YYMMDD)
-        exp_raw = ocr_correct_digits(m2[21:27])
-        exp_yy = exp_raw[0:2]
-        exp_mm = exp_raw[2:4]
-        exp_dd = exp_raw[4:6]
-        expiry = f"20{exp_yy}-{exp_mm}-{exp_dd}"
-
-        exp_chk_ok = ChecksumValidator.validate_mrz_checksum(m2[21:27], m2[27])
-        exp_conf = 0.99 if exp_chk_ok else self.get_field_confidence(exp_raw, word_map)
-        res["expiry"] = FieldResult(value=expiry, raw_text=m2[21:27], confidence=exp_conf, bounding_box=None)
-
-        # Name: From line 1, after country code (chars 5-44)
-        country_code_area = m1[2:5]
-        if "<" not in country_code_area:
-            name_part = m1[5:]
-        else:
-            start_idx = 2
-            while start_idx < len(m1) and m1[start_idx] == "<":
-                start_idx += 1
-            name_part = m1[start_idx:]
-
-        parts = [p.replace("<", " ").strip() for p in name_part.split("<<") if p.replace("<", " ").strip()]
-        clean_parts = []
-        for p in parts:
-            p_clean = re.sub(r'\s+', ' ', p).strip()
-            if any(c.isdigit() for c in p_clean):
-                continue
-            if len(p_clean) < 2:
-                continue
-            clean_parts.append(p_clean)
-            
-        if len(clean_parts) >= 2:
-            surname = clean_parts[0]
-            given_names = clean_parts[1]
-            full_name = f"{given_names} {surname}".strip()
-        elif len(clean_parts) == 1:
-            full_name = clean_parts[0]
-        else:
-            full_name = "UNKNOWN"
-
-        name_conf = self.get_field_confidence(full_name, word_map)
-        name_bbox = self.merge_bounding_boxes(full_name, word_map)
-        res["name"] = FieldResult(value=full_name, raw_text=name_part, confidence=name_conf, bounding_box=name_bbox)
-
-        return res
+        return results
 
     def _extract_from_visual(self, raw_text: str, lines: List[str], word_map: List[Dict[str, Any]]) -> Dict[str, FieldResult]:
         res = {}
+        self._visual_name_line_idx = -1
 
-        # 1. Passport Number
         m_pass = re.search(r"\b([A-Z][0-9]{7})\b", raw_text)
         if m_pass:
             pass_val = m_pass.group(1)
@@ -373,14 +450,34 @@ class PassportExtractor(BaseExtractor):
         else:
             res["passport_number"] = FieldResult(value="NOT_FOUND", raw_text="", confidence=0.0, bounding_box=None)
 
-        # 2. Nationality
-        m_nat = re.search(r"\b(indian|republic\s+of\s+india)\b", raw_text, re.IGNORECASE)
-        if m_nat:
-            res["nationality"] = FieldResult(value="IND", raw_text=m_nat.group(0), confidence=self.get_field_confidence("IND", word_map), bounding_box=None)
+        nationality_val = "NOT_FOUND"
+        nationality_raw = ""
+        for idx, line in enumerate(lines):
+            l_lower = line.lower()
+            if "nationality" in l_lower:
+                for offset in [0, 1, 2]:
+                    if idx + offset < len(lines):
+                        words = lines[idx + offset].upper().split()
+                        for w in words:
+                            cleaned_w = re.sub(r'[^A-Z0-9]', '', w)
+                            if cleaned_w in ["INDIA", "INDIAN", "IND", "INO", "1ND", "1NO"]:
+                                nationality_val = "IND"
+                                nationality_raw = lines[idx + offset]
+                                break
+                        if nationality_val != "NOT_FOUND":
+                            break
+                if nationality_val != "NOT_FOUND":
+                    break
+        
+        if nationality_val != "NOT_FOUND":
+            res["nationality"] = FieldResult(value=nationality_val, raw_text=nationality_raw, confidence=self.get_field_confidence(nationality_val, word_map), bounding_box=None)
         else:
-            res["nationality"] = FieldResult(value="IND", raw_text="INDIAN", confidence=self.get_field_confidence("IND", word_map), bounding_box=None)
+            m_nat = re.search(r"\b(indian|republic\s+of\s+india)\b", raw_text, re.IGNORECASE)
+            if m_nat:
+                res["nationality"] = FieldResult(value="IND", raw_text=m_nat.group(0), confidence=self.get_field_confidence("IND", word_map), bounding_box=None)
+            else:
+                res["nationality"] = FieldResult(value="IND", raw_text="INDIAN", confidence=self.get_field_confidence("IND", word_map), bounding_box=None)
 
-        # 3. DOB and Expiry (via multiple date detection and label matching)
         dob_val = "NOT_FOUND"
         dob_raw = ""
         exp_val = "NOT_FOUND"
@@ -465,7 +562,6 @@ class PassportExtractor(BaseExtractor):
         else:
             res["expiry"] = FieldResult(value="NOT_FOUND", raw_text="", confidence=0.0, bounding_box=None)
 
-        # 4. Sex
         sex_val = "NOT_FOUND"
         sex_raw = ""
         for line in lines:
@@ -489,55 +585,69 @@ class PassportExtractor(BaseExtractor):
             else:
                 res["sex"] = FieldResult(value="NOT_FOUND", raw_text="", confidence=0.0, bounding_box=None)
 
-        # 5. Name
         name_val = "NOT_FOUND"
         name_raw = ""
         surname_val = ""
         given_names_val = ""
         surname_raw = ""
         given_names_raw = ""
+        surname_idx = -1
+        given_names_idx = -1
+
         for idx, line in enumerate(lines):
             l_lower = line.lower()
             if "surname" in l_lower and idx + 1 < len(lines):
-                candidate = extract_uppercase_name(lines[idx + 1])
-                if candidate != "NOT_FOUND":
-                    surname_val = candidate
-                    surname_raw = lines[idx + 1]
+                for offset in [1, 2]:
+                    if idx + offset < len(lines):
+                        candidate = extract_uppercase_name(lines[idx + offset])
+                        if candidate != "NOT_FOUND" and is_valid_name(candidate):
+                            if not any(kw in candidate.lower() for kw in ["given", "name", "surname", "nationality", "passport"]):
+                                surname_val = candidate
+                                surname_raw = lines[idx + offset]
+                                surname_idx = idx + offset
+                                break
             if ("givenname" in l_lower or ("given" in l_lower and "name" in l_lower)) and idx + 1 < len(lines):
-                candidate = extract_uppercase_name(lines[idx + 1])
-                if candidate != "NOT_FOUND":
-                    given_names_val = candidate
-                    given_names_raw = lines[idx + 1]
+                for offset in [1, 2]:
+                    if idx + offset < len(lines):
+                        candidate = extract_uppercase_name(lines[idx + offset])
+                        if candidate != "NOT_FOUND" and is_valid_name(candidate):
+                            if not any(kw in candidate.lower() for kw in ["given", "name", "surname", "nationality", "passport"]):
+                                given_names_val = candidate
+                                given_names_raw = lines[idx + offset]
+                                given_names_idx = idx + offset
+                                break
 
         if given_names_val or surname_val:
             name_val = f"{given_names_val} {surname_val}".strip()
             name_raw = f"{given_names_raw} {surname_raw}".strip()
+            self._visual_name_line_idx = given_names_idx if given_names_idx != -1 else surname_idx
 
         if name_val == "NOT_FOUND":
             candidates = []
-            for line in lines:
+            for idx, line in enumerate(lines):
                 if any(lbl in line.lower() for lbl in ["passport", "republic", "india", "nationality", "date", "birth", "sex", "expiry", "issue", "place"]):
                     continue
                 if sum(c.isdigit() for c in line) >= 3:
                     continue
                 candidate = extract_uppercase_name(line)
                 if candidate != "NOT_FOUND" and is_valid_name(candidate):
-                    candidates.append((line, candidate))
+                    candidates.append((line, candidate, idx))
             
             if candidates:
                 if len(candidates) >= 2:
                     name_val = f"{candidates[0][1]} {candidates[1][1]}"
                     name_raw = f"{candidates[0][0]} {candidates[1][0]}"
+                    self._visual_name_line_idx = candidates[0][2]
                 else:
                     name_val = candidates[0][1]
                     name_raw = candidates[0][0]
+                    self._visual_name_line_idx = candidates[0][2]
 
         if name_val != "NOT_FOUND":
             res["name"] = FieldResult(value=name_val, raw_text=name_raw, confidence=self.get_field_confidence(name_val, word_map), bounding_box=self.merge_bounding_boxes(name_raw, word_map))
         else:
             res["name"] = FieldResult(value="NOT_FOUND", raw_text="", confidence=0.0, bounding_box=None)
 
-        # 6. Place of Birth / Place of Issue
         def clean_visual_place(line_val: str) -> str:
             val = line_val.strip()
             val = re.sub(r'^[^a-zA-Z0-9]+', '', val)
@@ -593,5 +703,99 @@ class PassportExtractor(BaseExtractor):
             res["place_of_issue"] = FieldResult(value=place_of_issue, raw_text=place_of_issue_raw, confidence=self.get_field_confidence(place_of_issue, word_map), bounding_box=self.merge_bounding_boxes(place_of_issue_raw, word_map))
         else:
             res["place_of_issue"] = FieldResult(value="NOT_FOUND", raw_text="", confidence=0.0, bounding_box=None)
+
+        return res
+
+    def _extract_from_mrz(self, m1: str, m2: str, word_map: List[Dict[str, Any]]) -> Dict[str, FieldResult]:
+        res = {}
+        
+        pass_no_raw = m2[0:9].replace("<", "")
+        if len(pass_no_raw) >= 8:
+            letter_part = pass_no_raw[0].upper()
+            digit_to_letter = {'2': 'Z', '0': 'O', '1': 'I', '8': 'B', '5': 'S', '6': 'G'}
+            if letter_part.isdigit():
+                letter_part = digit_to_letter.get(letter_part, letter_part)
+            digit_part = self.correct_numeric_field(pass_no_raw[1:])
+            passport_number = letter_part + digit_part
+        else:
+            passport_number = pass_no_raw
+
+        pass_chk_ok = ChecksumValidator.validate_mrz_checksum(m2[0:9], m2[9])
+        pass_conf = 0.99 if pass_chk_ok else self.get_field_confidence(passport_number, word_map)
+        pass_bbox = self.merge_bounding_boxes(passport_number, word_map)
+        res["passport_number"] = FieldResult(value=passport_number, raw_text=m2[0:9], confidence=pass_conf, bounding_box=pass_bbox)
+
+        nationality = m2[10:13].upper().replace("<", "")
+        if nationality in ["INDIA", "INDIAN", "IND", "INO", "1ND", "1NO", "IUD", "1UD", "IMD", "1MD"]:
+            nationality = "IND"
+        nat_conf = self.get_field_confidence(nationality, word_map)
+        res["nationality"] = FieldResult(value=nationality, raw_text=m2[10:13], confidence=nat_conf, bounding_box=None)
+
+        dob_raw = self.correct_numeric_field(m2[13:19])
+        dob_yy = dob_raw[0:2]
+        dob_mm = dob_raw[2:4]
+        dob_dd = dob_raw[4:6]
+        curr_yy = 26
+        if dob_yy.isdigit():
+            prefix = "19" if int(dob_yy) > curr_yy else "20"
+            dob = f"{prefix}{dob_yy}-{dob_mm}-{dob_dd}"
+        else:
+            dob = f"19{dob_yy}-{dob_mm}-{dob_dd}"
+
+        dob_chk_ok = ChecksumValidator.validate_mrz_checksum(m2[13:19], m2[19])
+        dob_conf = 0.99 if dob_chk_ok else self.get_field_confidence(dob_raw, word_map)
+        res["dob"] = FieldResult(value=dob, raw_text=m2[13:19], confidence=dob_conf, bounding_box=None)
+
+        sex_char = m2[20].upper()
+        if sex_char == "M":
+            sex = "M"
+        elif sex_char == "F":
+            sex = "F"
+        else:
+            sex = "M" if sex_char in ["N", "H"] else ("F" if sex_char in ["P", "R", "E"] else "M")
+        sex_conf = self.get_field_confidence(sex_char, word_map)
+        res["sex"] = FieldResult(value=sex, raw_text=m2[20], confidence=sex_conf, bounding_box=None)
+
+        exp_raw = self.correct_numeric_field(m2[21:27])
+        exp_yy = exp_raw[0:2]
+        exp_mm = exp_raw[2:4]
+        exp_dd = exp_raw[4:6]
+        expiry = f"20{exp_yy}-{exp_mm}-{exp_dd}"
+
+        exp_chk_ok = ChecksumValidator.validate_mrz_checksum(m2[21:27], m2[27])
+        exp_conf = 0.99 if exp_chk_ok else self.get_field_confidence(exp_raw, word_map)
+        res["expiry"] = FieldResult(value=expiry, raw_text=m2[21:27], confidence=exp_conf, bounding_box=None)
+
+        country_code_area = m1[2:5]
+        if "<" not in country_code_area:
+            name_part = m1[5:]
+        else:
+            start_idx = 2
+            while start_idx < len(m1) and m1[start_idx] == "<":
+                start_idx += 1
+            name_part = m1[start_idx:]
+
+        parts = [p.replace("<", " ").strip() for p in name_part.split("<<") if p.replace("<", " ").strip()]
+        clean_parts = []
+        for p in parts:
+            p_clean = re.sub(r'\s+', ' ', p).strip()
+            if any(c.isdigit() for c in p_clean):
+                continue
+            if len(p_clean) < 2:
+                continue
+            clean_parts.append(p_clean)
+            
+        if len(clean_parts) >= 2:
+            surname = clean_parts[0]
+            given_names = clean_parts[1]
+            full_name = f"{given_names} {surname}".strip()
+        elif len(clean_parts) == 1:
+            full_name = clean_parts[0]
+        else:
+            full_name = "UNKNOWN"
+
+        name_conf = self.get_field_confidence(full_name, word_map)
+        name_bbox = self.merge_bounding_boxes(full_name, word_map)
+        res["name"] = FieldResult(value=full_name, raw_text=name_part, confidence=name_conf, bounding_box=name_bbox)
 
         return res

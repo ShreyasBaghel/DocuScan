@@ -120,7 +120,7 @@ def test_passport_extractor_fallback_and_cleaning():
         "BANGALORE\n"
         "Date of Expiry\n"
         "01/01/2023\n"
-        "P<<SPECIMEN<<KUMAR<G<<<<<<<<<<<S66SKSSE<<<<<\n"
+        "P<INDSPECIMEN<<KUMAR<G<<<<<<<<<<<S66SKSSE<<<\n"
         "Z9999999<0IND8505246M2300000<<<<<<<<<<<<<<S4\n"
     )
     res = ext.extract(text, [])
@@ -213,4 +213,39 @@ def test_dl_extractor_multi_line_name():
     ]
     res = ext.extract(text, word_map)
     assert res["name"].value == "NIVRUTTI BODAKE"
+
+
+def test_passport_extractor_new_fixes():
+    ext = PassportExtractor()
+    text = (
+        "PASSPORT\n"
+        "REPUBLIC OF INDIA\n"
+        "Surname\n"
+        "SOLANKI\n"
+        "Given Name(s)\n"
+        "ABHISHEK JITENDRABHAI\n"
+        "Nationality\n"
+        "INDIA\n"
+        "Father Name: JITENDRABHAI LAVCHAND SOLANKI\n"
+        "Mother Name: VANITABEN JITENDRABHAI SOLANKI\n"
+        "Address: Near Village, Pin, State\n"
+        "P<INDSOLANKI<<ABHISHEK<JITENDRABHAI<<<<<<<<<\n"
+        "Y54O136O<5IND0O11215M33O62648O68O94162423<36\n"
+    )
+    res = ext.extract(text, [])
+    
+    assert res["name"].value == "ABHISHEK JITENDRABHAI SOLANKI"
+    assert res["nationality"].value == "IND"
+    assert res["passport_number"].value == "Y5401360"
+    assert res["dob"].value == "2000-11-21"
+    assert res["expiry"].value == "2033-06-26"
+    assert res["mrz_line1"].value == "P<INDSOLANKI<<ABHISHEK<JITENDRABHAI<<<<<<<<<"
+    assert res["mrz_line2"].value == "Y5401360<5IND0011215M33062648068094162423<36"
+    
+    # Assert high confidence is assigned since it matches all criteria
+    assert res["name"].confidence >= 0.90
+    assert res["nationality"].confidence >= 0.90
+    assert res["passport_number"].confidence >= 0.90
+    assert res["dob"].confidence >= 0.90
+    assert res["expiry"].confidence >= 0.90
 
