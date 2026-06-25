@@ -521,6 +521,34 @@ class BaseExtractor(ABC):
         # Include custom boost adjustment
         score += candidate.get("boost", 0.0)
 
+        # Mandatory alignment checks for DOB, Validity, Expiry, Issue Date, Passport Dates (Additional Requirement 2)
+        if field_name in ["dob", "validity", "expiry", "issue_date", "passport_date", "date"]:
+            same_line_val = 0.0
+            same_col_val = 0.0
+            cand_bbox = candidate.get("bounding_box") or candidate.get("bbox")
+            if not cand_bbox and candidate.get("text") and candidate.get("text") != "NOT_FOUND":
+                cand_bbox = self.merge_bounding_boxes(candidate.get("raw_text") or candidate.get("text"), word_map)
+            
+            if cand_bbox and anchors and word_map:
+                for w in word_map:
+                    w_text = w.get('text', '').lower()
+                    if any(k in w_text for k in anchors):
+                        w_cy = w['top'] + w['height']/2.0
+                        c_cy = cand_bbox['y'] + cand_bbox['h']/2.0
+                        if abs(w_cy - c_cy) < 15:
+                            same_line_val = 1.0
+                        w_left, w_right = w['left'], w['left'] + w['width']
+                        c_left, c_right = cand_bbox['x'], cand_bbox['x'] + cand_bbox['w']
+                        if max(w_left, c_left) <= min(w_right, c_right):
+                            same_col_val = 1.0
+            if same_line_val > 0.0:
+                score += 1.5
+            if same_col_val > 0.0:
+                score += 1.5
+
+        # Include custom boost adjustment
+        score += candidate.get("boost", 0.0)
+
         # Field length scoring
         if field_name == "name":
             name_text = candidate.get("text", "")
@@ -712,6 +740,26 @@ class BaseExtractor(ABC):
         combined_conf = (0.40 * c_ocr) + (0.30 * c_pattern) + (0.20 * c_pos) + (0.10 * c_temp)
         combined_conf = float(max(0.0, min(1.0, combined_conf)))
 
+        # Determine status based on confidence threshold (Additional Requirement 1)
+        status = "ok"
+        is_num = field_name in ["aadhaar_number", "pan_number", "passport_number", "dl_number"]
+        is_date = field_name in ["dob", "validity", "expiry"]
+        is_name = field_name in ["name", "father_name"]
+        is_mrz = field_name in ["mrz_line1", "mrz_line2"]
+        
+        threshold = 0.0
+        if is_name:
+            threshold = 0.55
+        elif is_date:
+            threshold = 0.60
+        elif is_num:
+            threshold = 0.65
+        elif is_mrz:
+            threshold = 0.70
+            
+        if c_ocr < threshold:
+            status = "low_confidence"
+
         # Log candidates list and scores (Requirement 6)
         candidate_log_list = []
         for score, c in scored_candidates:
@@ -744,8 +792,10 @@ class BaseExtractor(ABC):
             raw_text=best_candidate.get("raw_text", best_candidate["text"]),
             confidence=combined_conf,
             bounding_box=best_candidate.get("bounding_box"),
-            constituent_boxes=best_candidate.get("constituent_boxes")
+            constituent_boxes=best_candidate.get("constituent_boxes"),
+            status=status
         )
+
 
     @staticmethod
     def reconstruct_and_normalize_text(
@@ -793,8 +843,14 @@ class BaseExtractor(ABC):
         lines_text = [" ".join(wd['text'] for wd in group) for group in line_groups]
         raw_reconstructed = " ".join(lines_text).strip()
 
+        # Normalize OCR text for numeric fields (Additional Requirement 3)
+        is_numeric_field = field_name not in ["name", "father_name", "nationality", "sex", "gender", "mrz_line1", "mrz_line2"]
+        if is_numeric_field:
+            raw_reconstructed = BaseExtractor.normalize_ocr_text(raw_reconstructed, True)
+
         # Normalize reconstructed raw string according to field name and document type
         normalized = raw_reconstructed
+
         if doc_type == DocumentType.PASSPORT:
             if field_name == "passport_number":
                 cleaned = re.sub(r'\s+', '', raw_reconstructed).upper()
@@ -876,3 +932,163 @@ class BaseExtractor(ABC):
                 normalized = ", ".join(classes) if classes else "NOT_FOUND"
 
         return normalized if normalized else "NOT_FOUND"
+
+    @staticmethod
+    def normalize_ocr_text(text: str, is_numeric: bool) -> str:
+        if not text:
+            return ""
+        if not is_numeric:
+            return text
+        substitutions = {
+            'O': '0', 'o': '0', 'I': '1', 'l': '1', 'S': '5', 's': '5', 'B': '8', 'b': '8'
+        }
+        return "".join(substitutions.get(c, c) for c in text)
+
+    @staticmethod
+    def clean_and_normalize(val: str, is_numeric: bool) -> str:
+        if not val:
+            return ""
+        # Remove spaces and punctuation
+        val_clean = re.sub(r'[^a-zA-Z0-9/<]', '', val)
+        if is_numeric:
+            val_clean = BaseExtractor.normalize_ocr_text(val_clean, True)
+        return val_clean.lower()
+
+    def map_field_to_bbox(
+        self,
+        field_name: str,
+        value: str,
+        word_map: List[Dict[str, Any]]
+    ) -> tuple[Optional[Dict[str, int]], List[Dict[str, Any]]]:
+        """
+        Maps an extracted field value to its bounding box and constituent boxes in the word map.
+        Implements Rule 4's multi-box support and alignment logic.
+        """
+        if not value or value == "NOT_FOUND" or not word_map:
+            return None, []
+
+        is_numeric_field = field_name not in ["name", "father_name", "nationality", "sex", "gender", "mrz_line1", "mrz_line2"]
+        norm_target = self.clean_and_normalize(value, is_numeric_field)
+        if not norm_target:
+            return None, []
+
+        # Sort word map in reading order (lines vertically, words horizontally)
+        lines = []
+        for w in word_map:
+            if not w.get('text') or not w['text'].strip():
+                continue
+            cy = w['top'] + w['height'] / 2.0
+            added = False
+            for group in lines:
+                g_cy = sum(box['top'] + box['height'] / 2.0 for box in group) / len(group)
+                if abs(cy - g_cy) < 15: # vertical line spacing threshold
+                    group.append(w)
+                    added = True
+                    break
+            if not added:
+                lines.append([w])
+
+        for group in lines:
+            group.sort(key=lambda w: w['left'])
+        lines.sort(key=lambda group: sum(w['top'] for w in group) / len(group))
+
+        flat_words = [w for group in lines for w in group]
+        n = len(flat_words)
+
+        candidate_matches = []
+        for i in range(n):
+            for j in range(i, n):
+                subsegment = flat_words[i:j+1]
+                
+                # Check horizontal spacing if on the same line, or allow consecutive lines
+                valid_gaps = True
+                for idx in range(len(subsegment) - 1):
+                    w1 = subsegment[idx]
+                    w2 = subsegment[idx+1]
+                    # If same line (vertical overlap)
+                    w1_cy = w1['top'] + w1['height'] / 2.0
+                    w2_cy = w2['top'] + w2['height'] / 2.0
+                    if abs(w1_cy - w2_cy) < 15:
+                        gap = w2['left'] - (w1['left'] + w1['width'])
+                        if gap < -20 or gap > 150: # allow slight overlap or reasonable spacing
+                            valid_gaps = False
+                            break
+                    else:
+                        # Different lines. Ensure vertical gap is not too huge (e.g. max 40px)
+                        v_gap = w2['top'] - (w1['top'] + w1['height'])
+                        if v_gap < -20 or v_gap > 60:
+                            valid_gaps = False
+                            break
+
+                if not valid_gaps:
+                    continue
+
+                sub_text = "".join(self.clean_and_normalize(w['text'], is_numeric_field) for w in subsegment)
+
+                if sub_text == norm_target:
+                    candidate_matches.append(subsegment)
+
+        if not candidate_matches:
+            # Fallback to single word/token matching if no exact multi-box sequence matches
+            tokens = [self.clean_and_normalize(t, is_numeric_field) for t in value.split() if self.clean_and_normalize(t, is_numeric_field)]
+            if tokens:
+                matched_words = []
+                for token in tokens:
+                    for w in flat_words:
+                        w_norm = self.clean_and_normalize(w['text'], is_numeric_field)
+                        if w_norm == token:
+                            matched_words.append(w)
+                if matched_words:
+                    candidate_matches.append(matched_words)
+
+        if not candidate_matches:
+            return None, []
+
+        # If multiple candidate matches, rank them by proximity to anchor keywords for this field
+        best_match = None
+        best_score = -999999.0
+
+        anchors = ANCHOR_KEYWORDS.get(field_name, [])
+        anchor_centers = []
+        for w in word_map:
+            w_text = w.get('text', '').lower()
+            if any(k in w_text for k in anchors):
+                anchor_centers.append((w['left'] + w['width']/2.0, w['top'] + w['height']/2.0))
+
+        for cand in candidate_matches:
+            # Compute center of candidate
+            min_x = min(w['left'] for w in cand)
+            min_y = min(w['top'] for w in cand)
+            max_r = max(w['left'] + w['width'] for w in cand)
+            max_b = max(w['top'] + w['height'] for w in cand)
+            cx = (min_x + max_r) / 2.0
+            cy = (min_y + max_b) / 2.0
+
+            if anchor_centers:
+                min_dist = min(abs(cy - ac_y) for ac_x, ac_y in anchor_centers)
+                score = -min_dist
+            else:
+                score = 0.0
+
+            avg_conf = sum(w.get('conf', 0.85) for w in cand) / len(cand)
+            score += avg_conf * 100.0
+
+            if score > best_score:
+                best_score = score
+                best_match = cand
+
+        if best_match:
+            min_x = min(w['left'] for w in best_match)
+            min_y = min(w['top'] for w in best_match)
+            max_r = max(w['left'] + w['width'] for w in best_match)
+            max_b = max(w['top'] + w['height'] for w in best_match)
+            bbox = {
+                'x': min_x,
+                'y': min_y,
+                'w': max_r - min_x,
+                'h': max_b - min_y
+            }
+            return bbox, best_match
+
+        return None, []
+

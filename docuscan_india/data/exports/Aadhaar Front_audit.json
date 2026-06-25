@@ -186,29 +186,19 @@
         "aadhaar_number": {
             "value": "208683222522",
             "raw_text": "2086 8322 2522",
-            "confidence": 0.6381818181818182,
-            "bounding_box": {
-                "x": 462,
-                "y": 708,
-                "w": 166,
-                "h": 109
-            }
+            "confidence": 0.7352727272727272,
+            "bounding_box": null
         },
         "dob": {
             "value": "2006-01-01",
             "raw_text": "DOB : 01/01/2006",
-            "confidence": 0.6381818181818182,
-            "bounding_box": {
-                "x": 728,
-                "y": 371,
-                "w": 322,
-                "h": 37
-            }
+            "confidence": 0.8352727272727274,
+            "bounding_box": null
         },
         "gender": {
             "value": "MALE",
             "raw_text": "Male",
-            "confidence": 0.83,
+            "confidence": 0.792,
             "bounding_box": {
                 "x": 614,
                 "y": 424,
@@ -219,7 +209,7 @@
         "name": {
             "value": "SHREYAS BAGHEL",
             "raw_text": "SHREYAS BAGHEL",
-            "confidence": 0.915,
+            "confidence": 0.846,
             "bounding_box": {
                 "x": 496,
                 "y": 303,

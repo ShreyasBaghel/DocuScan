@@ -751,51 +751,17 @@
     "document_type": "PASSPORT",
     "classification_confidence": 1.0,
     "extracted_fields": {
-        "expiry": {
-            "value": "20M2-30-00",
-            "raw_text": "M23000",
-            "confidence": 0.2675,
+        "name": {
+            "value": "KUMAR KG SPECIMEN",
+            "raw_text": "SPECIMEN<<KUMAR<KG<<<<<<<<IDSDDDSISSSDIDI",
+            "confidence": 0.5670000000000001,
             "bounding_box": null
         },
         "nationality": {
             "value": "IND",
             "raw_text": "INDIAN",
-            "confidence": 0.2675,
+            "confidence": 0.5670000000000001,
             "bounding_box": null
-        },
-        "place_of_birth": {
-            "value": "MUMBAI, MAHARASHTRA .",
-            "raw_text": "MUMBAI, MAHARASHTRA |.",
-            "confidence": 0.95,
-            "bounding_box": {
-                "x": 1576,
-                "y": 2931,
-                "w": 636,
-                "h": 82
-            }
-        },
-        "passport_number": {
-            "value": "Z9999999",
-            "raw_text": "Z9999999<",
-            "confidence": 0.2675,
-            "bounding_box": null
-        },
-        "name": {
-            "value": "KUMAR KG SPECIMEN",
-            "raw_text": "SPECIMEN<<KUMAR<KG<<<<<<<<IDSDDDSISSSDIDI",
-            "confidence": 0.2675,
-            "bounding_box": null
-        },
-        "dob": {
-            "value": "1985-05-24",
-            "raw_text": "24/05/1985",
-            "confidence": 0.5423595505617977,
-            "bounding_box": {
-                "x": 1131,
-                "y": 2708,
-                "w": 541,
-                "h": 68
-            }
         },
         "place_of_issue": {
             "value": "NOT_FOUND",
@@ -803,10 +769,10 @@
             "confidence": 0.0,
             "bounding_box": null
         },
-        "mrz_line1": {
-            "value": "P<<SPECIMEN<<KUMAR<KG<<<<<<<<IDSDDDSISSSDIDI",
-            "raw_text": "P<<SPECIMEN<<KUMAR<KG<<<<<<<<IDSDDDSISSSDIDI",
-            "confidence": 0.99,
+        "dob": {
+            "value": "1985-05-24",
+            "raw_text": "24/05/1985",
+            "confidence": 0.7969438202247192,
             "bounding_box": null
         },
         "mrz_line2": {
@@ -815,10 +781,39 @@
             "confidence": 0.99,
             "bounding_box": null
         },
+        "passport_number": {
+            "value": "Z9999999",
+            "raw_text": "Z9999999<",
+            "confidence": 0.5670000000000001,
+            "bounding_box": null
+        },
         "sex": {
             "value": "M",
             "raw_text": "6",
-            "confidence": 0.2675,
+            "confidence": 0.5670000000000001,
+            "bounding_box": null
+        },
+        "place_of_birth": {
+            "value": "MUMBAI, MAHARASHTRA .",
+            "raw_text": "MUMBAI, MAHARASHTRA |.",
+            "confidence": 0.95,
+            "bounding_box": {
+                "x": 1134,
+                "y": 2931,
+                "w": 1078,
+                "h": 82
+            }
+        },
+        "mrz_line1": {
+            "value": "P<<SPECIMEN<<KUMAR<KG<<<<<<<<IDSDDDSISSSDIDI",
+            "raw_text": "P<<SPECIMEN<<KUMAR<KG<<<<<<<<IDSDDDSISSSDIDI",
+            "confidence": 0.99,
+            "bounding_box": null
+        },
+        "expiry": {
+            "value": "20M2-30-00",
+            "raw_text": "M23000",
+            "confidence": 0.5670000000000001,
             "bounding_box": null
         }
     },

@@ -75,23 +75,13 @@
             "value": "366874830214",
             "raw_text": "3668 7483 0214",
             "confidence": 0.89,
-            "bounding_box": {
-                "x": 10,
-                "y": 50,
-                "w": 40,
-                "h": 5
-            }
+            "bounding_box": null
         },
         "dob": {
             "value": "1990-08-15",
             "raw_text": "DOB: 15/08/1990",
             "confidence": 0.9500000000000002,
-            "bounding_box": {
-                "x": 25,
-                "y": 30,
-                "w": 20,
-                "h": 5
-            }
+            "bounding_box": null
         },
         "gender": {
             "value": "MALE",

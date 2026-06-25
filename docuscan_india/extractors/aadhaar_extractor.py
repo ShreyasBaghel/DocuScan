@@ -232,4 +232,11 @@ class AadhaarExtractor(BaseExtractor):
                 
         results["name"] = self.select_best_candidate("name", cands_name_uniq, DocumentType.AADHAAR, word_map, raw_text)
         
+        # Field-to-BoundingBox Mapping (Single Source of Truth)
+        for field_name, field_res in results.items():
+            if field_res.value != "NOT_FOUND":
+                bbox, constituent = self.map_field_to_bbox(field_name, field_res.value, word_map)
+                field_res.bounding_box = bbox
+                field_res.constituent_boxes = constituent
+                
         return results

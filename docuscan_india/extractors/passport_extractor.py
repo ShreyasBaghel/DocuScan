@@ -6,6 +6,23 @@ from utils.string_utils import normalize_date, clean_whitespace, extract_upperca
 from validators.checksum_validator import ChecksumValidator
 
 class PassportExtractor(BaseExtractor):
+    @staticmethod
+    def contains_field_label(text: str) -> bool:
+        text_lower = text.lower()
+        label_keywords = {
+            "name", "nam", "नाम", "father", "spous", "husband", "wife", "mother",
+            "dob", "birth", "जन्म", "yob", "date", "valid", "till", "validity", "expiry", "exp",
+            "licence", "license", "dl", "class", "cov", "vehicle", "address", "add", "pin", "pincode",
+            "passport", "pan", "aadhaar", "aadhar", "uidai", "gender", "sex", "issue", "doi", "rto"
+        }
+        words = re.split(r'[^a-zA-Z0-9]', text_lower)
+        for w in words:
+            if w in label_keywords:
+                return True
+        if re.search(r'\b[a-zA-Z]{3,}\s*:', text):
+            return True
+        return False
+
     def extract(self, raw_text: str, word_map: List[Dict[str, Any]]) -> Dict[str, FieldResult]:
         results: Dict[str, FieldResult] = {}
 
@@ -158,7 +175,8 @@ class PassportExtractor(BaseExtractor):
                     # Try combining adjacent uppercase lines (e.g., Given Name + Surname)
                     if idx + 1 < len(raw_lines):
                         next_line = raw_lines[idx+1]
-                        if not any(lbl in next_line.lower() for lbl in ["passport", "republic", "india", "nationality", "date", "birth", "sex", "expiry", "issue", "place"]):
+                        # Rule 5: Name extraction must stop at next field label
+                        if not PassportExtractor.contains_field_label(next_line):
                             if sum(c.isdigit() for c in next_line) < 3:
                                 cand_next = extract_uppercase_name(next_line)
                                 if candidate_name != "NOT_FOUND" and cand_next != "NOT_FOUND":
@@ -217,6 +235,29 @@ class PassportExtractor(BaseExtractor):
         for f in required_fields:
             if f not in results:
                 results[f] = FieldResult(value="NOT_FOUND", raw_text="", confidence=0.0, bounding_box=None)
+
+        # Cross-Field Validations (Additional Requirement 5)
+        dob_val = results.get("dob")
+        exp_val = results.get("expiry")
+        if dob_val and dob_val.value != "NOT_FOUND" and exp_val and exp_val.value != "NOT_FOUND":
+            try:
+                dob_y = int(dob_val.value.split("-")[0])
+                exp_y = int(exp_val.value.split("-")[0])
+                if exp_y <= dob_y:
+                    logger.warning(f"Validation Reject: Expiry ({exp_val.value}) is not later than DOB ({dob_val.value})")
+                    exp_val.value = "NOT_FOUND"
+                    exp_val.confidence = 0.0
+                    exp_val.bounding_box = None
+                    exp_val.constituent_boxes = None
+            except Exception:
+                pass
+
+        # Field-to-BoundingBox Mapping (Single Source of Truth)
+        for field_name, field_res in results.items():
+            if field_res.value != "NOT_FOUND":
+                bbox, constituent = self.map_field_to_bbox(field_name, field_res.value, word_map)
+                field_res.bounding_box = bbox
+                field_res.constituent_boxes = constituent
 
         return results
 

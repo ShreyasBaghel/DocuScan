@@ -118,3 +118,79 @@ def test_field_level_confidence():
     assert 0.0 <= conf <= 1.0
     # For a perfect matching Aadhaar number with high OCR confidence, the score should be high (>= 0.70)
     assert conf >= 0.70
+
+
+# 7. Test OCR Confidence Thresholding and status field
+def test_ocr_confidence_thresholding():
+    ext = AadhaarExtractor()
+    text = "Unique Identification Authority of India\n2086 8322 2522\n"
+    # Low confidence words
+    word_map = [
+        {"text": "2086", "left": 10, "top": 50, "width": 40, "height": 20, "conf": 0.50},
+        {"text": "8322", "left": 60, "top": 50, "width": 40, "height": 20, "conf": 0.40},
+        {"text": "2522", "left": 110, "top": 50, "width": 40, "height": 20, "conf": 0.35}
+    ]
+    res = ext.extract(text, word_map)
+    # The confidence should be below 0.65 for numeric ID, so status should be 'low_confidence'
+    assert res["aadhaar_number"].value == "208683222522"
+    assert res["aadhaar_number"].status == "low_confidence"
+
+
+# 8. Test Neighborhood Scoring Alignment Boost
+def test_neighborhood_scoring_alignment():
+    ext = DLExtractor()
+    # Anchor at line 0, candidate 1 at same line (line 0), candidate 2 at line 2
+    raw_text = "DOB: 14/01/1998  OtherText  19/10/2016"
+    word_map = [
+        {"text": "DOB:", "left": 10, "top": 50, "width": 40, "height": 20, "conf": 0.95},
+        {"text": "14/01/1998", "left": 60, "top": 50, "width": 80, "height": 20, "conf": 0.90},
+        {"text": "19/10/2016", "left": 60, "top": 150, "width": 80, "height": 20, "conf": 0.95}
+    ]
+    res = ext.extract(raw_text, word_map)
+    # The one on the same line as DOB anchor (14/01/1998) should win due to neighborhood scoring alignment boost
+    assert res["dob"].value == "1998-01-14"
+
+
+# 9. Test OCR Normalization Layer
+def test_ocr_normalization_layer():
+    # Numeric fields should replace O->0, I->1, S->5, B->8
+    assert BaseExtractor.normalize_ocr_text("2086832225S2", True) == "208683222552"
+    assert BaseExtractor.normalize_ocr_text("MH032Ol40I23456", True) == "MH0320140123456"
+    # Name fields should NOT replace characters
+    assert BaseExtractor.normalize_ocr_text("SHREYAS BAGHEL", False) == "SHREYAS BAGHEL"
+
+
+# 10. Test Name Merging Stops at Field Label
+def test_name_merging_stops_at_label():
+    ext = DLExtractor()
+    raw_text = "Name: BANMEET SINGH\nFather Name: HARPREET SINGH"
+    word_map = [
+        {"text": "Name:", "left": 10, "top": 30, "width": 40, "height": 20, "conf": 0.95},
+        {"text": "BANMEET", "left": 60, "top": 30, "width": 60, "height": 20, "conf": 0.95},
+        {"text": "SINGH", "left": 130, "top": 30, "width": 40, "height": 20, "conf": 0.95},
+        {"text": "Father", "left": 10, "top": 60, "width": 40, "height": 20, "conf": 0.95},
+        {"text": "Name:", "left": 60, "top": 60, "width": 40, "height": 20, "conf": 0.95},
+        {"text": "HARPREET", "left": 110, "top": 60, "width": 60, "height": 20, "conf": 0.95},
+        {"text": "SINGH", "left": 180, "top": 60, "width": 40, "height": 20, "conf": 0.95}
+    ]
+    res = ext.extract(raw_text, word_map)
+    # The name extractor must not merge "HARPREET SINGH" into the name
+    assert res["name"].value == "BANMEET SINGH"
+
+
+# 11. Test Driving Licence Vehicle Class Exact Matching
+def test_dl_vehicle_class_exact_matching():
+    ext = DLExtractor()
+    raw_text = "TRANSPORT DEPARTMENT DELHI\nAuthorised Vehicles: LMV, MCWG"
+    word_map = [
+        {"text": "TRANSPORT", "left": 10, "top": 30, "width": 80, "height": 20, "conf": 0.95},
+        {"text": "DEPARTMENT", "left": 100, "top": 30, "width": 80, "height": 20, "conf": 0.95},
+        {"text": "LMV,", "left": 10, "top": 60, "width": 40, "height": 20, "conf": 0.95},
+        {"text": "MCWG", "left": 60, "top": 60, "width": 40, "height": 20, "conf": 0.95}
+    ]
+    res = ext.extract(raw_text, word_map)
+    # It must not match TRANS from TRANSPORT, only LMV, MCWG
+    assert "TRANS" not in res["vehicle_class"].value.split(", ")
+    assert "LMV" in res["vehicle_class"].value
+    assert "MCWG" in res["vehicle_class"].value
+

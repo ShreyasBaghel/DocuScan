@@ -13,6 +13,7 @@ class OCRResultScreen(tk.Frame):
         super().__init__(parent, bg="#1e1e24")
         self.controller = controller
         self.preprocessed_image_ref = None
+        self.show_debug_var = tk.BooleanVar(value=False)
         self._init_ui()
 
     def _init_ui(self):
@@ -87,6 +88,22 @@ class OCRResultScreen(tk.Frame):
         
         self.conf_progress = ttk.Progressbar(self.conf_frame, orient="horizontal", style="Cyan.Horizontal.TProgressbar", length=300, mode="determinate")
         self.conf_progress.pack(anchor="w", pady=(4, 0))
+
+        # Show debug mode checkbox (Additional Requirement 7)
+        self.debug_cb = tk.Checkbutton(
+            self.bottom_frame,
+            text="SHOW OCR DEBUG",
+            variable=self.show_debug_var,
+            command=self._on_debug_toggle,
+            bg="#1e1e24",
+            fg="#a0aec0",
+            selectcolor="#282830",
+            activebackground="#1e1e24",
+            activeforeground="#ffffff",
+            font=("Segoe UI Semibold", 9)
+        )
+        self.debug_cb.pack(side="left", padx=(20, 0))
+
 
         # Action Buttons
         self.btn_frame = tk.Frame(self.bottom_frame, bg="#1e1e24")
@@ -170,6 +187,12 @@ class OCRResultScreen(tk.Frame):
 
         return False
 
+    def _on_debug_toggle(self):
+        packet = self.controller.current_packet
+        if packet:
+            self.populate_ocr_data(packet)
+
+
     def populate_ocr_data(self, packet):
         """Hides the loader and populates OCR result data in the split frames."""
         self.loading_frame.pack_forget()
@@ -184,30 +207,45 @@ class OCRResultScreen(tk.Frame):
                 draw = ImageDraw.Draw(overlay)
                 
                 # Check if we have extracted fields with bounding boxes
-                has_extracted_highlights = False
                 if packet.extracted_fields:
                     from extractors.base_extractor import BaseExtractor
                     for field_name, field_res in packet.extracted_fields.items():
-                        if field_res.value != "NOT_FOUND" and field_res.bounding_box:
+                        if field_res.value != "NOT_FOUND":
                             bbox = field_res.bounding_box  # {'x': ..., 'y': ..., 'w': ..., 'h': ...}
+                            
+                            # Rule 8: Graceful fallback - if no bbox can be mapped, show image normally
+                            if not bbox:
+                                field_res.highlight_status = "Highlight unavailable for this field."
+                                continue
+                                
                             x, y, w, h = bbox['x'], bbox['y'], bbox['w'], bbox['h']
                             
                             # Reconstruct text from bbox and verify they match
-                            displayed_text = field_res.value
                             highlighted_text = BaseExtractor.reconstruct_and_normalize_text(
                                 bbox,
                                 packet.ocr_word_map,
                                 field_name,
                                 packet.document_type
                             )
-                            # Verify match tolerantly (Requirement 5)
-                            if not self._is_highlight_match_tolerant(displayed_text, highlighted_text):
+                            
+                            # Rule 9: Validation layer - clean and normalize both
+                            is_numeric_field = field_name not in ["name", "father_name", "nationality", "sex", "gender", "mrz_line1", "mrz_line2"]
+                            disp_norm = BaseExtractor.clean_and_normalize(field_res.value, is_numeric_field)
+                            high_norm = BaseExtractor.clean_and_normalize(highlighted_text, is_numeric_field)
+                            
+                            if disp_norm != high_norm:
                                 logger.warning(
                                     f"Highlight mismatch for field '{field_name}': "
-                                    f"displayed_text='{displayed_text}', highlighted_text='{highlighted_text}'"
+                                    f"displayed='{disp_norm}', highlighted='{high_norm}'"
                                 )
+                                # Discard highlight, keep extracted value
+                                field_res.highlight_status = "Highlight unavailable for this field."
+                                continue
                             
-                            # Support multi-box highlights (Requirement 1)
+                            # Reset highlight status if successful
+                            field_res.highlight_status = ""
+                            
+                            # Support multi-box highlights (Rule 4)
                             boxes_to_draw = []
                             if getattr(field_res, 'constituent_boxes', None):
                                 for cb in field_res.constituent_boxes:
@@ -237,18 +275,18 @@ class OCRResultScreen(tk.Frame):
                                 draw.rectangle([x, max(0, y - 25), x + 120, y], fill=(245, 158, 11, 255))
                                 
                             draw.text((x, max(0, y - 25)), label_text, fill=(30, 30, 36, 255), font=font)
-                            has_extracted_highlights = True
-                            
-                # Fallback: highlight all detected OCR words in light cyan borders if no fields extracted yet
-                if not has_extracted_highlights and packet.ocr_word_map:
+
+                # Developer debug mode overlay (Additional Requirement 7)
+                if hasattr(self, 'show_debug_var') and self.show_debug_var.get() and packet.ocr_word_map:
                     for w in packet.ocr_word_map:
-                        x, y, wd, ht = w['left'], w['top'], w['width'], w['height']
+                        wx, wy, ww, wh = w['left'], w['top'], w['width'], w['height']
                         draw.rectangle(
-                            [x, y, x + wd, y + ht], 
-                            fill=(0, 188, 212, 40), 
-                            outline=(0, 188, 212, 255), 
+                            [wx, wy, wx + ww, wy + wh], 
+                            fill=(0, 188, 212, 20), 
+                            outline=(0, 188, 212, 180), 
                             width=1
                         )
+
                 
                 # Composite overlay onto the original image
                 highlight_img = Image.alpha_composite(base_rgba, overlay).convert("RGB")
@@ -300,11 +338,20 @@ class OCRResultScreen(tk.Frame):
         # Show the fields that are extracted/highlighted
         has_extracted = False
         if packet.extracted_fields:
-            lines.append("EXTRACTED DETAILS (HIGHLIGHTED IN YELLOW):")
+            lines.append("EXTRACTED DETAILS:")
             for field, res in packet.extracted_fields.items():
                 if res.value and res.value != "NOT_FOUND":
                     display_name = field.replace('_', ' ').title()
-                    lines.append(f"  {display_name}: {res.value}")
+                    status = getattr(res, 'highlight_status', '')
+                    conf_status = getattr(res, 'status', 'ok')
+                    
+                    suffix = ""
+                    if status == "Highlight unavailable for this field.":
+                        suffix += " [Highlight unavailable]"
+                    if conf_status == "low_confidence":
+                        suffix += " [Low Confidence]"
+                        
+                    lines.append(f"  {display_name}: {res.value}{suffix}")
                     has_extracted = True
             
             if not has_extracted:
@@ -312,6 +359,17 @@ class OCRResultScreen(tk.Frame):
         else:
             lines.append("  (No fields extracted successfully yet)")
             
+        # Developer debug mode overlay (Additional Requirement 7)
+        if hasattr(self, 'show_debug_var') and self.show_debug_var.get():
+            lines.append("\n" + "=" * 15 + " DEVELOPER OCR DEBUG " + "=" * 15)
+            lines.append("ALL OCR WORDS (TEXT, CONFIDENCE, COORDINATES):")
+            for w in packet.ocr_word_map:
+                lines.append(f"  '{w['text']}' (Conf: {w.get('conf', 0.0):.2f}) -> [{w['left']}, {w['top']}, {w['width']}, {w['height']}]")
+            
+            lines.append("\nFIELD BOUNDING BOX MAPPINGS:")
+            for field, res in packet.extracted_fields.items():
+                lines.append(f"  {field}: value='{res.value}', bbox={res.bounding_box}, word_boxes_count={len(res.constituent_boxes or [])}")
+                
         return "\n".join(lines)
 
     def _go_to_classification(self):

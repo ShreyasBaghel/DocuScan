@@ -8,6 +8,23 @@ from utils.logger import get_logger
 logger = get_logger("dl_extractor")
 
 class DLExtractor(BaseExtractor):
+    @staticmethod
+    def contains_field_label(text: str) -> bool:
+        text_lower = text.lower()
+        label_keywords = {
+            "name", "nam", "नाम", "father", "spous", "husband", "wife", "mother",
+            "dob", "birth", "जन्म", "yob", "date", "valid", "till", "validity", "expiry", "exp",
+            "licence", "license", "dl", "class", "cov", "vehicle", "address", "add", "pin", "pincode",
+            "passport", "pan", "aadhaar", "aadhar", "uidai", "gender", "sex", "issue", "doi", "rto"
+        }
+        words = re.split(r'[^a-zA-Z0-9]', text_lower)
+        for w in words:
+            if w in label_keywords:
+                return True
+        if re.search(r'\b[a-zA-Z]{3,}\s*:', text):
+            return True
+        return False
+
     def extract(self, raw_text: str, word_map: List[Dict[str, Any]]) -> Dict[str, FieldResult]:
         results: Dict[str, FieldResult] = {}
         lines = [line.strip() for line in raw_text.split('\n') if line.strip()]
@@ -48,29 +65,43 @@ class DLExtractor(BaseExtractor):
         results["dl_number"] = self.select_best_candidate("dl_number", cands_no_uniq, DocumentType.DRIVING_LICENCE, word_map, raw_text)
         dl_num = results["dl_number"].value if results["dl_number"].value != "NOT_FOUND" else ""
         
+        def get_date_context(char_start: int) -> str:
+            prefix = raw_text[:char_start]
+            line_idx = prefix.count('\n')
+            lines_all = raw_text.split('\n')
+            current_line = lines_all[line_idx] if line_idx < len(lines_all) else ""
+            rel_start = char_start - len("\n".join(lines_all[:line_idx])) - 1 if line_idx > 0 else char_start
+            left_part = current_line[:max(0, rel_start)].lower()
+            above_line = lines_all[line_idx - 1].lower() if line_idx > 0 else ""
+            return above_line + " " + left_part
+
         # 2. DOB candidates
         cands_dob = []
-        for m in re.finditer(r"(?:dob|d\.o\.b|birth|जन्म)\s*[:\-]?\s*([0-9/\-\.]{10})", raw_text, re.IGNORECASE):
-            val_raw = m.group(1)
-            norm = normalize_date(val_raw)
-            if norm:
-                cands_dob.append({
-                    "text": norm,
-                    "raw_text": m.group(0),
-                    "bbox": self.merge_bounding_boxes(m.group(0), word_map),
-                    "ocr_confidence": self.get_field_confidence(norm, word_map),
-                    "page_source": "visual"
-                })
         for m in re.finditer(r"\b(\d{2}[/\-\.]\d{2}[/\-\.]\d{4})\b", raw_text):
             val_raw = m.group(0)
             norm = normalize_date(val_raw)
             if norm:
+                context = get_date_context(m.start())
+                has_dob_label = any(k in context for k in ["dob", "d.o.b", "birth", "जन्म"])
+                has_issue_label = any(k in context for k in ["issue", "doi", "issued", "issue on"])
+                
+                # Rule 2 & 6: DOB must come only from text near DOB/Birth labels, never Issue/DOI.
+                if not has_dob_label or has_issue_label:
+                    continue
+                
+                boost = 0.0
+                if any(k in context for k in ["dob", "d.o.b"]):
+                    boost += 5.0
+                elif any(k in context for k in ["birth", "जन्म"]):
+                    boost += 2.0
+                    
                 cands_dob.append({
                     "text": norm,
                     "raw_text": val_raw,
                     "bbox": self.merge_bounding_boxes(val_raw, word_map),
                     "ocr_confidence": self.get_field_confidence(norm, word_map),
-                    "page_source": "visual"
+                    "page_source": "visual",
+                    "boost": boost
                 })
                 
         seen = set()
@@ -84,21 +115,18 @@ class DLExtractor(BaseExtractor):
         
         # 3. Validity candidates
         cands_val = []
-        for m in re.finditer(r"(?:valid|till|expiry|nt|validity)\s*[:\-]?\s*([0-9/\-\.]{10})", raw_text, re.IGNORECASE):
-            val_raw = m.group(1)
-            norm = normalize_date(val_raw)
-            if norm:
-                cands_val.append({
-                    "text": norm,
-                    "raw_text": m.group(0),
-                    "bbox": self.merge_bounding_boxes(m.group(0), word_map),
-                    "ocr_confidence": self.get_field_confidence(norm, word_map),
-                    "page_source": "visual"
-                })
         for m in re.finditer(r"\b(\d{2}[/\-\.]\d{2}[/\-\.]\d{4})\b", raw_text):
             val_raw = m.group(0)
             norm = normalize_date(val_raw)
             if norm:
+                context = get_date_context(m.start())
+                has_val_label = any(k in context for k in ["valid", "till", "expiry", "val", "expires", "validity"])
+                has_issue_label = any(k in context for k in ["issue", "doi", "issued", "issue on"])
+                
+                # Rule 2: Validity must come only from Valid Till, Validity labels
+                if not has_val_label or has_issue_label:
+                    continue
+                    
                 cands_val.append({
                     "text": norm,
                     "raw_text": val_raw,
@@ -178,10 +206,8 @@ class DLExtractor(BaseExtractor):
             # Also try combining adjacent uppercase lines (Multi-line OCR reconstruction)
             if idx + 1 < first_address_line_idx:
                 next_line = lines[idx+1]
-                if not any(h in next_line.lower() for h in [
-                    "driving", "licence", "license", "authority", "union", "india", "transport", "dl no", "lic no", "licence no", "lic.no",
-                    "sdmw", "s/d/w", "s/o", "d/o", "w/o", "father", "husband", "wife", "mother", "son of", "daughter of", "wife of", "parents"
-                ]):
+                # Rule 5: Name extraction must stop at next field label
+                if not DLExtractor.contains_field_label(next_line):
                     cand_next = extract_uppercase_name(next_line)
                     if cand_next != "NOT_FOUND" and is_valid_name(cand_name + " " + cand_next, dl_num):
                         cands_name.append({
@@ -205,12 +231,21 @@ class DLExtractor(BaseExtractor):
         
         # 5. Vehicle class candidates
         cands_vc = []
+        allowed_classes = {"MCWG", "MCYL", "LMV", "LMV-NT", "TRANS", "HMV", "MCWOG", "COV"}
         for idx, line in enumerate(lines):
             line_upper = line.upper()
+            
+            # Exclude department/government headers
+            if any(h in line_upper for h in ["DEPARTMENT", "GOVERNMENT", "DELHI", "STATE", "UNION", "INDIA"]):
+                continue
+                
+            tokens = re.split(r'[^a-zA-Z0-9-]', line_upper)
             found_classes = []
-            for c_cls in ["MCWG", "LMV", "MCWOG", "HMV", "TRANS", "COV"]:
-                if c_cls in line_upper:
-                    found_classes.append(c_cls)
+            for token in tokens:
+                token_clean = token.strip()
+                if token_clean in allowed_classes:
+                    found_classes.append(token_clean)
+                    
             if found_classes:
                 found_classes = sorted(list(set(found_classes)))
                 val = ", ".join(found_classes)
@@ -232,6 +267,53 @@ class DLExtractor(BaseExtractor):
                 
         results["vehicle_class"] = self.select_best_candidate("vehicle_class", cands_vc_uniq, DocumentType.DRIVING_LICENCE, word_map, raw_text)
         
+        # Cross-Field Validations (Additional Requirement 5)
+        dob_val = results.get("dob")
+        val_val = results.get("validity")
+        
+        # 1. Validity must be later than DOB
+        if dob_val and dob_val.value != "NOT_FOUND" and val_val and val_val.value != "NOT_FOUND":
+            try:
+                dob_y = int(dob_val.value.split("-")[0])
+                val_y = int(val_val.value.split("-")[0])
+                if val_y <= dob_y:
+                    logger.warning(f"Validation Reject: Validity ({val_val.value}) is not later than DOB ({dob_val.value})")
+                    val_val.value = "NOT_FOUND"
+                    val_val.confidence = 0.0
+                    val_val.bounding_box = None
+                    val_val.constituent_boxes = None
+            except Exception:
+                pass
+
+        # 2. Expiry/Validity must be later than issue date/year
+        issue_year = None
+        dl_val = results.get("dl_number")
+        if dl_val and dl_val.value != "NOT_FOUND":
+            dl_clean = re.sub(r'[^a-zA-Z0-9]', '', dl_val.value).upper()
+            if len(dl_clean) >= 8:
+                year_str = dl_clean[4:8]
+                if year_str.isdigit():
+                    issue_year = int(year_str)
+
+        if issue_year and val_val and val_val.value != "NOT_FOUND":
+            try:
+                val_y = int(val_val.value.split("-")[0])
+                if val_y <= issue_year:
+                    logger.warning(f"Validation Reject: Validity ({val_val.value}) is not later than Issue Year ({issue_year})")
+                    val_val.value = "NOT_FOUND"
+                    val_val.confidence = 0.0
+                    val_val.bounding_box = None
+                    val_val.constituent_boxes = None
+            except Exception:
+                pass
+
+        # Field-to-BoundingBox Mapping (Single Source of Truth)
+        for field_name, field_res in results.items():
+            if field_res.value != "NOT_FOUND":
+                bbox, constituent = self.map_field_to_bbox(field_name, field_res.value, word_map)
+                field_res.bounding_box = bbox
+                field_res.constituent_boxes = constituent
+                
         return results
 
     def validate_candidate(self, field_name: str, text: str, doc_type: DocumentType, candidate: Dict[str, Any]) -> tuple[bool, str]:

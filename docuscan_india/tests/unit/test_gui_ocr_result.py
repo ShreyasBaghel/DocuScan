@@ -39,17 +39,21 @@ def test_get_clean_ocr_display():
         "dob": FieldResult(value="2006-01-01", raw_text="Date of Birth: 01/01/2006", confidence=0.92)
     }
     
+    # Set mock statuses for testing suffixes
+    packet.extracted_fields["pan_number"].highlight_status = "Highlight unavailable for this field."
+    packet.extracted_fields["dob"].status = "low_confidence"
+
     clean_text = screen._get_clean_ocr_display(packet)
     
     # Check classification info displays properly
     assert "CLASSIFIED DOCUMENT: PAN" in clean_text
     assert "CLASSIFICATION CONFIDENCE: 95.0%" in clean_text
     
-    # Check extracted details are rendered
-    assert "Pan Number: HXDPB8430A" in clean_text
+    # Check extracted details are rendered with appropriate suffixes
+    assert "Pan Number: HXDPB8430A [Highlight unavailable]" in clean_text
     assert "Name: SHREYAS BAGHEL" in clean_text
     assert "Father Name: SANJEEV KUMAR" in clean_text
-    assert "Dob: 2006-01-01" in clean_text
+    assert "Dob: 2006-01-01 [Low Confidence]" in clean_text
     
     # Check that garbage/noise lines are successfully removed
     assert "=== GARBAGE NOISE LINE ===" not in clean_text
@@ -61,3 +65,4 @@ def test_get_clean_ocr_display():
     assert "Permanent Account Number Card" not in clean_text
     
     root.destroy()
+

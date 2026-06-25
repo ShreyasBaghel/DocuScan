@@ -17,6 +17,24 @@ class FieldResult:
     confidence: float
     bounding_box: Optional[Dict[str, int]] = None  # e.g., {'x': 0, 'y': 0, 'w': 0, 'h': 0}
     constituent_boxes: Optional[List[Dict[str, Any]]] = None
+    status: str = "ok"
+
+    @property
+    def word_boxes(self) -> Optional[List[Dict[str, Any]]]:
+        return self.constituent_boxes
+
+    @word_boxes.setter
+    def word_boxes(self, value: Optional[List[Dict[str, Any]]]):
+        self.constituent_boxes = value
+
+    @property
+    def combined_bbox(self) -> Optional[Dict[str, int]]:
+        return self.bounding_box
+
+    @combined_bbox.setter
+    def combined_bbox(self, value: Optional[Dict[str, int]]):
+        self.bounding_box = value
+
 
 
 @dataclass

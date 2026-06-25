@@ -118,12 +118,7 @@
             "value": "1990-08-15",
             "raw_text": "15/08/1990",
             "confidence": 0.9533333333333334,
-            "bounding_box": {
-                "x": 25,
-                "y": 30,
-                "w": 20,
-                "h": 5
-            }
+            "bounding_box": null
         },
         "name": {
             "value": "KARTIK KAPOOR",
