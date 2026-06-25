@@ -26,7 +26,7 @@
                 <p>Intelligent OCR & Verification System</p>
             </div>
             <div>
-                <span class="status-badge status-genuine">Genuine</span>
+                <span class="status-badge status-suspicious">Suspicious</span>
             </div>
         </div>
 
@@ -36,13 +36,13 @@
                 <th>Document Type</th>
                 <td>PAN</td>
                 <th>Fraud Risk Score</th>
-                <td class="risk-score" style="color: #28a745">0/100</td>
+                <td class="risk-score" style="color: #dc3545">100/100</td>
             </tr>
             <tr>
                 <th>Source File</th>
                 <td>dummy_path.jpg</td>
                 <th>Timestamp</th>
-                <td>2026-06-25 11:40:31</td>
+                <td>2026-06-25 12:18:09</td>
             </tr>
         </table>
 
@@ -64,21 +64,21 @@
                 </tr>
                 
                 <tr>
-                    <td><strong>Name</strong></td>
-                    <td>MERA AADHAAR MERI PEHCHAN</td>
-                    <td>95.0%</td>
+                    <td><strong>Dob</strong></td>
+                    <td>1990-08-15</td>
+                    <td>93.3%</td>
                 </tr>
                 
                 <tr>
-                    <td><strong>Father Name</strong></td>
+                    <td><strong>Name</strong></td>
                     <td>KARTIK KAPOOR</td>
                     <td>90.0%</td>
                 </tr>
                 
                 <tr>
-                    <td><strong>Dob</strong></td>
-                    <td>1990-08-15</td>
-                    <td>93.3%</td>
+                    <td><strong>Father Name</strong></td>
+                    <td>SHREYAS BAGHEL</td>
+                    <td>90.0%</td>
                 </tr>
                 
             </tbody>
@@ -116,7 +116,7 @@
                     <td style="color: #28a745; font-weight: bold;">
                         PASS
                     </td>
-                    <td>Expected: Uppercase Alphabetic | Actual: MERA AADHAAR MERI PEHCHAN</td>
+                    <td>Expected: Uppercase Alphabetic | Actual: KARTIK KAPOOR</td>
                 </tr>
                 
                 <tr>
@@ -124,7 +124,7 @@
                     <td style="color: #28a745; font-weight: bold;">
                         PASS
                     </td>
-                    <td>Expected: Uppercase Alphabetic | Actual: KARTIK KAPOOR</td>
+                    <td>Expected: Uppercase Alphabetic | Actual: SHREYAS BAGHEL</td>
                 </tr>
                 
                 <tr>
@@ -140,12 +140,32 @@
                     <td style="color: #dc3545; font-weight: bold;">
                         FAIL
                     </td>
-                    <td>Expected: 5th character of PAN 'B' matches surname first letter 'P' | Actual: PAN: HXDPB8430A, Name: MERA AADHAAR MERI PEHCHAN (Mismatch)</td>
+                    <td>Expected: 5th character of PAN 'B' matches surname first letter 'K' | Actual: PAN: HXDPB8430A, Name: KARTIK KAPOOR (Mismatch)</td>
                 </tr>
                 
             </tbody>
         </table>
 
+        
+        <div class="section-title">Fraud Signals Flagged</div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Detector</th>
+                    <th>Signal</th>
+                    <th>Risk Impact</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+                <tr>
+                    <td>FormatConsistencyChecker</td>
+                    <td><strong>overlapping_fields_detected</strong><br><small>Extracted fields 'name' and 'father_name' overlap by 100.0%. Possible card forgery.</small></td>
+                    <td style="color: #dc3545; font-weight: bold;">+100</td>
+                </tr>
+                
+            </tbody>
+        </table>
         
     </div>
 </body>

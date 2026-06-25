@@ -42,7 +42,7 @@
                 <th>Source File</th>
                 <td>indianpp1.jpg</td>
                 <th>Timestamp</th>
-                <td>2026-06-17 11:22:01</td>
+                <td>2026-06-25 12:24:17</td>
             </tr>
         </table>
 
@@ -58,63 +58,63 @@
             <tbody>
                 
                 <tr>
-                    <td><strong>Passport Number</strong></td>
-                    <td>Z9999999</td>
-                    <td>99.0%</td>
-                </tr>
-                
-                <tr>
-                    <td><strong>Name</strong></td>
-                    <td>KUMAR G SPECIMEN</td>
-                    <td>73.0%</td>
-                </tr>
-                
-                <tr>
                     <td><strong>Nationality</strong></td>
-                    <td>IND</td>
-                    <td>96.0%</td>
+                    <td>0IN</td>
+                    <td>26.8%</td>
                 </tr>
                 
                 <tr>
-                    <td><strong>Dob</strong></td>
-                    <td>1985-05-24</td>
+                    <td><strong>Mrz Line1</strong></td>
+                    <td>P<<SPECIMEN<<KUMAR<KG<<<<<<<<IDSDDDSISSSDIDI</td>
                     <td>99.0%</td>
-                </tr>
-                
-                <tr>
-                    <td><strong>Expiry</strong></td>
-                    <td>2023-01-01</td>
-                    <td>53.8%</td>
                 </tr>
                 
                 <tr>
                     <td><strong>Sex</strong></td>
                     <td>M</td>
-                    <td>81.0%</td>
-                </tr>
-                
-                <tr>
-                    <td><strong>Place Of Birth</strong></td>
-                    <td>MUMBAI, MAHARASHTRA</td>
-                    <td>3.0%</td>
+                    <td>26.8%</td>
                 </tr>
                 
                 <tr>
                     <td><strong>Place Of Issue</strong></td>
-                    <td>BANGALORE</td>
-                    <td>96.0%</td>
+                    <td>NOT_FOUND</td>
+                    <td>0.0%</td>
                 </tr>
                 
                 <tr>
-                    <td><strong>Mrz Line1</strong></td>
-                    <td>P<<SPECIMEN<<KUMAR<G<<<<<<<<<<<S66SKSSE<<<<<</td>
-                    <td>99.0%</td>
+                    <td><strong>Passport Number</strong></td>
+                    <td>Z9999999</td>
+                    <td>26.8%</td>
+                </tr>
+                
+                <tr>
+                    <td><strong>Expiry</strong></td>
+                    <td>2023-01-01</td>
+                    <td>54.2%</td>
+                </tr>
+                
+                <tr>
+                    <td><strong>Dob</strong></td>
+                    <td>1985-05-24</td>
+                    <td>54.2%</td>
                 </tr>
                 
                 <tr>
                     <td><strong>Mrz Line2</strong></td>
-                    <td>Z9999999<0IND8505246M2300000<<<<<<<<<<<<<<S4</td>
+                    <td>Z9999999<O0IND8505246M2300000<<<<<<<<<<<<<<<</td>
                     <td>99.0%</td>
+                </tr>
+                
+                <tr>
+                    <td><strong>Name</strong></td>
+                    <td>KUMAR KG SPECIMEN</td>
+                    <td>26.8%</td>
+                </tr>
+                
+                <tr>
+                    <td><strong>Place Of Birth</strong></td>
+                    <td>MUMBAI, MAHARASHTRA .</td>
+                    <td>95.0%</td>
                 </tr>
                 
             </tbody>
@@ -160,7 +160,7 @@
                     <td style="color: #28a745; font-weight: bold;">
                         PASS
                     </td>
-                    <td>Expected: Uppercase Alphabetic | Actual: KUMAR G SPECIMEN</td>
+                    <td>Expected: Uppercase Alphabetic | Actual: KUMAR KG SPECIMEN</td>
                 </tr>
                 
                 <tr>
@@ -189,26 +189,26 @@
                 
                 <tr>
                     <td>Cross Dob</td>
-                    <td style="color: #28a745; font-weight: bold;">
-                        PASS
+                    <td style="color: #dc3545; font-weight: bold;">
+                        FAIL
                     </td>
-                    <td>Expected: Visual DOB matches MRZ DOB | Actual: Visual: 1985-05-24, MRZ: 850524</td>
+                    <td>Expected: Visual DOB matches MRZ DOB | Actual: Visual: 1985-05-24, MRZ: D85052 (Mismatch)</td>
                 </tr>
                 
                 <tr>
                     <td>Mrz Passport Checksum</td>
-                    <td style="color: #28a745; font-weight: bold;">
-                        PASS
+                    <td style="color: #dc3545; font-weight: bold;">
+                        FAIL
                     </td>
-                    <td>Expected: Check digit 0 matches | Actual: Passport: Z9999999<, Check digit: 0</td>
+                    <td>Expected: Check digit O matches | Actual: Passport: Z9999999<, Check digit: O</td>
                 </tr>
                 
                 <tr>
                     <td>Mrz Dob Checksum</td>
-                    <td style="color: #28a745; font-weight: bold;">
-                        PASS
+                    <td style="color: #dc3545; font-weight: bold;">
+                        FAIL
                     </td>
-                    <td>Expected: Check digit 6 matches | Actual: DOB: 850524, Check digit: 6</td>
+                    <td>Expected: Check digit 4 matches | Actual: DOB: D85052, Check digit: 4</td>
                 </tr>
                 
                 <tr>
@@ -216,7 +216,7 @@
                     <td style="color: #dc3545; font-weight: bold;">
                         FAIL
                     </td>
-                    <td>Expected: Check digit 0 matches | Actual: Expiry: 230000, Check digit: 0</td>
+                    <td>Expected: Check digit 0 matches | Actual: Expiry: M23000, Check digit: 0</td>
                 </tr>
                 
                 <tr>
@@ -224,7 +224,7 @@
                     <td style="color: #dc3545; font-weight: bold;">
                         FAIL
                     </td>
-                    <td>Expected: Composite check digit 4 matches | Actual: Composite data: Z9999999<085052..., Check: 4</td>
+                    <td>Expected: Composite check digit < matches | Actual: Composite data: Z9999999<OD8505..., Check: <</td>
                 </tr>
                 
             </tbody>

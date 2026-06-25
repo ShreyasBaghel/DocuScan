@@ -25,7 +25,7 @@
             "top": 946,
             "width": 459,
             "height": 100,
-            "conf": 0.96
+            "conf": 0.95
         },
         {
             "text": "FATHER",
@@ -53,38 +53,33 @@
             "confidence": 0.0,
             "bounding_box": null
         },
-        "name": {
-            "value": "RARE",
-            "raw_text": "RARE",
-            "confidence": 0.51,
-            "bounding_box": {
-                "x": 1814,
-                "y": 1180,
-                "w": 21,
-                "h": 11
-            }
-        },
-        "father_name": {
-            "value": "AVES",
-            "raw_text": "AVES",
-            "confidence": 0.29,
-            "bounding_box": {
-                "x": 1823,
-                "y": 1190,
-                "w": 44,
-                "h": 14
-            }
-        },
         "dob": {
             "value": "1990-01-01",
             "raw_text": "01/01/1990",
-            "confidence": 0.9559999999999998,
+            "confidence": 0.954,
             "bounding_box": {
                 "x": 221,
                 "y": 1211,
                 "w": 532,
                 "h": 96
             }
+        },
+        "name": {
+            "value": "NOG",
+            "raw_text": "NOG",
+            "confidence": 0.29,
+            "bounding_box": {
+                "x": 1822,
+                "y": 1182,
+                "w": 32,
+                "h": 8
+            }
+        },
+        "father_name": {
+            "value": "ABCDE",
+            "raw_text": "ABCDE\u2018",
+            "confidence": 0.13,
+            "bounding_box": null
         }
     },
     "validation_results": [
@@ -104,13 +99,13 @@
             "status": "PASS",
             "field_name": "name",
             "expected": "Uppercase Alphabetic",
-            "actual": "RARE"
+            "actual": "NOG"
         },
         {
             "status": "PASS",
             "field_name": "father_name",
             "expected": "Uppercase Alphabetic",
-            "actual": "AVES"
+            "actual": "ABCDE"
         },
         {
             "status": "PASS",

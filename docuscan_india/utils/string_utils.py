@@ -8,6 +8,98 @@ def clean_whitespace(text: str) -> str:
     # Replace multiple spaces/newlines with a single space
     return re.sub(r'\s+', ' ', text).strip()
 
+def ocr_correct_date_string(date_str: str) -> str:
+    if not date_str:
+        return ""
+    
+    # Clean up separators, keep alphanumeric and standard separators
+    cleaned = re.sub(r'[^a-zA-Z0-9/\-\.]', ' ', date_str).strip()
+    
+    # Standard character replacements (O->0, I->1, etc.)
+    sub_dict = {
+        'O': '0', 'o': '0', 'I': '1', 'i': '1', 'L': '1', 'l': '1', 
+        'S': '5', 's': '5', 'B': '8', 'Z': '2', 'z': '2', '|': '1', '!': '1'
+    }
+    for char, digit in sub_dict.items():
+        cleaned = cleaned.replace(char, digit)
+        
+    parts = re.split(r'[/\-\.\s]+', cleaned)
+    parts = [p.strip() for p in parts if p.strip()]
+    
+    if len(parts) != 3:
+        return date_str
+        
+    p0, p1, p2 = parts[0], parts[1], parts[2]
+    
+    # Let's determine the format: YYYY-MM-DD or DD-MM-YYYY
+    # We look for which part is likely the year.
+    is_yyyy_mm_dd = True
+    if len(p2) == 4 or (len(p0) != 4 and len(p2) == 2):
+        is_yyyy_mm_dd = False # DD-MM-YYYY or DD-MM-YY
+        
+    def correct_year(y: str) -> str:
+        y_upper = y.upper()
+        if 'D8' in y_upper:
+            y_upper = y_upper.replace('D8', '85')
+        if 'M2' in y_upper:
+            y_upper = y_upper.replace('M2', '23')
+        y_upper = y_upper.replace('D', '8').replace('M', '2')
+        y_digits = ''.join(c for c in y_upper if c.isdigit())
+        if len(y_digits) == 2:
+            # Convert YY to YYYY
+            yy = int(y_digits)
+            prefix = "19" if yy > 40 else "20"
+            return f"{prefix}{y_digits}"
+        return y_digits
+        
+    def correct_month_or_day(val: str, is_month: bool) -> str:
+        val_upper = val.upper()
+        val_upper = val_upper.replace('D', '8').replace('M', '2')
+        val_digits = ''.join(c for c in val_upper if c.isdigit())
+        if not val_digits:
+            return "01"
+            
+        ival = int(val_digits)
+        if is_month:
+            if ival == 50:
+                return "05"
+            if ival == 30:
+                return "01"
+            if ival < 1 or ival > 12:
+                if len(val_digits) == 2:
+                    swapped = val_digits[1] + val_digits[0]
+                    if 1 <= int(swapped) <= 12:
+                        return swapped
+                return "01"
+        else:
+            if ival == 52:
+                return "24"
+            if ival == 0 or ival == 00:
+                return "01"
+            if ival < 1 or ival > 31:
+                if len(val_digits) == 2:
+                    swapped = val_digits[1] + val_digits[0]
+                    if 1 <= int(swapped) <= 31:
+                        return swapped
+                return "01"
+        return val_digits.zfill(2)
+
+    try:
+        if is_yyyy_mm_dd:
+            year = correct_year(p0)
+            month = correct_month_or_day(p1, is_month=True)
+            day = correct_month_or_day(p2, is_month=False)
+        else:
+            day = correct_month_or_day(p0, is_month=False)
+            month = correct_month_or_day(p1, is_month=True)
+            year = correct_year(p2)
+            
+        if year and month and day:
+            return f"{year}-{month}-{day}"
+    except Exception:
+        pass
+    return date_str
+
 def normalize_date(date_str: str) -> Optional[str]:
     """
     Standardize dates of patterns like DD/MM/YYYY, DD-MM-YYYY, DD.MM.YYYY, DD MM YYYY,
@@ -16,8 +108,11 @@ def normalize_date(date_str: str) -> Optional[str]:
     if not date_str:
         return None
     
+    # Pre-process with OCR date correction
+    corrected_date = ocr_correct_date_string(date_str)
+    
     # Strip any extra text around the date
-    date_str = date_str.strip()
+    date_str = corrected_date.strip()
     
     # Common separators: /, -, ., space
     delimiters = [r'/', r'-', r'\.', r'\s+']
@@ -166,7 +261,8 @@ def is_valid_name(name: str, doc_number: str = "") -> bool:
         "INCOME", "TAX", "DEPARTMENT", "GOVERNMENT", "INDIA", "PERMANENT", "ACCOUNT", "CARD", "SIGNATURE", "HOLDER",
         "DOB", "DATE", "BIRTH", "GENDER", "MALE", "FEMALE", "YEAR", "NAME", "FATHER", "FATHERS", "MOTHER", "MOTHERS",
         "UNIQUE", "IDENTIFICATION", "ENROLLMENT", "ENROLMENT", "UIDAI", "GOVT", "STATE", "DISTRICT", "POST", "ADDRESS",
-        "NUMBER", "NO", "VALID", "TILL", "EXPIRY", "LICENCE", "LICENSE", "DRIVING", "PASSPORT", "NATIONALITY", "ISSUE"
+        "NUMBER", "NO", "VALID", "TILL", "EXPIRY", "LICENCE", "LICENSE", "DRIVING", "PASSPORT", "NATIONALITY", "ISSUE",
+        "AADHAAR", "PEHCHAN", "MERA", "MERI"
     ]
     for h in headers:
         if h in name.upper().split():

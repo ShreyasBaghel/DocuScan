@@ -1,7 +1,7 @@
 import re
 from typing import Dict, List, Any
 from extractors.base_extractor import BaseExtractor
-from utils.document_packet import FieldResult
+from utils.document_packet import FieldResult, DocumentType
 from utils.string_utils import normalize_date, clean_whitespace, extract_uppercase_name, is_valid_name, ocr_correct_digits
 from validators.checksum_validator import ChecksumValidator
 
@@ -76,50 +76,120 @@ class PassportExtractor(BaseExtractor):
         if mrz_line1 and mrz_line2:
             mrz_results = self._extract_from_mrz(mrz_line1, mrz_line2, word_map)
 
+        # Validate MRZ check digits before accepting
+        mrz_valid = False
+        if mrz_line1 and mrz_line2:
+            mrz_check_results = ChecksumValidator.validate_passport_mrz(mrz_line1, mrz_line2)
+            mrz_valid = all(r.status == "PASS" for r in mrz_check_results)
+
         # 6. Merge/Select best results prioritizing MRZ (falling back to visual)
         fields_to_merge = ["passport_number", "name", "nationality", "dob", "expiry", "sex"]
         for f in fields_to_merge:
             mrz_res = mrz_results.get(f)
             vis_res = visual_results.get(f)
             
-            # Helper to check if a date is invalid (contains '00' or similar)
-            def is_valid_extracted_date(val: str) -> bool:
-                if not val or val == "NOT_FOUND" or "-" not in val:
-                    return False
-                parts = val.split("-")
-                if len(parts) != 3:
-                    return False
-                y, m, d = parts[0], parts[1], parts[2]
-                if not (y.isdigit() and m.isdigit() and d.isdigit()):
-                    return False
-                iy, im, id_val = int(y), int(m), int(d)
-                if im < 1 or im > 12 or id_val < 1 or id_val > 31:
-                    return False
-                return True
-
-            # Standard selection logic
+            cands = []
             if mrz_res and mrz_res.value != "NOT_FOUND":
-                if f in ["dob", "expiry"]:
-                    # If date from MRZ is invalid, check visual zone date
-                    if not is_valid_extracted_date(mrz_res.value) and vis_res and vis_res.value != "NOT_FOUND" and is_valid_extracted_date(vis_res.value):
-                        results[f] = vis_res
-                    else:
-                        results[f] = mrz_res
-                elif f == "passport_number":
-                    # Check format of MRZ passport number: 1 letter, 7 digits
-                    # If it fails format but visual passport number passes, use visual
-                    mrz_valid = bool(re.match(r"^[A-Z][0-9]{7}$", mrz_res.value))
-                    vis_valid = vis_res and vis_res.value != "NOT_FOUND" and bool(re.match(r"^[A-Z][0-9]{7}$", vis_res.value))
-                    if not mrz_valid and vis_valid:
-                        results[f] = vis_res
-                    else:
-                        results[f] = mrz_res
-                else:
-                    results[f] = mrz_res
-            elif vis_res and vis_res.value != "NOT_FOUND":
-                results[f] = vis_res
-            else:
-                results[f] = FieldResult(value="NOT_FOUND", raw_text="", confidence=0.0, bounding_box=None)
+                cands.append({
+                    "text": mrz_res.value,
+                    "raw_text": mrz_res.raw_text,
+                    "bbox": mrz_res.bounding_box,
+                    "ocr_confidence": mrz_res.confidence,
+                    "page_source": "mrz",
+                    "mrz_valid": mrz_valid
+                })
+            if vis_res and vis_res.value != "NOT_FOUND":
+                cands.append({
+                    "text": vis_res.value,
+                    "raw_text": vis_res.raw_text,
+                    "bbox": vis_res.bounding_box,
+                    "ocr_confidence": vis_res.confidence,
+                    "page_source": "visual",
+                    "mrz_valid": mrz_valid
+                })
+                
+            # Free text OCR candidates
+            if f == "passport_number":
+                for m in re.finditer(r"\b([A-Z][0-9OISZB]{7})\b", raw_text):
+                    val = m.group(1)
+                    corrected = val[0].upper() + ocr_correct_digits(val[1:])
+                    cands.append({
+                        "text": corrected,
+                        "raw_text": m.group(0),
+                        "bbox": self.merge_bounding_boxes(m.group(0), word_map),
+                        "ocr_confidence": self.get_field_confidence(corrected, word_map),
+                        "page_source": "free_text",
+                        "mrz_valid": mrz_valid
+                    })
+            elif f in ["dob", "expiry"]:
+                date_patterns = [
+                    r'\b\d{1,2}[/\-\.]\d{1,2}[/\-\.]\d{4}\b',
+                    r'\b\d{4}[/\-\.]\d{1,2}[/\-\.]\d{1,2}\b',
+                    r'\b\d{1,2}[/\-\.]\d{1,2}[/\-\.]\d{2}\b',
+                    r'\b[0-9OISZB]{4}[/\-\.][0-9OISZB]{1,2}[/\-\.][0-9OISZB]{1,2}\b'
+                ]
+                for pattern in date_patterns:
+                    for match in re.finditer(pattern, raw_text):
+                        val_raw = match.group(0)
+                        norm = normalize_date(val_raw)
+                        if norm:
+                            cands.append({
+                                "text": norm,
+                                "raw_text": val_raw,
+                                "bbox": self.merge_bounding_boxes(val_raw, word_map),
+                                "ocr_confidence": self.get_field_confidence(norm, word_map),
+                                "page_source": "free_text",
+                                "mrz_valid": mrz_valid
+                            })
+            elif f == "name":
+                for line in raw_lines:
+                    if any(lbl in line.lower() for lbl in ["passport", "republic", "india", "nationality", "date", "birth", "sex", "expiry", "issue", "place"]):
+                        continue
+                    if sum(c.isdigit() for c in line) >= 3:
+                        continue
+                    candidate_name = extract_uppercase_name(line)
+                    if candidate_name != "NOT_FOUND" and is_valid_name(candidate_name):
+                        cands.append({
+                            "text": candidate_name,
+                            "raw_text": line,
+                            "bbox": self.merge_bounding_boxes(line, word_map),
+                            "ocr_confidence": self.get_field_confidence(candidate_name, word_map),
+                            "page_source": "free_text",
+                            "mrz_valid": mrz_valid
+                        })
+            elif f == "nationality":
+                cands.append({
+                    "text": "IND",
+                    "raw_text": "INDIAN",
+                    "bbox": None,
+                    "ocr_confidence": 0.85,
+                    "page_source": "free_text",
+                    "mrz_valid": mrz_valid
+                })
+            elif f == "sex":
+                for line in raw_lines:
+                    m_standalone = re.search(r"\b([MF])\b", line)
+                    if m_standalone:
+                        g = m_standalone.group(1).upper()
+                        cands.append({
+                            "text": g,
+                            "raw_text": m_standalone.group(0),
+                            "bbox": self.merge_bounding_boxes(m_standalone.group(0), word_map),
+                            "ocr_confidence": self.get_field_confidence(g, word_map),
+                            "page_source": "free_text",
+                            "mrz_valid": mrz_valid
+                        })
+
+            # Deduplicate by text
+            seen_texts = set()
+            unique_cands = []
+            for c in cands:
+                t = c["text"].strip().upper()
+                if t not in seen_texts:
+                    seen_texts.add(t)
+                    unique_cands.append(c)
+
+            results[f] = self.select_best_candidate(f, unique_cands, DocumentType.PASSPORT, word_map, raw_text)
 
         # Non-MRZ visual fields
         results["place_of_birth"] = visual_results.get("place_of_birth", FieldResult(value="NOT_FOUND", raw_text="", confidence=0.0, bounding_box=None))

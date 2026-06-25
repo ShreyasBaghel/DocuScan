@@ -244,8 +244,49 @@ class VerificationPipeline:
             packet.classification_confidence = class_conf
             logger.info(f"Stage 3 (Classification) completed. Type: {doc_type.value}, Conf: {class_conf:.2f}")
             
+            # Classification Fallback
+            if packet.document_type == DocumentType.UNKNOWN and packet.ocr_confidence > 0.60:
+                from validators.checksum_validator import ChecksumValidator
+                from utils.string_utils import ocr_correct_digits
+                import re
+                
+                flat_text = " ".join(packet.ocr_raw_text.split())
+                has_aadhaar = False
+                for m in re.finditer(r"\b([0-9OISZB]{4})\s+([0-9OISZB]{4})\s+([0-9OISZB]{4})\b", flat_text, re.IGNORECASE):
+                    corrected = ocr_correct_digits(m.group(0).replace(" ", ""))
+                    if ChecksumValidator.validate_verhoeff(corrected):
+                        has_aadhaar = True
+                        break
+                if not has_aadhaar:
+                    for m in re.finditer(r"\b([0-9OISZB]{12})\b", flat_text, re.IGNORECASE):
+                        corrected = ocr_correct_digits(m.group(0))
+                        if ChecksumValidator.validate_verhoeff(corrected):
+                            has_aadhaar = True
+                            break
+                            
+                has_pan = bool(re.search(r"\b([A-Z]{5}[0-9OISZB]{4}[A-Z])\b", flat_text, re.IGNORECASE))
+                
+                has_passport = (
+                    bool(re.search(r"\b([A-Z][0-9OISZB]{7})\b", flat_text, re.IGNORECASE)) or
+                    ("p<ind" in flat_text.lower()) or
+                    (flat_text.upper().count("<") >= 10)
+                )
+                
+                if has_passport:
+                    packet.document_type = DocumentType.PASSPORT
+                    packet.classification_confidence = 0.65
+                    logger.info("Classification Fallback: Re-classified UNKNOWN as PASSPORT due to pattern evidence.")
+                elif has_aadhaar:
+                    packet.document_type = DocumentType.AADHAAR
+                    packet.classification_confidence = 0.65
+                    logger.info("Classification Fallback: Re-classified UNKNOWN as AADHAAR due to pattern evidence.")
+                elif has_pan:
+                    packet.document_type = DocumentType.PAN
+                    packet.classification_confidence = 0.65
+                    logger.info("Classification Fallback: Re-classified UNKNOWN as PAN due to pattern evidence.")
+            
             # Run extraction early if classification is successful and known
-            if doc_type != DocumentType.UNKNOWN:
+            if packet.document_type != DocumentType.UNKNOWN:
                 try:
                     self._extract_fields(packet)
                     logger.info(f"Ran early extraction for classification display. Fields: {list(packet.extracted_fields.keys())}")

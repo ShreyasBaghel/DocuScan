@@ -1,7 +1,7 @@
 import re
 from typing import Dict, List, Any
 from extractors.base_extractor import BaseExtractor
-from utils.document_packet import FieldResult
+from utils.document_packet import FieldResult, DocumentType
 from utils.string_utils import normalize_date, clean_whitespace, extract_uppercase_name, is_valid_name, ocr_correct_digits
 from validators.checksum_validator import ChecksumValidator
 
@@ -10,154 +10,179 @@ class AadhaarExtractor(BaseExtractor):
         results: Dict[str, FieldResult] = {}
         lines = [line.strip() for line in raw_text.split('\n') if line.strip()]
 
-        # 1. Aadhaar Number Extraction (OCR-Tolerant + Verhoeff Validated)
-        aadhaar_num = "NOT_FOUND"
-        aadhaar_raw = ""
+        # 1. Aadhaar Number candidates
+        cands_no = []
         
-        # A. Search for 12 digits/alphanumeric tokens, space separated or consecutive
-        # e.g., 1234 5678 9012 or 123456789012 (allowing substitutions like OISZB)
-        candidates = []
-        # Find three groups of 4 alphanumeric chars
+        # Soft / strict regex matches
         for m in re.finditer(r"\b([0-9OISZB]{4})\s+([0-9OISZB]{4})\s+([0-9OISZB]{4})\b", raw_text, re.IGNORECASE):
-            raw_match = f"{m.group(1)}{m.group(2)}{m.group(3)}"
-            corrected = ocr_correct_digits(raw_match)
-            if ChecksumValidator.validate_verhoeff(corrected):
-                candidates.append((corrected, m.group(0)))
-                
-        # Find 12 consecutive alphanumeric chars
+            raw_match = m.group(0)
+            corrected = ocr_correct_digits(raw_match.replace(" ", ""))
+            cands_no.append({
+                "text": corrected,
+                "raw_text": raw_match,
+                "bbox": self.merge_bounding_boxes(raw_match, word_map),
+                "ocr_confidence": self.get_field_confidence(corrected, word_map),
+                "page_source": "visual"
+            })
+            
         for m in re.finditer(r"\b([0-9OISZB]{12})\b", raw_text, re.IGNORECASE):
-            raw_match = m.group(1)
+            raw_match = m.group(0)
             corrected = ocr_correct_digits(raw_match)
-            if ChecksumValidator.validate_verhoeff(corrected):
-                candidates.append((corrected, m.group(0)))
-
-        # Also search in the flat text (removing newlines)
+            cands_no.append({
+                "text": corrected,
+                "raw_text": raw_match,
+                "bbox": self.merge_bounding_boxes(raw_match, word_map),
+                "ocr_confidence": self.get_field_confidence(corrected, word_map),
+                "page_source": "visual"
+            })
+            
+        # Standard flat text search
         flat_text = " ".join(raw_text.split())
         for m in re.finditer(r"\b([0-9OISZB]{4})\s+([0-9OISZB]{4})\s+([0-9OISZB]{4})\b", flat_text, re.IGNORECASE):
-            raw_match = f"{m.group(1)}{m.group(2)}{m.group(3)}"
-            corrected = ocr_correct_digits(raw_match)
-            if ChecksumValidator.validate_verhoeff(corrected):
-                candidates.append((corrected, m.group(0)))
+            raw_match = m.group(0)
+            corrected = ocr_correct_digits(raw_match.replace(" ", ""))
+            cands_no.append({
+                "text": corrected,
+                "raw_text": raw_match,
+                "bbox": self.merge_bounding_boxes(raw_match, word_map),
+                "ocr_confidence": self.get_field_confidence(corrected, word_map),
+                "page_source": "visual"
+            })
 
-        if candidates:
-            # Take the first candidate that validated successfully
-            aadhaar_num, aadhaar_raw = candidates[0]
-
-        # B. Fallback to strict regex if Verhoeff fails on all soft candidates (could be invalid test data)
-        if aadhaar_num == "NOT_FOUND":
-            m_num = re.search(r"\b(\d{4})\s+(\d{4})\s+(\d{4})\b", raw_text)
-            if m_num:
-                aadhaar_num = f"{m_num.group(1)}{m_num.group(2)}{m_num.group(3)}"
-                aadhaar_raw = m_num.group(0)
-            else:
-                m_num_consec = re.search(r"\b(\d{12})\b", raw_text)
-                if m_num_consec:
-                    aadhaar_num = m_num_consec.group(1)
-                    aadhaar_raw = m_num_consec.group(0)
-
-        if aadhaar_num != "NOT_FOUND":
-            bbox = self.merge_bounding_boxes(aadhaar_raw, word_map)
-            conf = self.get_field_confidence(aadhaar_num, word_map)
-            results["aadhaar_number"] = FieldResult(value=aadhaar_num, raw_text=aadhaar_raw, confidence=conf, bounding_box=bbox)
-        else:
-            results["aadhaar_number"] = FieldResult(value="NOT_FOUND", raw_text="", confidence=0.0, bounding_box=None)
-
-        # 2. DOB Extraction
-        dob_val = "NOT_FOUND"
-        dob_raw = ""
-        dob_pattern = r"(?:dob|yob|birth|जन्म|तिथि|वर्ष)\s*[:\-]?\s*([0-9/\-\.\s]{4,10})"
-        m_dob = re.search(dob_pattern, raw_text, re.IGNORECASE)
-        if m_dob:
-            dob_raw = m_dob.group(0)
-            norm_date = normalize_date(m_dob.group(1))
-            if norm_date:
-                dob_val = norm_date
-            else:
-                y_match = re.search(r"\b(19\d{2}|20\d{2})\b", m_dob.group(1))
-                if y_match:
-                    dob_val = f"{y_match.group(1)}-01-01"
-
-        if dob_val != "NOT_FOUND":
-            bbox = self.merge_bounding_boxes(dob_raw, word_map)
-            conf = self.get_field_confidence(dob_val, word_map)
-            results["dob"] = FieldResult(value=dob_val, raw_text=dob_raw, confidence=conf, bounding_box=bbox)
-        else:
-            m_date = re.search(r"\b(\d{2}[/\-\.]\d{2}[/\-\.]\d{4})\b", raw_text)
-            if m_date:
-                dob_raw = m_date.group(0)
-                norm_date = normalize_date(m_date.group(1))
-                if norm_date:
-                    dob_val = norm_date
-
-            if dob_val != "NOT_FOUND":
-                bbox = self.merge_bounding_boxes(dob_raw, word_map)
-                conf = self.get_field_confidence(dob_val, word_map)
-                results["dob"] = FieldResult(value=dob_val, raw_text=dob_raw, confidence=conf, bounding_box=bbox)
-            else:
-                results["dob"] = FieldResult(value="NOT_FOUND", raw_text="", confidence=0.0, bounding_box=None)
-
-        # 3. Gender Extraction
-        gender_val = "NOT_FOUND"
-        gender_raw = ""
-        m_gen = re.search(r"\b(male|female|transgender|पुरुष|महिला)\b", raw_text, re.IGNORECASE)
-        if m_gen:
-            gender_raw = m_gen.group(0)
-            g_lower = gender_raw.lower()
+        # Deduplicate by text
+        seen = set()
+        cands_no_uniq = []
+        for c in cands_no:
+            if c["text"] not in seen:
+                seen.add(c["text"])
+                cands_no_uniq.append(c)
+                
+        results["aadhaar_number"] = self.select_best_candidate("aadhaar_number", cands_no_uniq, DocumentType.AADHAAR, word_map, raw_text)
+        
+        # 2. DOB candidates
+        cands_dob = []
+        date_patterns = [
+            r"(?:dob|yob|birth|जन्म|तिथि|वर्ष)\s*[:\-]?\s*([0-9/\-\.\s]{4,10})",
+            r"\b(\d{2}[/\-\.]\d{2}[/\-\.]\d{4})\b"
+        ]
+        for pattern in date_patterns:
+            for m in re.finditer(pattern, raw_text, re.IGNORECASE):
+                val_raw = m.group(1) if len(m.groups()) >= 1 else m.group(0)
+                norm = normalize_date(val_raw)
+                if norm:
+                    cands_dob.append({
+                        "text": norm,
+                        "raw_text": m.group(0),
+                        "bbox": self.merge_bounding_boxes(m.group(0), word_map),
+                        "ocr_confidence": self.get_field_confidence(norm, word_map),
+                        "page_source": "visual"
+                    })
+        # Year of birth (YOB) fallback
+        for m in re.finditer(r"\b(19\d{2}|20\d{2})\b", raw_text):
+            y = m.group(1)
+            norm = f"{y}-01-01"
+            cands_dob.append({
+                "text": norm,
+                "raw_text": m.group(0),
+                "bbox": self.merge_bounding_boxes(m.group(0), word_map),
+                "ocr_confidence": self.get_field_confidence(norm, word_map),
+                "page_source": "visual",
+                "boost": -2.0
+            })
+            
+        seen = set()
+        cands_dob_uniq = []
+        for c in cands_dob:
+            if c["text"] not in seen:
+                seen.add(c["text"])
+                cands_dob_uniq.append(c)
+                
+        results["dob"] = self.select_best_candidate("dob", cands_dob_uniq, DocumentType.AADHAAR, word_map, raw_text)
+        
+        # 3. Gender candidates
+        cands_gen = []
+        for m in re.finditer(r"\b(male|female|transgender|पुरुष|महिला)\b", raw_text, re.IGNORECASE):
+            raw_match = m.group(0)
+            g_lower = raw_match.lower()
             if "female" in g_lower or "महिला" in g_lower:
                 gender_val = "FEMALE"
             elif "male" in g_lower or "पुरुष" in g_lower:
                 gender_val = "MALE"
             else:
                 gender_val = "OTHER"
-
-        if gender_val != "NOT_FOUND":
-            bbox = self.merge_bounding_boxes(gender_raw, word_map)
-            conf = self.get_field_confidence(gender_val, word_map)
-            results["gender"] = FieldResult(value=gender_val, raw_text=gender_raw, confidence=conf, bounding_box=bbox)
-        else:
-            results["gender"] = FieldResult(value="NOT_FOUND", raw_text="", confidence=0.0, bounding_box=None)
-
-        # 4. Name Extraction
-        name_val = "NOT_FOUND"
-        name_raw = ""
+            cands_gen.append({
+                "text": gender_val,
+                "raw_text": raw_match,
+                "bbox": self.merge_bounding_boxes(raw_match, word_map),
+                "ocr_confidence": self.get_field_confidence(gender_val, word_map),
+                "page_source": "visual"
+            })
+            
+        seen = set()
+        cands_gen_uniq = []
+        for c in cands_gen:
+            if c["text"] not in seen:
+                seen.add(c["text"])
+                cands_gen_uniq.append(c)
+                
+        results["gender"] = self.select_best_candidate("gender", cands_gen_uniq, DocumentType.AADHAAR, word_map, raw_text)
         
-        # Find line index of DOB
-        dob_idx = -1
+        # 4. Name candidates
+        cands_name = []
+        
+        dob_line_idx = -1
+        num_line_idx = -1
+        
         for idx, line in enumerate(lines):
             if any(k in line.lower() for k in ["dob", "yob", "birth", "जन्म"]):
-                dob_idx = idx
-                break
-
-        if dob_idx > 0:
-            # Check lines above DOB line
-            for idx in range(dob_idx - 1, -1, -1):
-                line = lines[idx]
-                if any(h in line.lower() for h in ["government", "india", "uidai", "unique", "enrollment", "enrolment"]):
-                    continue
+                dob_line_idx = idx
+            if re.search(r"\b\d{4}\s+\d{4}\s+\d{4}\b", line) or re.search(r"\b\d{12}\b", line):
+                num_line_idx = idx
                 
-                candidate = extract_uppercase_name(line)
-                if is_valid_name(candidate, aadhaar_num) and "MALE" not in candidate and "FEMALE" not in candidate:
-                    name_val = candidate
-                    name_raw = line
-                    break
-
-        # Fallback if upwards scan failed
-        if name_val == "NOT_FOUND":
-            for line in lines:
-                if any(h in line.lower() for h in ["government", "india", "uidai", "unique", "enrollment", "enrolment"]):
-                    continue
-                candidate = extract_uppercase_name(line)
-                if is_valid_name(candidate, aadhaar_num) and "MALE" not in candidate and "FEMALE" not in candidate:
-                    name_val = candidate
-                    name_raw = line
-                    break
-
-        if name_val != "NOT_FOUND":
-            bbox = self.merge_bounding_boxes(name_raw, word_map)
-            conf = self.get_field_confidence(name_val, word_map)
-            results["name"] = FieldResult(value=name_val, raw_text=name_raw, confidence=conf, bounding_box=bbox)
-        else:
-            results["name"] = FieldResult(value="NOT_FOUND", raw_text="", confidence=0.0, bounding_box=None)
-
-
+        for idx, line in enumerate(lines):
+            if any(h in line.lower() for h in ["government", "india", "uidai", "unique", "enrollment", "enrolment"]):
+                continue
+            cand_name = extract_uppercase_name(line)
+            if cand_name == "NOT_FOUND" or not is_valid_name(cand_name):
+                continue
+                
+            if len(cand_name.split()) < 2:
+                continue
+            if any(w in cand_name.upper().split() for w in ["MALE", "FEMALE", "TRANSGENDER", "DOB", "YOB", "BIRTH"]):
+                continue
+                
+            bbox = self.merge_bounding_boxes(line, word_map)
+            ocr_conf = self.get_field_confidence(cand_name, word_map)
+            
+            # Additional boosts for Aadhaar Name:
+            # - Bounding box height boost ("largest nearby text")
+            height_boost = 0.0
+            if bbox:
+                height_boost = min(bbox['h'] / 20.0, 1.5)
+                
+            # - Location relative to DOB/Aadhaar line (above is preferred)
+            position_boost = 0.0
+            if dob_line_idx != -1 and idx < dob_line_idx:
+                position_boost += 1.5
+            if num_line_idx != -1 and idx < num_line_idx:
+                position_boost += 1.5
+                
+            cands_name.append({
+                "text": cand_name,
+                "raw_text": line,
+                "bbox": bbox,
+                "ocr_confidence": ocr_conf,
+                "page_source": "visual",
+                "boost": height_boost + position_boost
+            })
+            
+        seen = set()
+        cands_name_uniq = []
+        for c in cands_name:
+            if c["text"] not in seen:
+                seen.add(c["text"])
+                cands_name_uniq.append(c)
+                
+        results["name"] = self.select_best_candidate("name", cands_name_uniq, DocumentType.AADHAAR, word_map, raw_text)
+        
         return results

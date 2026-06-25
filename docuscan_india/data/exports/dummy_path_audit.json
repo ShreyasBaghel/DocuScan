@@ -105,34 +105,12 @@
     "extracted_fields": {
         "pan_number": {
             "value": "HXDPB8430A",
-            "raw_text": "\nHXDPB8430A\n",
+            "raw_text": "HXDPB8430A",
             "confidence": 0.95,
             "bounding_box": {
                 "x": 10,
                 "y": 50,
                 "w": 30,
-                "h": 5
-            }
-        },
-        "name": {
-            "value": "MERA AADHAAR MERI PEHCHAN",
-            "raw_text": "MERA AADHAAR, MERI PEHCHAN",
-            "confidence": 0.95,
-            "bounding_box": {
-                "x": 10,
-                "y": 12,
-                "w": 115,
-                "h": 5
-            }
-        },
-        "father_name": {
-            "value": "KARTIK KAPOOR",
-            "raw_text": "KARTIK KAPOOR",
-            "confidence": 0.9,
-            "bounding_box": {
-                "x": 10,
-                "y": 20,
-                "w": 35,
                 "h": 5
             }
         },
@@ -144,6 +122,28 @@
                 "x": 25,
                 "y": 30,
                 "w": 20,
+                "h": 5
+            }
+        },
+        "name": {
+            "value": "KARTIK KAPOOR",
+            "raw_text": "KARTIK KAPOOR",
+            "confidence": 0.9,
+            "bounding_box": {
+                "x": 10,
+                "y": 20,
+                "w": 35,
+                "h": 5
+            }
+        },
+        "father_name": {
+            "value": "SHREYAS BAGHEL",
+            "raw_text": "Name: SHREYAS BAGHEL",
+            "confidence": 0.9,
+            "bounding_box": {
+                "x": 10,
+                "y": 20,
+                "w": 35,
                 "h": 5
             }
         }
@@ -165,13 +165,13 @@
             "status": "PASS",
             "field_name": "name",
             "expected": "Uppercase Alphabetic",
-            "actual": "MERA AADHAAR MERI PEHCHAN"
+            "actual": "KARTIK KAPOOR"
         },
         {
             "status": "PASS",
             "field_name": "father_name",
             "expected": "Uppercase Alphabetic",
-            "actual": "KARTIK KAPOOR"
+            "actual": "SHREYAS BAGHEL"
         },
         {
             "status": "PASS",
@@ -182,15 +182,22 @@
         {
             "status": "FAIL",
             "field_name": "pan_name_consistency",
-            "expected": "5th character of PAN 'B' matches surname first letter 'P'",
-            "actual": "PAN: HXDPB8430A, Name: MERA AADHAAR MERI PEHCHAN (Mismatch)"
+            "expected": "5th character of PAN 'B' matches surname first letter 'K'",
+            "actual": "PAN: HXDPB8430A, Name: KARTIK KAPOOR (Mismatch)"
         }
     ],
-    "fraud_signals": [],
-    "fraud_risk_score": 0,
+    "fraud_signals": [
+        {
+            "name": "overlapping_fields_detected",
+            "score": 100,
+            "description": "Extracted fields 'name' and 'father_name' overlap by 100.0%. Possible card forgery.",
+            "source": "FormatConsistencyChecker"
+        }
+    ],
+    "fraud_risk_score": 100,
     "authenticity_score": 100,
     "extraction_reliability": 100,
-    "final_decision": "Genuine",
+    "final_decision": "Suspicious",
     "report_path": "D:\\OCR\\docuscan_india\\data\\exports\\dummy_path_audit.pdf",
     "pipeline_metadata": {
         "extracted_doc_type": "PAN"
