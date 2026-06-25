@@ -95,8 +95,7 @@ class PassportExtractor(BaseExtractor):
                     "raw_text": mrz_res.raw_text,
                     "bbox": mrz_res.bounding_box,
                     "ocr_confidence": mrz_res.confidence,
-                    "page_source": "mrz",
-                    "mrz_valid": mrz_valid
+                    "page_source": "mrz"
                 })
             if vis_res and vis_res.value != "NOT_FOUND":
                 cands.append({
@@ -104,8 +103,7 @@ class PassportExtractor(BaseExtractor):
                     "raw_text": vis_res.raw_text,
                     "bbox": vis_res.bounding_box,
                     "ocr_confidence": vis_res.confidence,
-                    "page_source": "visual",
-                    "mrz_valid": mrz_valid
+                    "page_source": "visual"
                 })
                 
             # Free text OCR candidates
@@ -118,8 +116,7 @@ class PassportExtractor(BaseExtractor):
                         "raw_text": m.group(0),
                         "bbox": self.merge_bounding_boxes(m.group(0), word_map),
                         "ocr_confidence": self.get_field_confidence(corrected, word_map),
-                        "page_source": "free_text",
-                        "mrz_valid": mrz_valid
+                        "page_source": "free_text"
                     })
             elif f in ["dob", "expiry"]:
                 date_patterns = [
@@ -138,11 +135,11 @@ class PassportExtractor(BaseExtractor):
                                 "raw_text": val_raw,
                                 "bbox": self.merge_bounding_boxes(val_raw, word_map),
                                 "ocr_confidence": self.get_field_confidence(norm, word_map),
-                                "page_source": "free_text",
-                                "mrz_valid": mrz_valid
+                                "page_source": "free_text"
                             })
             elif f == "name":
-                for line in raw_lines:
+                # Add free text candidates (all uppercase lines and adjacent combinations)
+                for idx, line in enumerate(raw_lines):
                     if any(lbl in line.lower() for lbl in ["passport", "republic", "india", "nationality", "date", "birth", "sex", "expiry", "issue", "place"]):
                         continue
                     if sum(c.isdigit() for c in line) >= 3:
@@ -155,16 +152,33 @@ class PassportExtractor(BaseExtractor):
                             "bbox": self.merge_bounding_boxes(line, word_map),
                             "ocr_confidence": self.get_field_confidence(candidate_name, word_map),
                             "page_source": "free_text",
-                            "mrz_valid": mrz_valid
+                            "line_number": idx
                         })
+                    
+                    # Try combining adjacent uppercase lines (e.g., Given Name + Surname)
+                    if idx + 1 < len(raw_lines):
+                        next_line = raw_lines[idx+1]
+                        if not any(lbl in next_line.lower() for lbl in ["passport", "republic", "india", "nationality", "date", "birth", "sex", "expiry", "issue", "place"]):
+                            if sum(c.isdigit() for c in next_line) < 3:
+                                cand_next = extract_uppercase_name(next_line)
+                                if candidate_name != "NOT_FOUND" and cand_next != "NOT_FOUND":
+                                    combined_name = f"{candidate_name} {cand_next}"
+                                    if is_valid_name(combined_name):
+                                        cands.append({
+                                            "text": combined_name,
+                                            "raw_text": f"{line} {next_line}",
+                                            "bbox": self.merge_bounding_boxes(f"{line} {next_line}", word_map),
+                                            "ocr_confidence": (self.get_field_confidence(candidate_name, word_map) + self.get_field_confidence(cand_next, word_map)) / 2.0,
+                                            "page_source": "free_text",
+                                            "line_number": idx
+                                        })
             elif f == "nationality":
                 cands.append({
                     "text": "IND",
                     "raw_text": "INDIAN",
                     "bbox": None,
                     "ocr_confidence": 0.85,
-                    "page_source": "free_text",
-                    "mrz_valid": mrz_valid
+                    "page_source": "free_text"
                 })
             elif f == "sex":
                 for line in raw_lines:
@@ -176,8 +190,7 @@ class PassportExtractor(BaseExtractor):
                             "raw_text": m_standalone.group(0),
                             "bbox": self.merge_bounding_boxes(m_standalone.group(0), word_map),
                             "ocr_confidence": self.get_field_confidence(g, word_map),
-                            "page_source": "free_text",
-                            "mrz_valid": mrz_valid
+                            "page_source": "free_text"
                         })
 
             # Deduplicate by text
@@ -212,7 +225,6 @@ class PassportExtractor(BaseExtractor):
         
         # Passport Number: chars 0-9 of Line 2 (9 chars, usually ends in <)
         pass_no_raw = m2[0:9].replace("<", "")
-        # Apply digit correction for the number part of the passport number (1 letter, 7 digits)
         if len(pass_no_raw) >= 8:
             letter_part = pass_no_raw[0].upper()
             digit_to_letter = {'2': 'Z', '0': 'O', '1': 'I', '8': 'B', '5': 'S', '6': 'G'}
@@ -223,7 +235,6 @@ class PassportExtractor(BaseExtractor):
         else:
             passport_number = pass_no_raw
 
-        # Verify Passport Number checksum
         pass_chk_ok = ChecksumValidator.validate_mrz_checksum(m2[0:9], m2[9])
         pass_conf = 0.99 if pass_chk_ok else self.get_field_confidence(passport_number, word_map)
         pass_bbox = self.merge_bounding_boxes(passport_number, word_map)
@@ -241,7 +252,7 @@ class PassportExtractor(BaseExtractor):
         dob_yy = dob_raw[0:2]
         dob_mm = dob_raw[2:4]
         dob_dd = dob_raw[4:6]
-        curr_yy = 26 # (2026)
+        curr_yy = 26
         if dob_yy.isdigit():
             prefix = "19" if int(dob_yy) > curr_yy else "20"
             dob = f"{prefix}{dob_yy}-{dob_mm}-{dob_dd}"
@@ -252,7 +263,7 @@ class PassportExtractor(BaseExtractor):
         dob_conf = 0.99 if dob_chk_ok else self.get_field_confidence(dob_raw, word_map)
         res["dob"] = FieldResult(value=dob, raw_text=m2[13:19], confidence=dob_conf, bounding_box=None)
 
-        # Sex: char 20 of Line 2 (index 20)
+        # Sex: char 20 of Line 2
         sex_char = m2[20].upper()
         if sex_char == "M":
             sex = "M"
@@ -284,14 +295,10 @@ class PassportExtractor(BaseExtractor):
                 start_idx += 1
             name_part = m1[start_idx:]
 
-        # Split by <<
         parts = [p.replace("<", " ").strip() for p in name_part.split("<<") if p.replace("<", " ").strip()]
-        
-        # Filter parts to remove elements that are just numbers/noise (e.g. S66SKSSE)
         clean_parts = []
         for p in parts:
             p_clean = re.sub(r'\s+', ' ', p).strip()
-            # If the part contains any digits, it's garbage noise
             if any(c.isdigit() for c in p_clean):
                 continue
             if len(p_clean) < 2:
@@ -338,7 +345,7 @@ class PassportExtractor(BaseExtractor):
         exp_val = "NOT_FOUND"
         exp_raw = ""
         
-        extracted_dates = [] # list of (date_val, raw_date_str, line_idx, char_start_pos)
+        extracted_dates = []
         date_patterns = [
             r'\b\d{1,2}[/\-\.]\d{1,2}[/\-\.]\d{4}\b',
             r'\b\d{4}[/\-\.]\d{1,2}[/\-\.]\d{1,2}\b',
@@ -349,7 +356,6 @@ class PassportExtractor(BaseExtractor):
             for pattern in date_patterns:
                 for match in re.finditer(pattern, line):
                     found_in_line.append((match.group(0), match.start()))
-            # Remove duplicate matches at the same position
             seen_pos = set()
             unique_found = []
             for raw_date, pos in sorted(found_in_line, key=lambda x: x[1]):
@@ -361,7 +367,6 @@ class PassportExtractor(BaseExtractor):
                 if norm:
                     extracted_dates.append((norm, raw_date, idx, pos))
                     
-        # Match by label and position
         for date_val, raw_date, idx, pos in extracted_dates:
             context_lines = []
             if idx > 0:
@@ -383,7 +388,6 @@ class PassportExtractor(BaseExtractor):
                     exp_val = date_val
                     exp_raw = raw_date
 
-        # Fallback to sorting
         if dob_val == "NOT_FOUND" or exp_val == "NOT_FOUND":
             candidate_dates = [d for d in extracted_dates if d[0] != dob_val and d[0] != exp_val]
             if len(candidate_dates) >= 2:
@@ -444,10 +448,9 @@ class PassportExtractor(BaseExtractor):
             else:
                 res["sex"] = FieldResult(value="NOT_FOUND", raw_text="", confidence=0.0, bounding_box=None)
 
-        # 5. Name (via labels or visual uppercase line fallback)
+        # 5. Name
         name_val = "NOT_FOUND"
         name_raw = ""
-        
         surname_val = ""
         given_names_val = ""
         surname_raw = ""
@@ -469,7 +472,6 @@ class PassportExtractor(BaseExtractor):
             name_val = f"{given_names_val} {surname_val}".strip()
             name_raw = f"{given_names_raw} {surname_raw}".strip()
 
-        # Fallback to uppercase lines scanning
         if name_val == "NOT_FOUND":
             candidates = []
             for line in lines:

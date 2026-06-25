@@ -74,7 +74,7 @@
         "aadhaar_number": {
             "value": "366874830214",
             "raw_text": "3668 7483 0214",
-            "confidence": 0.925,
+            "confidence": 0.89,
             "bounding_box": {
                 "x": 10,
                 "y": 50,
@@ -85,7 +85,7 @@
         "dob": {
             "value": "1990-08-15",
             "raw_text": "DOB: 15/08/1990",
-            "confidence": 0.925,
+            "confidence": 0.9500000000000002,
             "bounding_box": {
                 "x": 25,
                 "y": 30,
@@ -96,7 +96,7 @@
         "gender": {
             "value": "MALE",
             "raw_text": "MALE",
-            "confidence": 0.95,
+            "confidence": 0.8400000000000001,
             "bounding_box": {
                 "x": 10,
                 "y": 40,
@@ -107,7 +107,7 @@
         "name": {
             "value": "KARTIK KAPOOR",
             "raw_text": "KARTIK KAPOOR",
-            "confidence": 0.9,
+            "confidence": 0.84,
             "bounding_box": {
                 "x": 10,
                 "y": 20,

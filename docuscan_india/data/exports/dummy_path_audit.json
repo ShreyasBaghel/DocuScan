@@ -106,7 +106,7 @@
         "pan_number": {
             "value": "HXDPB8430A",
             "raw_text": "HXDPB8430A",
-            "confidence": 0.95,
+            "confidence": 0.9799999999999999,
             "bounding_box": {
                 "x": 10,
                 "y": 50,
@@ -117,7 +117,7 @@
         "dob": {
             "value": "1990-08-15",
             "raw_text": "15/08/1990",
-            "confidence": 0.9333333333333332,
+            "confidence": 0.9533333333333334,
             "bounding_box": {
                 "x": 25,
                 "y": 30,
@@ -128,7 +128,7 @@
         "name": {
             "value": "KARTIK KAPOOR",
             "raw_text": "KARTIK KAPOOR",
-            "confidence": 0.9,
+            "confidence": 0.84,
             "bounding_box": {
                 "x": 10,
                 "y": 20,
@@ -139,7 +139,7 @@
         "father_name": {
             "value": "SHREYAS BAGHEL",
             "raw_text": "Name: SHREYAS BAGHEL",
-            "confidence": 0.9,
+            "confidence": 0.9400000000000002,
             "bounding_box": {
                 "x": 10,
                 "y": 20,

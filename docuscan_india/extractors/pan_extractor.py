@@ -122,7 +122,8 @@ class PANExtractor(BaseExtractor):
                 "bbox": bbox,
                 "ocr_confidence": ocr_conf,
                 "page_source": "visual",
-                "boost": name_boost
+                "boost": name_boost,
+                "pan_number": pan_num
             })
             
             cands_father.append({
@@ -131,7 +132,8 @@ class PANExtractor(BaseExtractor):
                 "bbox": bbox,
                 "ocr_confidence": ocr_conf,
                 "page_source": "visual",
-                "boost": father_boost
+                "boost": father_boost,
+                "pan_number": pan_num
             })
             
         seen_name = set()
@@ -147,20 +149,28 @@ class PANExtractor(BaseExtractor):
             if c["text"] not in seen_father:
                 seen_father.add(c["text"])
                 cands_father_uniq.append(c)
-                
+
+        # Select Name first
+        # To avoid name == father_name, we pass father's name as context if available.
+        # But we do not have father's name selected yet. So we select name first, then validate father's name against the selected name.
         results["name"] = self.select_best_candidate("name", cands_name_uniq, DocumentType.PAN, word_map, raw_text)
-        
-        # Penalize Father's name if identical to Name candidate
         selected_name = results["name"].value
-        cands_father_filtered = []
+        
+        # Now pass selected_name and pan_number to father_name candidates
         for c in cands_father_uniq:
-            if c["text"] == selected_name:
+            c["selected_name"] = selected_name
+
+        results["father_name"] = self.select_best_candidate("father_name", cands_father_uniq, DocumentType.PAN, word_map, raw_text)
+        selected_father = results["father_name"].value
+
+        # Post-verification: if Name was selected but we now find it equals selected_father, we re-verify name
+        if selected_name == selected_father and selected_name != "NOT_FOUND":
+            # Re-select Name with selected_father as context
+            cands_name_filtered = []
+            for c in cands_name_uniq:
                 c_copy = c.copy()
-                c_copy["boost"] = c_copy.get("boost", 0.0) - 5.0
-                cands_father_filtered.append(c_copy)
-            else:
-                cands_father_filtered.append(c)
-                
-        results["father_name"] = self.select_best_candidate("father_name", cands_father_filtered, DocumentType.PAN, word_map, raw_text)
+                c_copy["selected_father_name"] = selected_father
+                cands_name_filtered.append(c_copy)
+            results["name"] = self.select_best_candidate("name", cands_name_filtered, DocumentType.PAN, word_map, raw_text)
         
         return results

@@ -2,6 +2,11 @@ import tkinter as tk
 from tkinter import ttk
 from PIL import Image, ImageTk, ImageDraw, ImageFont
 from utils.image_utils import resize_keep_aspect, to_pil
+from utils.logger import get_logger
+import re
+
+logger = get_logger("ocr_result_screen")
+
 
 class OCRResultScreen(tk.Frame):
     def __init__(self, parent, controller):
@@ -137,6 +142,34 @@ class OCRResultScreen(tk.Frame):
         self.spinner_angle = (self.spinner_angle + 10) % 360
         self.after(20, self._animate_spinner)
 
+    def _is_highlight_match_tolerant(self, displayed: str, highlighted: str) -> bool:
+        if displayed == highlighted:
+            return True
+        if not displayed or not highlighted:
+            return False
+        
+        # Clean and normalize strings
+        def normalize(s: str) -> str:
+            return re.sub(r'[^a-z0-9/<]', '', s.lower())
+
+        norm_disp = normalize(displayed)
+        norm_high = normalize(highlighted)
+        if norm_disp == norm_high:
+            return True
+            
+        # Compare token sets
+        def get_tokens(s: str) -> set[str]:
+            cleaned_s = re.sub(r'[^a-z0-9/<]', ' ', s.lower())
+            return set(t for t in cleaned_s.split() if t)
+
+        tokens_disp = get_tokens(displayed)
+        tokens_high = get_tokens(highlighted)
+        if tokens_disp and tokens_high:
+            if tokens_disp == tokens_high or tokens_disp.issubset(tokens_high) or tokens_high.issubset(tokens_disp):
+                return True
+
+        return False
+
     def populate_ocr_data(self, packet):
         """Hides the loader and populates OCR result data in the split frames."""
         self.loading_frame.pack_forget()
@@ -153,18 +186,42 @@ class OCRResultScreen(tk.Frame):
                 # Check if we have extracted fields with bounding boxes
                 has_extracted_highlights = False
                 if packet.extracted_fields:
+                    from extractors.base_extractor import BaseExtractor
                     for field_name, field_res in packet.extracted_fields.items():
                         if field_res.value != "NOT_FOUND" and field_res.bounding_box:
                             bbox = field_res.bounding_box  # {'x': ..., 'y': ..., 'w': ..., 'h': ...}
                             x, y, w, h = bbox['x'], bbox['y'], bbox['w'], bbox['h']
                             
-                            # Draw thick yellow rectangle filled with semi-transparent yellow around the extracted field
-                            draw.rectangle(
-                                [x, y, x + w, y + h], 
-                                fill=(245, 158, 11, 80), 
-                                outline=(245, 158, 11, 255), 
-                                width=3
+                            # Reconstruct text from bbox and verify they match
+                            displayed_text = field_res.value
+                            highlighted_text = BaseExtractor.reconstruct_and_normalize_text(
+                                bbox,
+                                packet.ocr_word_map,
+                                field_name,
+                                packet.document_type
                             )
+                            # Verify match tolerantly (Requirement 5)
+                            if not self._is_highlight_match_tolerant(displayed_text, highlighted_text):
+                                logger.warning(
+                                    f"Highlight mismatch for field '{field_name}': "
+                                    f"displayed_text='{displayed_text}', highlighted_text='{highlighted_text}'"
+                                )
+                            
+                            # Support multi-box highlights (Requirement 1)
+                            boxes_to_draw = []
+                            if getattr(field_res, 'constituent_boxes', None):
+                                for cb in field_res.constituent_boxes:
+                                    boxes_to_draw.append([cb['left'], cb['top'], cb['left'] + cb['width'], cb['top'] + cb['height']])
+                            else:
+                                boxes_to_draw.append([x, y, x + w, y + h])
+                                
+                            for bx_coords in boxes_to_draw:
+                                draw.rectangle(
+                                    bx_coords, 
+                                    fill=(245, 158, 11, 80), 
+                                    outline=(245, 158, 11, 255), 
+                                    width=3
+                                )
                             
                             # Draw label
                             label_text = f" {field_name.replace('_', ' ').upper()} "

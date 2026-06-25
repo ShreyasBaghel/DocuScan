@@ -1,87 +1,111 @@
 {
     "image_path": "D:/test doc/PAN Front.jpg",
-    "ocr_raw_text": "= \" fee\nSBTThy Se\ne\n\ntural Cal eat cATS\nPermanent Account Number Card\n\n_ HXDPB8430A\n\n. 2.\ny eM <9\n\naTa / Name\nSHREYAS BAGHEL\n\nfat ST Ara! Father's Name\nSANJEEV KUMAR\n\n",
-    "ocr_confidence": 0.25,
+    "ocr_raw_text": "J\nARaA Wren\nGOVT. OF INDIA\n\nINCOME TAX DEPARTMENT\ntare CET AAT TTS\nPermanent Account Number Card\n\n_ HXDPB8430A\n\nee ee\nEe 69\n\naTa / Name\nSHREYAS BAGHEL\n\nfat ST Ara! Father's Name\nSANJEEV KUMAR\n\n",
+    "ocr_confidence": 0.44,
     "ocr_word_map": [
         {
-            "text": "=",
-            "left": 222,
-            "top": 209,
-            "width": 28,
-            "height": 18,
-            "conf": 0.63
+            "text": "J",
+            "left": 3088,
+            "top": 114,
+            "width": 57,
+            "height": 87,
+            "conf": 0.14
         },
         {
-            "text": "\"",
-            "left": 1398,
-            "top": 182,
-            "width": 18,
-            "height": 5,
+            "text": "ARaA",
+            "left": 2034,
+            "top": 214,
+            "width": 385,
+            "height": 115,
+            "conf": 0.25
+        },
+        {
+            "text": "Wren",
+            "left": 2539,
+            "top": 222,
+            "width": 499,
+            "height": 110,
             "conf": 0.0
         },
         {
-            "text": "fee",
-            "left": 1627,
-            "top": 191,
-            "width": 135,
-            "height": 52,
-            "conf": 0.21
+            "text": "GOVT.",
+            "left": 2053,
+            "top": 392,
+            "width": 364,
+            "height": 101,
+            "conf": 0.74
         },
         {
-            "text": "SBTThy",
-            "left": 189,
-            "top": 206,
-            "width": 617,
-            "height": 117,
-            "conf": 0.0
+            "text": "OF",
+            "left": 2460,
+            "top": 396,
+            "width": 163,
+            "height": 98,
+            "conf": 0.95
         },
         {
-            "text": "Se",
-            "left": 1564,
-            "top": 256,
-            "width": 156,
-            "height": 41,
-            "conf": 0.53
+            "text": "INDIA",
+            "left": 2654,
+            "top": 397,
+            "width": 370,
+            "height": 97,
+            "conf": 0.95
         },
         {
-            "text": "e",
-            "left": 181,
-            "top": 342,
-            "width": 4,
-            "height": 4,
-            "conf": 0.37
+            "text": "INCOME",
+            "left": 202,
+            "top": 382,
+            "width": 369,
+            "height": 102,
+            "conf": 0.96
         },
         {
-            "text": "tural",
+            "text": "TAX",
+            "left": 591,
+            "top": 385,
+            "width": 175,
+            "height": 99,
+            "conf": 0.95
+        },
+        {
+            "text": "DEPARTMENT",
+            "left": 787,
+            "top": 388,
+            "width": 589,
+            "height": 101,
+            "conf": 0.95
+        },
+        {
+            "text": "tare",
             "left": 1000,
             "top": 586,
             "width": 236,
             "height": 90,
-            "conf": 0.22
+            "conf": 0.0
         },
         {
-            "text": "Cal",
+            "text": "CET",
             "left": 1259,
             "top": 581,
             "width": 204,
             "height": 97,
-            "conf": 0.46
+            "conf": 0.56
         },
         {
-            "text": "eat",
+            "text": "AAT",
             "left": 1486,
             "top": 585,
             "width": 234,
             "height": 94,
-            "conf": 0.47
+            "conf": 0.38
         },
         {
-            "text": "cATS",
+            "text": "TTS",
             "left": 1745,
             "top": 583,
             "width": 174,
-            "height": 97,
-            "conf": 0.29
+            "height": 96,
+            "conf": 0.58
         },
         {
             "text": "Permanent",
@@ -89,7 +113,7 @@
             "top": 716,
             "width": 399,
             "height": 74,
-            "conf": 0.95
+            "conf": 0.96
         },
         {
             "text": "Account",
@@ -105,71 +129,63 @@
             "top": 719,
             "width": 295,
             "height": 73,
-            "conf": 0.96
+            "conf": 0.95
         },
         {
             "text": "Card",
             "left": 1901,
             "top": 719,
-            "width": 215,
+            "width": 197,
             "height": 77,
-            "conf": 0.57
+            "conf": 0.89
         },
         {
             "text": "_",
-            "left": 930,
-            "top": 924,
-            "width": 84,
-            "height": 72,
-            "conf": 0.59
+            "left": 934,
+            "top": 951,
+            "width": 37,
+            "height": 25,
+            "conf": 0.49
         },
         {
             "text": "HXDPB8430A",
-            "left": 1029,
+            "left": 1055,
             "top": 873,
-            "width": 809,
-            "height": 141,
-            "conf": 0.8
+            "width": 783,
+            "height": 134,
+            "conf": 0.73
         },
         {
-            "text": ".",
-            "left": 1163,
-            "top": 1028,
-            "width": 7,
-            "height": 6,
-            "conf": 0.21
-        },
-        {
-            "text": "2.",
-            "left": 1220,
-            "top": 1031,
-            "width": 27,
-            "height": 13,
-            "conf": 0.41
-        },
-        {
-            "text": "y",
+            "text": "ee",
             "left": 1138,
-            "top": 1045,
-            "width": 3,
-            "height": 4,
-            "conf": 0.18
+            "top": 1028,
+            "width": 32,
+            "height": 21,
+            "conf": 0.26
         },
         {
-            "text": "eM",
+            "text": "ee",
             "left": 1209,
-            "top": 1034,
-            "width": 73,
-            "height": 31,
-            "conf": 0.12
+            "top": 1031,
+            "width": 38,
+            "height": 16,
+            "conf": 0.37
         },
         {
-            "text": "<9",
-            "left": 1263,
-            "top": 1030,
-            "width": 24,
-            "height": 39,
-            "conf": 0.5
+            "text": "Ee",
+            "left": 1210,
+            "top": 1039,
+            "width": 72,
+            "height": 26,
+            "conf": 0.23
+        },
+        {
+            "text": "69",
+            "left": 1266,
+            "top": 1033,
+            "width": 18,
+            "height": 36,
+            "conf": 0.17
         },
         {
             "text": "aTa",
@@ -177,7 +193,7 @@
             "top": 1160,
             "width": 122,
             "height": 53,
-            "conf": 0.48
+            "conf": 0.42
         },
         {
             "text": "/",
@@ -185,7 +201,7 @@
             "top": 1160,
             "width": 18,
             "height": 58,
-            "conf": 0.8
+            "conf": 0.79
         },
         {
             "text": "Name",
@@ -201,15 +217,15 @@
             "top": 1237,
             "width": 361,
             "height": 61,
-            "conf": 0.9
+            "conf": 0.91
         },
         {
             "text": "BAGHEL",
-            "left": 583,
+            "left": 584,
             "top": 1237,
-            "width": 318,
+            "width": 317,
             "height": 64,
-            "conf": 0.92
+            "conf": 0.91
         },
         {
             "text": "fat",
@@ -217,7 +233,7 @@
             "top": 1395,
             "width": 179,
             "height": 90,
-            "conf": 0.2
+            "conf": 0.27
         },
         {
             "text": "ST",
@@ -225,15 +241,15 @@
             "top": 1419,
             "width": 103,
             "height": 55,
-            "conf": 0.29
+            "conf": 0.3
         },
         {
             "text": "Ara!",
             "left": 473,
             "top": 1414,
             "width": 162,
-            "height": 66,
-            "conf": 0.15
+            "height": 65,
+            "conf": 0.18
         },
         {
             "text": "Father's",
@@ -257,14 +273,14 @@
             "top": 1489,
             "width": 352,
             "height": 61,
-            "conf": 0.91
+            "conf": 0.92
         },
         {
             "text": "KUMAR",
-            "left": 560,
+            "left": 561,
             "top": 1489,
-            "width": 302,
-            "height": 98,
+            "width": 301,
+            "height": 95,
             "conf": 0.96
         }
     ],
@@ -273,13 +289,24 @@
     "extracted_fields": {
         "pan_number": {
             "value": "HXDPB8430A",
-            "raw_text": " HXDPB8430A\n",
-            "confidence": 0.8,
+            "raw_text": "HXDPB8430A",
+            "confidence": 0.73,
             "bounding_box": {
-                "x": 1029,
+                "x": 1055,
                 "y": 873,
-                "w": 809,
-                "h": 141
+                "w": 783,
+                "h": 134
+            }
+        },
+        "dob": {
+            "value": "2006-01-01",
+            "raw_text": "01/01/2006",
+            "confidence": 0.44329999999999997,
+            "bounding_box": {
+                "x": 181,
+                "y": 1810,
+                "w": 391,
+                "h": 117
             }
         },
         "name": {
@@ -296,23 +323,12 @@
         "father_name": {
             "value": "SANJEEV KUMAR",
             "raw_text": "SANJEEV KUMAR",
-            "confidence": 0.935,
+            "confidence": 0.94,
             "bounding_box": {
                 "x": 192,
                 "y": 1489,
                 "w": 670,
-                "h": 98
-            }
-        },
-        "dob": {
-            "value": "2006-01-01",
-            "raw_text": "01/01/2006",
-            "confidence": 0.43413043478260877,
-            "bounding_box": {
-                "x": 181,
-                "y": 1810,
-                "w": 391,
-                "h": 117
+                "h": 95
             }
         }
     },

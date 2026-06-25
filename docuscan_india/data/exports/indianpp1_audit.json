@@ -751,67 +751,15 @@
     "document_type": "PASSPORT",
     "classification_confidence": 1.0,
     "extracted_fields": {
-        "nationality": {
-            "value": "0IN",
-            "raw_text": "0IN",
-            "confidence": 0.2675,
-            "bounding_box": null
-        },
-        "mrz_line1": {
-            "value": "P<<SPECIMEN<<KUMAR<KG<<<<<<<<IDSDDDSISSSDIDI",
-            "raw_text": "P<<SPECIMEN<<KUMAR<KG<<<<<<<<IDSDDDSISSSDIDI",
-            "confidence": 0.99,
-            "bounding_box": null
-        },
-        "sex": {
-            "value": "M",
-            "raw_text": "6",
-            "confidence": 0.2675,
-            "bounding_box": null
-        },
-        "place_of_issue": {
-            "value": "NOT_FOUND",
-            "raw_text": "",
-            "confidence": 0.0,
-            "bounding_box": null
-        },
-        "passport_number": {
-            "value": "Z9999999",
-            "raw_text": "Z9999999<",
-            "confidence": 0.2675,
-            "bounding_box": null
-        },
         "expiry": {
-            "value": "2023-01-01",
-            "raw_text": "01/01/2023",
-            "confidence": 0.5423595505617977,
-            "bounding_box": {
-                "x": 2487,
-                "y": 3362,
-                "w": 541,
-                "h": 68
-            }
-        },
-        "dob": {
-            "value": "1985-05-24",
-            "raw_text": "24/05/1985",
-            "confidence": 0.5423595505617977,
-            "bounding_box": {
-                "x": 1131,
-                "y": 2708,
-                "w": 541,
-                "h": 68
-            }
-        },
-        "mrz_line2": {
-            "value": "Z9999999<O0IND8505246M2300000<<<<<<<<<<<<<<<",
-            "raw_text": "Z9999999<O0IND8505246M2300000<<<<<<<<<<<<<<<",
-            "confidence": 0.99,
+            "value": "20M2-30-00",
+            "raw_text": "M23000",
+            "confidence": 0.2675,
             "bounding_box": null
         },
-        "name": {
-            "value": "KUMAR KG SPECIMEN",
-            "raw_text": "SPECIMEN<<KUMAR<KG<<<<<<<<IDSDDDSISSSDIDI",
+        "nationality": {
+            "value": "IND",
+            "raw_text": "INDIAN",
             "confidence": 0.2675,
             "bounding_box": null
         },
@@ -825,6 +773,53 @@
                 "w": 636,
                 "h": 82
             }
+        },
+        "passport_number": {
+            "value": "Z9999999",
+            "raw_text": "Z9999999<",
+            "confidence": 0.2675,
+            "bounding_box": null
+        },
+        "name": {
+            "value": "KUMAR KG SPECIMEN",
+            "raw_text": "SPECIMEN<<KUMAR<KG<<<<<<<<IDSDDDSISSSDIDI",
+            "confidence": 0.2675,
+            "bounding_box": null
+        },
+        "dob": {
+            "value": "1985-05-24",
+            "raw_text": "24/05/1985",
+            "confidence": 0.5423595505617977,
+            "bounding_box": {
+                "x": 1131,
+                "y": 2708,
+                "w": 541,
+                "h": 68
+            }
+        },
+        "place_of_issue": {
+            "value": "NOT_FOUND",
+            "raw_text": "",
+            "confidence": 0.0,
+            "bounding_box": null
+        },
+        "mrz_line1": {
+            "value": "P<<SPECIMEN<<KUMAR<KG<<<<<<<<IDSDDDSISSSDIDI",
+            "raw_text": "P<<SPECIMEN<<KUMAR<KG<<<<<<<<IDSDDDSISSSDIDI",
+            "confidence": 0.99,
+            "bounding_box": null
+        },
+        "mrz_line2": {
+            "value": "Z9999999<O0IND8505246M2300000<<<<<<<<<<<<<<<",
+            "raw_text": "Z9999999<O0IND8505246M2300000<<<<<<<<<<<<<<<",
+            "confidence": 0.99,
+            "bounding_box": null
+        },
+        "sex": {
+            "value": "M",
+            "raw_text": "6",
+            "confidence": 0.2675,
+            "bounding_box": null
         }
     },
     "validation_results": [
@@ -841,10 +836,10 @@
             "actual": "1985-05-24"
         },
         {
-            "status": "PASS",
+            "status": "FAIL",
             "field_name": "expiry",
             "expected": "YYYY-MM-DD",
-            "actual": "2023-01-01"
+            "actual": "20M2-30-00"
         },
         {
             "status": "PASS",
@@ -859,10 +854,10 @@
             "actual": "DOB is valid, age: 41"
         },
         {
-            "status": "WARN",
+            "status": "FAIL",
             "field_name": "expiry_range",
-            "expected": "Document must not be expired",
-            "actual": "Expired on 2023-01-01"
+            "expected": "Expiry parsed as YYYY-MM-DD",
+            "actual": "Could not parse Expiry: 20M2-30-00"
         },
         {
             "status": "PASS",

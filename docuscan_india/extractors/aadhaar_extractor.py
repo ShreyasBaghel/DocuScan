@@ -13,14 +13,16 @@ class AadhaarExtractor(BaseExtractor):
         # 1. Aadhaar Number candidates
         cands_no = []
         
-        # Soft / strict regex matches
+        # Soft / strict regex matches from raw text
         for m in re.finditer(r"\b([0-9OISZB]{4})\s+([0-9OISZB]{4})\s+([0-9OISZB]{4})\b", raw_text, re.IGNORECASE):
             raw_match = m.group(0)
             corrected = ocr_correct_digits(raw_match.replace(" ", ""))
+            bbox, constituent_boxes = self.merge_bounding_boxes_with_details(raw_match, word_map)
             cands_no.append({
                 "text": corrected,
                 "raw_text": raw_match,
-                "bbox": self.merge_bounding_boxes(raw_match, word_map),
+                "bbox": bbox,
+                "constituent_boxes": constituent_boxes,
                 "ocr_confidence": self.get_field_confidence(corrected, word_map),
                 "page_source": "visual"
             })
@@ -28,28 +30,76 @@ class AadhaarExtractor(BaseExtractor):
         for m in re.finditer(r"\b([0-9OISZB]{12})\b", raw_text, re.IGNORECASE):
             raw_match = m.group(0)
             corrected = ocr_correct_digits(raw_match)
+            bbox, constituent_boxes = self.merge_bounding_boxes_with_details(raw_match, word_map)
             cands_no.append({
                 "text": corrected,
                 "raw_text": raw_match,
-                "bbox": self.merge_bounding_boxes(raw_match, word_map),
+                "bbox": bbox,
+                "constituent_boxes": constituent_boxes,
                 "ocr_confidence": self.get_field_confidence(corrected, word_map),
                 "page_source": "visual"
             })
             
-        # Standard flat text search
-        flat_text = " ".join(raw_text.split())
-        for m in re.finditer(r"\b([0-9OISZB]{4})\s+([0-9OISZB]{4})\s+([0-9OISZB]{4})\b", flat_text, re.IGNORECASE):
-            raw_match = m.group(0)
-            corrected = ocr_correct_digits(raw_match.replace(" ", ""))
-            cands_no.append({
-                "text": corrected,
-                "raw_text": raw_match,
-                "bbox": self.merge_bounding_boxes(raw_match, word_map),
-                "ocr_confidence": self.get_field_confidence(corrected, word_map),
-                "page_source": "visual"
-            })
+        # Reconstruct Aadhaar number from adjacent OCR fragments in word map (tolerant of fragmentation)
+        # Find all digit-like tokens on each line, sort horizontally, and check if any subsegment forms a 12-digit number
+        line_groups = []
+        for w in word_map:
+            t = w['text']
+            t_corrected = ocr_correct_digits(t)
+            if t_corrected.isdigit() and len(t_corrected) > 0:
+                cy = w['top'] + w['height'] / 2.0
+                added = False
+                for group in line_groups:
+                    g_cy = sum(box['top'] + box['height'] / 2.0 for box, _ in group) / len(group)
+                    if abs(cy - g_cy) < 15:
+                        group.append((w, t_corrected))
+                        added = True
+                        break
+                if not added:
+                    line_groups.append([(w, t_corrected)])
 
-        # Deduplicate by text
+        for group in line_groups:
+            # Sort horizontally
+            sorted_group = sorted(group, key=lambda x: x[0]['left'])
+            n = len(sorted_group)
+            for i in range(n):
+                for j in range(i, n):
+                    subsegment = sorted_group[i:j+1]
+                    
+                    # Horizontal spacing must be reasonable
+                    valid_gaps = True
+                    for idx in range(len(subsegment) - 1):
+                        gap = subsegment[idx+1][0]['left'] - (subsegment[idx][0]['left'] + subsegment[idx][0]['width'])
+                        if gap < 0 or gap > 120:
+                            valid_gaps = False
+                            break
+                    if not valid_gaps:
+                        continue
+                        
+                    combined = "".join(t_corr for _, t_corr in subsegment)
+                    if len(combined) == 12:
+                        w_list = [w for w, _ in subsegment]
+                        min_x = min(w['left'] for w in w_list)
+                        min_y = min(w['top'] for w in w_list)
+                        max_r = max(w['left'] + w['width'] for w in w_list)
+                        max_b = max(w['top'] + w['height'] for w in w_list)
+                        bbox = {
+                            'x': min_x,
+                            'y': min_y,
+                            'w': max_r - min_x,
+                            'h': max_b - min_y
+                        }
+                        raw_comb = " ".join(w['text'] for w in w_list)
+                        cands_no.append({
+                            "text": combined,
+                            "raw_text": raw_comb,
+                            "bbox": bbox,
+                            "constituent_boxes": w_list,
+                            "ocr_confidence": sum(w.get('conf', 0.90) for w in w_list) / len(w_list),
+                            "page_source": "visual"
+                        })
+
+        # Deduplicate candidates by text
         seen = set()
         cands_no_uniq = []
         for c in cands_no:
@@ -132,7 +182,6 @@ class AadhaarExtractor(BaseExtractor):
         
         dob_line_idx = -1
         num_line_idx = -1
-        
         for idx, line in enumerate(lines):
             if any(k in line.lower() for k in ["dob", "yob", "birth", "जन्म"]):
                 dob_line_idx = idx
@@ -154,13 +203,11 @@ class AadhaarExtractor(BaseExtractor):
             bbox = self.merge_bounding_boxes(line, word_map)
             ocr_conf = self.get_field_confidence(cand_name, word_map)
             
-            # Additional boosts for Aadhaar Name:
-            # - Bounding box height boost ("largest nearby text")
+            # Additional boosts for Aadhaar Name
             height_boost = 0.0
             if bbox:
                 height_boost = min(bbox['h'] / 20.0, 1.5)
                 
-            # - Location relative to DOB/Aadhaar line (above is preferred)
             position_boost = 0.0
             if dob_line_idx != -1 and idx < dob_line_idx:
                 position_boost += 1.5

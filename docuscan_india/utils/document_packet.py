@@ -16,6 +16,8 @@ class FieldResult:
     raw_text: str
     confidence: float
     bounding_box: Optional[Dict[str, int]] = None  # e.g., {'x': 0, 'y': 0, 'w': 0, 'h': 0}
+    constituent_boxes: Optional[List[Dict[str, Any]]] = None
+
 
 @dataclass
 class ValidationResult:

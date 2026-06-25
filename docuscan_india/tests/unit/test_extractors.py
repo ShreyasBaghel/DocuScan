@@ -171,3 +171,46 @@ def test_dl_extractor():
     assert res["name"].value == "KARTIK KAPOOR"
     assert "MCWG" in res["vehicle_class"].value
     assert "LMV" in res["vehicle_class"].value
+
+def test_dl_extractor_address_filtering():
+    ext = DLExtractor()
+    text = (
+        "DRIVING LICENCE\n"
+        "DL NO: MH-03-2014-0123456\n"
+        "Name: NIVRUTTI BODAKE\n"
+        "S/D/W of: KRUSHNA\n"
+        "Add: A/P MAZGAON\n"
+        "TAL: BHOR\n"
+        "DIST: PUNE\n"
+    )
+    word_map = [
+        {"text": "MH-03-2014-0123456", "left": 10, "top": 40, "width": 40, "height": 5, "conf": 0.95},
+        {"text": "NIVRUTTI", "left": 10, "top": 60, "width": 15, "height": 5, "conf": 0.90},
+        {"text": "BODAKE", "left": 30, "top": 60, "width": 15, "height": 5, "conf": 0.90},
+        {"text": "KRUSHNA", "left": 10, "top": 80, "width": 20, "height": 5, "conf": 0.90},
+        {"text": "A/P", "left": 10, "top": 100, "width": 10, "height": 5, "conf": 0.88},
+        {"text": "MAZGAON", "left": 25, "top": 100, "width": 20, "height": 5, "conf": 0.88},
+        {"text": "BHOR", "left": 25, "top": 120, "width": 20, "height": 5, "conf": 0.88},
+        {"text": "PUNE", "left": 25, "top": 140, "width": 20, "height": 5, "conf": 0.88}
+    ]
+    res = ext.extract(text, word_map)
+    assert res["name"].value == "NIVRUTTI BODAKE"
+
+def test_dl_extractor_multi_line_name():
+    ext = DLExtractor()
+    text = (
+        "DRIVING LICENCE\n"
+        "Name: NIVRUTTI\n"
+        "BODAKE\n"
+        "DL NO: MH-03-2014-0123456\n"
+        "Add: A/P MAZGAON\n"
+    )
+    word_map = [
+        {"text": "MH-03-2014-0123456", "left": 10, "top": 80, "width": 40, "height": 5, "conf": 0.95},
+        {"text": "NIVRUTTI", "left": 10, "top": 40, "width": 15, "height": 5, "conf": 0.90},
+        {"text": "BODAKE", "left": 10, "top": 60, "width": 15, "height": 5, "conf": 0.90},
+        {"text": "MAZGAON", "left": 25, "top": 100, "width": 20, "height": 5, "conf": 0.88}
+    ]
+    res = ext.extract(text, word_map)
+    assert res["name"].value == "NIVRUTTI BODAKE"
+

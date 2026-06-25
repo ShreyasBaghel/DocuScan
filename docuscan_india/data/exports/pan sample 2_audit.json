@@ -76,10 +76,15 @@
             }
         },
         "father_name": {
-            "value": "ABCDE",
-            "raw_text": "ABCDE\u2018",
-            "confidence": 0.13,
-            "bounding_box": null
+            "value": "STOMA",
+            "raw_text": "STOMA",
+            "confidence": 0.18,
+            "bounding_box": {
+                "x": 1359,
+                "y": 1708,
+                "w": 61,
+                "h": 15
+            }
         }
     },
     "validation_results": [
@@ -105,7 +110,7 @@
             "status": "PASS",
             "field_name": "father_name",
             "expected": "Uppercase Alphabetic",
-            "actual": "ABCDE"
+            "actual": "STOMA"
         },
         {
             "status": "PASS",
@@ -119,7 +124,7 @@
     "authenticity_score": 0,
     "extraction_reliability": 0,
     "final_decision": "Suspicious",
-    "report_path": "",
+    "report_path": "D:\\OCR\\docuscan_india\\data\\exports\\pan sample 2_audit.pdf",
     "pipeline_metadata": {
         "extracted_doc_type": "PAN"
     }
