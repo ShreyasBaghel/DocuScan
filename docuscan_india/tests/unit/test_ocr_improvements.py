@@ -194,3 +194,56 @@ def test_dl_vehicle_class_exact_matching():
     assert "LMV" in res["vehicle_class"].value
     assert "MCWG" in res["vehicle_class"].value
 
+# 12. Test passport failing case name extraction (from user issue)
+def test_passport_failing_case_extraction():
+    ext = PassportExtractor()
+    raw_text = (
+        "SINT TRAE / REPUBLIC OF INDIA\n"
+        "\n"
+        "=a 6 Tye ory GS eee\n"
+        "\n"
+        "e IND wreellal / iINOIAN\n"
+        "\n"
+        "Per Sena\n"
+        "SOLANKI\n"
+        "\n"
+        "or ow 2) Cawor Meets)\n"
+        "ABHISHEK JITENDRABHAI\n"
+        "wat Date ot eth |e)\n"
+        "21/11/2000 \"\n"
+        "\n"
+        "gem ST Pree of Gartn\n"
+        "VERAVAL,GUJARAT\n"
+        "wee = Mace fae\n"
+        "\n"
+        "4 AHMEDABAD\n"
+        "pe eer oe a ed\n"
+        "27/06/2023\n"
+        "\n"
+        "P<INDSOLANKI<<ABHISHEK<JITENDRABHAL KKK <6 KKK\n"
+        "\n"
+        "VOMRGRSRAINNBINAIANENE5062645068006162 423<36\n"
+        "\n"
+        "YS401360\n"
+        "\n"
+        "os. oop? ews & er ere of f ee | oe\n"
+        "JITENDRABHAI LAVCHAND SOLANKI\n"
+        "ar ee pte 6 Mote\n"
+        "\n"
+        "SANGITA JITENDRABHAIL SOLANKI\n"
+        "\n"
+        "Seta es were 1 oom\n"
+        "\n"
+        "HEAR GEETA SCHOOL, JALARAM SOCIETY\n"
+        "VERAVAL,GIR SOMNATH\n"
+        "PIN:362265,GUJARAT, INDIA\n"
+    )
+    word_map = [
+        {"text": "SOLANKI", "left": 10, "top": 50, "width": 40, "height": 10, "conf": 0.95},
+        {"text": "ABHISHEK", "left": 10, "top": 70, "width": 40, "height": 10, "conf": 0.95},
+        {"text": "JITENDRABHAI", "left": 60, "top": 70, "width": 60, "height": 10, "conf": 0.95}
+    ]
+    res = ext.extract(raw_text, word_map)
+    assert res["name"].value == "ABHISHEK JITENDRABHAI SOLANKI"
+
+
